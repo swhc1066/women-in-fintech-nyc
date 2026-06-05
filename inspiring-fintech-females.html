@@ -54,8 +54,53 @@
       <a href="#" class="btn btn-pink">Become a Member</a>
       <a href="#" class="btn btn-ghost">Sponsor</a>
     </div>
+    <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
   </div>
 </nav>
+
+<div class="mobile-nav" id="mobile-nav" aria-hidden="true">
+  <div class="mobile-nav-backdrop"></div>
+  <aside class="mobile-nav-panel" role="dialog" aria-modal="true" aria-label="Navigation menu">
+    <div class="mobile-nav-head">
+      <div class="mobile-nav-brand"><span class="dot"></span> NYC Fintech Women</div>
+      <button type="button" class="mobile-nav-close" aria-label="Close menu">&times;</button>
+    </div>
+    <div class="mobile-nav-body">
+      <div class="mobile-nav-group">
+        <button type="button" class="mobile-nav-trigger" aria-expanded="false">Events</button>
+        <div class="mobile-nav-sub"><a href="events.html#past">Past Events</a></div>
+      </div>
+      <div class="mobile-nav-group open">
+        <button type="button" class="mobile-nav-trigger current" aria-expanded="true">Our Programs</button>
+        <div class="mobile-nav-sub">
+          <a href="fintech-female-fridays.html">Fintech Female Fridays</a>
+          <a href="co-founder-matching.html">Co-founder Matching</a>
+          <a href="inspiring-fintech-females.html" class="active">Inspiring Fintech Females</a>
+        </div>
+      </div>
+      <div class="mobile-nav-group">
+        <button type="button" class="mobile-nav-trigger" aria-expanded="false">About</button>
+        <div class="mobile-nav-sub"><a href="meet-the-team.html">Meet the Team</a></div>
+      </div>
+      <div class="mobile-nav-group">
+        <button type="button" class="mobile-nav-trigger" aria-expanded="false">Chapters</button>
+        <div class="mobile-nav-sub">
+          <a href="#">New York</a>
+          <a href="#">San Francisco</a>
+          <a href="#">Chicago</a>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-nav-foot">
+      <a href="#" class="btn btn-pink">Become a Member</a>
+      <a href="#" class="btn btn-ghost">Sponsor</a>
+    </div>
+  </aside>
+</div>
 
 <!-- HERO -->
 <section class="page-hero">
@@ -147,5 +192,6 @@
   }));
 </script>
 
+<script src="nav-mobile.js"></script>
 </body>
 </html>
