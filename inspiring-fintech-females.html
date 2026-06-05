@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Inspiring FinTech Females — NYC Fintech Women</title>
+<link rel="stylesheet" href="site.css" />
+<style>
+  .cat-intro { font-size: 14px; color: var(--muted); margin: 0 0 18px; font-weight: 600; }
+  .tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 40px; }
+  .tab { padding: 10px 18px; border-radius: 999px; border: 1.5px solid var(--line); background: #fff; color: var(--plum); font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; transition: all .18s; }
+  .tab:hover { border-color: var(--pink); color: var(--pink-deep); }
+  .tab.active { background: var(--pink); border-color: var(--pink); color: #fff; }
+  .honoree-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  @media (max-width: 980px) { .honoree-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .honoree-grid { grid-template-columns: 1fr; } }
+  .hon { background: #fff; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; transition: transform .25s, box-shadow .25s; }
+  .hon:hover { transform: translateY(-5px); box-shadow: 0 18px 48px rgba(59,13,58,0.12); }
+  .hon-photo { aspect-ratio: 1/1.08; position: relative; display: flex; align-items: flex-end; padding: 14px; }
+  .hon-photo::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.22) 100%); }
+  .hon-photo .ph-note { position: relative; z-index: 1; color: rgba(255,255,255,0.85); }
+  .hon-photo .badge { position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,0.28); color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 11px; border-radius: 999px; z-index: 1; }
+  .hon-info { padding: 16px 18px 20px; }
+  .hon-info .nm { font-family: var(--font-display); font-weight: 600; font-size: 18px; color: var(--plum); margin: 0 0 4px; }
+  .hon-info .rl { font-size: 12.5px; color: var(--muted); line-height: 1.4; }
+  .g1 { background: linear-gradient(160deg, #ff7eb9, #e0257b); } .g2 { background: linear-gradient(160deg, #ffd24a, #ff9a4a); }
+  .g3 { background: linear-gradient(160deg, #c084fc, #7e22ce); } .g4 { background: linear-gradient(160deg, #5eead4, #0d9488); }
+  .g5 { background: linear-gradient(160deg, #fda4af, #be123c); } .g6 { background: linear-gradient(160deg, #93c5fd, #4f46e5); }
+  .g7 { background: linear-gradient(160deg, #5b1e5c, #3b0d3a); } .g8 { background: linear-gradient(160deg, #fca5a5, #ea580c); }
+  .empty { display: none; text-align: center; color: var(--muted); padding: 48px; font-size: 15px; }
+  /* nominate */
+  .nominate { background: var(--plum); color: #fff; padding: 88px 0; position: relative; overflow: hidden; margin-top: 24px; }
+  .nominate::before { content: ""; position: absolute; top: -160px; right: -120px; width: 480px; height: 480px; border-radius: 50%; background: radial-gradient(circle, rgba(224,37,123,0.30) 0%, transparent 70%); }
+  .nominate-inner { max-width: 720px; position: relative; z-index: 1; }
+  .nominate .kicker { color: #ffb4d3; }
+  .nominate h2 { font-family: var(--font-display); font-weight: 500; font-size: clamp(30px, 4vw, 46px); letter-spacing: -0.025em; line-height: 1.1; margin: 0 0 18px; }
+  .nominate h2 em { font-style: italic; color: #ffb4d3; font-weight: 400; }
+  .nominate p { color: rgba(255,255,255,0.75); font-size: 17px; line-height: 1.65; margin: 0 0 30px; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a href="v6-brand.html" class="logo"><span class="dot"></span> NYC Fintech Women</a>
+    <div class="nav-links">
+      <div class="has-menu"><a href="events.html">Events</a><div class="dropdown"><a href="events.html">Upcoming Events<small>NYC · SF · Chicago</small></a><a href="events.html#past">Past Events<small>Browse the archive</small></a><a href="fintech-female-fridays.html">Fintech Female Fridays<small>Weekly profiles</small></a></div></div>
+      <div class="has-menu"><a href="inspiring-fintech-females.html" class="active">Nominate</a><div class="dropdown"><a href="inspiring-fintech-females.html">Inspiring Fintech Females<small>The annual honoree list</small></a><a href="#nominate">Submit a Nomination<small>2026 nominations open</small></a></div></div>
+      <div class="has-menu"><a href="co-founder-matching.html">Community</a><div class="dropdown"><a href="co-founder-matching.html">Co-Founder Matching<small>Find your partner</small></a><a href="#">Regional Chapters<small>NYC · SF · Chicago</small></a></div></div>
+      <div class="has-menu"><a href="meet-the-team.html">About</a><div class="dropdown"><a href="meet-the-team.html">Meet the Team<small>The people behind the work</small></a><a href="v6-brand.html#mission">Our Mission<small>Why we exist</small></a></div></div>
+      <a href="#">Resources</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#" class="btn btn-ghost">Sponsor</a>
+      <a href="#" class="btn btn-pink">Become a Member</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="wrap inner">
+    <div class="pill"><span class="pulse"></span> 2026 nominations are open</div>
+    <h1>Recognizing the women <em>transforming fintech</em> from the inside out.</h1>
+    <p>The Inspiring FinTech Females list recognizes women who are transforming fintech and who are advocates for women and gender equity. Every year, we shine a light on the founders building from scratch, leaders creating impact at scale, and the builders holding it all together behind the scenes.</p>
+  </div>
+</section>
+
+<!-- HONOREES -->
+<section class="section" style="padding-top: 8px;">
+  <div class="wrap">
+    <p class="cat-intro">Honorees are recognized across seven categories:</p>
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-cat="all">All</button>
+      <button class="tab" data-cat="judges">Judges</button>
+      <button class="tab" data-cat="founders">Founders</button>
+      <button class="tab" data-cat="leaders">Leaders</button>
+      <button class="tab" data-cat="money">Money Movers</button>
+      <button class="tab" data-cat="network">Network Builders</button>
+      <button class="tab" data-cat="product">Product Builders</button>
+      <button class="tab" data-cat="operators">Operators</button>
+    </div>
+
+    <div class="honoree-grid" id="grid">
+      <article class="hon" data-cat="founders"><div class="hon-photo g1"><span class="badge">Founders</span><span class="ph-note">Portrait · IFF 2025</span></div><div class="hon-info"><h3 class="nm">Honoree name</h3><div class="rl">Founder &amp; CEO · Embedded Finance</div></div></article>
+      <article class="hon" data-cat="leaders"><div class="hon-photo g3"><span class="badge">Leaders</span><span class="ph-note">Portrait · IFF 2025</span></div><div class="hon-info"><h3 class="nm">Honoree name</h3><div class="rl">SVP, Risk &amp; Compliance · Neobank</div></div></article>
+      <article class="hon" data-cat="money"><div class="hon-photo g4"><span class="badge">Money Movers</span><span class="ph-note">Portrait · IFF 2025</span></div><div class="hon-info"><h3 class="nm">Honoree name</h3><div class="rl">Partner · Growth Equity</div></div></article>
+      <article class="hon" data-cat="product"><div class="hon-photo g6"><span class="badge">Product Builders</span><span class="ph-note">Portrait · IFF 2025</span></div><div class="hon-info"><h3 class="nm">Honoree name</h3><div class="rl">VP Product · Payments</div></div></article>
+      <article class="hon" data-cat="network"><div class="hon-photo g2"><span class="badge">Network Builders</span><span class="ph-note">Portrait · IFF 2025</span></div><div class="hon-info"><h3 class="nm">Honoree name</h3><div class="rl">Head of Community · Fintech</div></div></article>
+      <article class="hon" data-cat="operators"><div class="hon-photo g5"><span class="badge">Operators</span><span class="ph-note">Portrait · IFF 2025</span></div><div class="hon-info"><h3 class="nm">Honoree name</h3><div class="rl">Chief of Staff · Lending</div></div></article>
+      <article class="hon" data-cat="judges"><div class="hon-photo g7"><span class="badge">Judges</span><span class="ph-note">Portrait · IFF 2025</span></div><div class="hon-info"><h3 class="nm">Honoree name</h3><div class="rl">Managing Director · Financial Services</div></div></article>
+      <article class="hon" data-cat="founders"><div class="hon-photo g8"><span class="badge">Founders</span><span class="ph-note">Portrait · IFF 2025</span></div><div class="hon-info"><h3 class="nm">Honoree name</h3><div class="rl">Co-Founder · RegTech</div></div></article>
+      <article class="hon" data-cat="product"><div class="hon-photo g3"><span class="badge">Product Builders</span><span class="ph-note">Portrait · IFF 2025</span></div><div class="hon-info"><h3 class="nm">Honoree name</h3><div class="rl">Director of Design · Wealth</div></div></article>
+      <article class="hon" data-cat="money"><div class="hon-photo g1"><span class="badge">Money Movers</span><span class="ph-note">Portrait · IFF 2025</span></div><div class="hon-info"><h3 class="nm">Honoree name</h3><div class="rl">Principal · Venture Capital</div></div></article>
+      <article class="hon" data-cat="leaders"><div class="hon-photo g4"><span class="badge">Leaders</span><span class="ph-note">Portrait · IFF 2025</span></div><div class="hon-info"><h3 class="nm">Honoree name</h3><div class="rl">Chief Revenue Officer · B2B Fintech</div></div></article>
+      <article class="hon" data-cat="network"><div class="hon-photo g6"><span class="badge">Network Builders</span><span class="ph-note">Portrait · IFF 2025</span></div><div class="hon-info"><h3 class="nm">Honoree name</h3><div class="rl">Founder · Industry Collective</div></div></article>
+      <article class="hon" data-cat="operators"><div class="hon-photo g2"><span class="badge">Operators</span><span class="ph-note">Portrait · IFF 2025</span></div><div class="hon-info"><h3 class="nm">Honoree name</h3><div class="rl">Head of Operations · Crypto</div></div></article>
+      <article class="hon" data-cat="judges"><div class="hon-photo g5"><span class="badge">Judges</span><span class="ph-note">Portrait · IFF 2025</span></div><div class="hon-info"><h3 class="nm">Honoree name</h3><div class="rl">Operating Partner · Fintech Fund</div></div></article>
+      <article class="hon" data-cat="founders"><div class="hon-photo g7"><span class="badge">Founders</span><span class="ph-note">Portrait · IFF 2025</span></div><div class="hon-info"><h3 class="nm">Honoree name</h3><div class="rl">Founder · Financial Wellness</div></div></article>
+      <article class="hon" data-cat="product"><div class="hon-photo g8"><span class="badge">Product Builders</span><span class="ph-note">Portrait · IFF 2025</span></div><div class="hon-info"><h3 class="nm">Honoree name</h3><div class="rl">Staff Engineer · Core Banking</div></div></article>
+    </div>
+    <div class="empty" id="empty">No honorees in this category yet — check back as the 2026 cohort is announced.</div>
+  </div>
+</section>
+
+<!-- NOMINATE -->
+<section class="nominate" id="nominate">
+  <div class="wrap nominate-inner">
+    <div class="kicker">Nominate</div>
+    <h2>Know a woman who <em>belongs on this list?</em></h2>
+    <p>Nominations for the 2026 Inspiring FinTech Females program are open now. If you know a woman in fintech doing meaningful work and advocating for others along the way, we want to know about her.</p>
+    <a href="#" class="btn btn-pink btn-lg">Submit a Nomination →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand"><span class="dot"></span> NYC Fintech Women</div>
+        <p>A community of 5,000+ women shaping the future of financial services across NYC, San Francisco, and Chicago.</p>
+      </div>
+      <div class="foot-col"><h4>Events</h4><ul><li><a href="events.html">Events</a></li><li><a href="events.html#past">Past Events</a></li><li><a href="inspiring-fintech-females.html">Inspiring Fintech Females</a></li><li><a href="fintech-female-fridays.html">Fintech Female Fridays</a></li></ul></div>
+      <div class="foot-col"><h4>Community</h4><ul><li><a href="co-founder-matching.html">Co-Founder Matching</a></li><li><a href="meet-the-team.html">Meet the Team</a></li><li><a href="#nominate">Nominate</a></li><li><a href="#">Regional Chapters</a></li></ul></div>
+      <div class="foot-col"><h4>Get involved</h4><ul><li><a href="#">Become a Member</a></li><li><a href="#">Sponsor</a></li><li><a href="#">Contact</a></li><li><a href="#">LinkedIn</a></li></ul></div>
+    </div>
+    <div class="foot-bot"><span>© 2026 NYC Fintech Women · All rights reserved</span><span>Built with care in NYC</span></div>
+  </div>
+</footer>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const cards = document.querySelectorAll('.hon');
+  const empty = document.getElementById('empty');
+  tabs.forEach(tab => tab.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const cat = tab.dataset.cat;
+    let shown = 0;
+    cards.forEach(c => {
+      const match = cat === 'all' || c.dataset.cat === cat;
+      c.style.display = match ? '' : 'none';
+      if (match) shown++;
+    });
+    empty.style.display = shown === 0 ? 'block' : 'none';
+  }));
+</script>
+
+</body>
+</html>

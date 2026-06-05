@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fintech Female Fridays — NYC Fintech Women</title>
+<link rel="stylesheet" href="site.css" />
+<style>
+  /* featured post */
+  .feature { display: grid; grid-template-columns: 1.05fr 1fr; gap: 36px; align-items: stretch; background: #fff; border: 1px solid var(--line); border-radius: 26px; overflow: hidden; margin-bottom: 56px; transition: box-shadow .25s, transform .25s; }
+  .feature:hover { box-shadow: 0 22px 60px rgba(59,13,58,0.12); transform: translateY(-3px); }
+  @media (max-width: 880px) { .feature { grid-template-columns: 1fr; } }
+  .feature-img { position: relative; min-height: 340px; background: linear-gradient(150deg, #ff7eb9 0%, #e0257b 60%, #b91767 100%); display: flex; align-items: flex-end; padding: 22px; color: rgba(255,255,255,0.85); }
+  .feature-img .ph-note { position: relative; z-index: 1; }
+  .feature-img .star { position: absolute; top: 22px; left: 22px; background: var(--accent); color: var(--plum); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 13px; border-radius: 999px; }
+  .feature-body { padding: 40px 40px 40px 8px; display: flex; flex-direction: column; justify-content: center; }
+  @media (max-width: 880px) { .feature-body { padding: 32px; } }
+  .post-tag { font-size: 11px; font-weight: 700; color: var(--pink-deep); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px; }
+  .feature-body h2 { font-family: var(--font-display); font-weight: 500; font-size: clamp(26px, 3vw, 38px); line-height: 1.12; letter-spacing: -0.02em; color: var(--plum); margin: 0 0 16px; text-wrap: balance; }
+  .feature-body p { color: var(--muted); font-size: 16px; line-height: 1.6; margin: 0 0 22px; }
+  .byline { display: flex; align-items: center; gap: 12px; }
+  .byline .av { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(160deg, #c084fc, #7e22ce); flex-shrink: 0; }
+  .byline .who { font-size: 13.5px; color: var(--plum); font-weight: 600; line-height: 1.3; }
+  .byline .who small { display: block; color: var(--muted); font-weight: 400; }
+  /* blog grid */
+  .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  @media (max-width: 960px) { .blog-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .blog-grid { grid-template-columns: 1fr; } }
+  .post { background: #fff; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; display: flex; flex-direction: column; transition: transform .25s, box-shadow .25s, border-color .25s; }
+  .post:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(59,13,58,0.10); border-color: var(--pink); }
+  .post-img { aspect-ratio: 16/10; position: relative; display: flex; align-items: flex-end; padding: 16px; color: rgba(255,255,255,0.8); }
+  .post-img .ph-note { position: relative; z-index: 1; }
+  .post-img .num { position: absolute; top: 14px; left: 14px; font-family: var(--font-display); font-size: 12px; font-weight: 600; color: #fff; background: rgba(0,0,0,0.25); padding: 4px 11px; border-radius: 999px; }
+  .post-body { padding: 22px 24px 26px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .post-body h3 { font-family: var(--font-display); font-weight: 600; font-size: 19px; line-height: 1.25; letter-spacing: -0.01em; color: var(--plum); margin: 0; }
+  .post-body .ex { font-size: 14px; color: var(--muted); line-height: 1.55; }
+  .post-foot { margin-top: auto; padding-top: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; color: var(--muted); }
+  .post-foot .read { color: var(--pink-deep); font-weight: 600; }
+  .g1 { background: linear-gradient(150deg, #ffd24a, #ff9a4a); } .g2 { background: linear-gradient(150deg, #5eead4, #0d9488); }
+  .g3 { background: linear-gradient(150deg, #c084fc, #7e22ce); } .g4 { background: linear-gradient(150deg, #93c5fd, #4f46e5); }
+  .g5 { background: linear-gradient(150deg, #fda4af, #be123c); } .g6 { background: linear-gradient(150deg, #5b1e5c, #3b0d3a); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a href="v6-brand.html" class="logo"><span class="dot"></span> NYC Fintech Women</a>
+    <div class="nav-links">
+      <div class="has-menu"><a href="events.html" class="active">Events</a><div class="dropdown"><a href="events.html">Upcoming Events<small>NYC · SF · Chicago</small></a><a href="events.html#past">Past Events<small>Browse the archive</small></a><a href="fintech-female-fridays.html">Fintech Female Fridays<small>Weekly profiles</small></a></div></div>
+      <div class="has-menu"><a href="inspiring-fintech-females.html">Nominate</a><div class="dropdown"><a href="inspiring-fintech-females.html">Inspiring Fintech Females<small>The annual honoree list</small></a><a href="inspiring-fintech-females.html#nominate">Submit a Nomination<small>2026 nominations open</small></a></div></div>
+      <div class="has-menu"><a href="co-founder-matching.html">Community</a><div class="dropdown"><a href="co-founder-matching.html">Co-Founder Matching<small>Find your partner</small></a><a href="#">Regional Chapters<small>NYC · SF · Chicago</small></a></div></div>
+      <div class="has-menu"><a href="meet-the-team.html">About</a><div class="dropdown"><a href="meet-the-team.html">Meet the Team<small>The people behind the work</small></a><a href="v6-brand.html#mission">Our Mission<small>Why we exist</small></a></div></div>
+      <a href="#">Resources</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#" class="btn btn-ghost">Sponsor</a>
+      <a href="#" class="btn btn-pink">Become a Member</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="wrap inner">
+    <div class="kicker">Fintech Female Fridays</div>
+    <h1>Meet the women <em>shaping the future</em> of fintech.</h1>
+    <p>Every Friday we publish a conversation with a woman building in financial services — founders, operators, investors, and engineers on the work, the obstacles, and what comes next.</p>
+  </div>
+</section>
+
+<!-- FEATURED -->
+<section class="section" style="padding-top: 8px;">
+  <div class="wrap">
+    <article class="feature">
+      <div class="feature-img"><span class="star">★ This week</span><span class="ph-note">Feature photo</span></div>
+      <div class="feature-body">
+        <div class="post-tag">Founder · Embedded Finance</div>
+        <h2>"I stopped waiting for permission to build the thing."</h2>
+        <p>This week's Fintech Female Friday sits down with a founder building embedded finance infrastructure — on leaving a senior role to start from zero, raising a first round, and why community changed the math.</p>
+        <div class="byline"><div class="av"></div><div class="who">Interview placeholder<small>Published Fri · 8 min read</small></div></div>
+      </div>
+    </article>
+
+    <div class="blog-grid">
+      <article class="post"><div class="post-img g1"><span class="num">FFF</span><span class="ph-note">Profile photo</span></div><div class="post-body"><div class="post-tag">Investor · Venture</div><h3>On writing first checks into fintech</h3><p class="ex">A principal on what she looks for in early founders — and the pattern she keeps seeing in women-led teams.</p><div class="post-foot"><span>Fri · 6 min</span><span class="read">Read →</span></div></div></article>
+      <article class="post"><div class="post-img g2"><span class="num">FFF</span><span class="ph-note">Profile photo</span></div><div class="post-body"><div class="post-tag">Engineer · Payments</div><h3>Building core banking rails that don't break</h3><p class="ex">A staff engineer on reliability, on-call, and being the only woman in the room — and changing that.</p><div class="post-foot"><span>Fri · 7 min</span><span class="read">Read →</span></div></div></article>
+      <article class="post"><div class="post-img g3"><span class="num">FFF</span><span class="ph-note">Profile photo</span></div><div class="post-body"><div class="post-tag">Operator · Neobank</div><h3>Scaling ops from 10 to 200 people</h3><p class="ex">A chief of staff on hiring, culture, and the systems that hold a fast-growing fintech together.</p><div class="post-foot"><span>Fri · 5 min</span><span class="read">Read →</span></div></div></article>
+      <article class="post"><div class="post-img g4"><span class="num">FFF</span><span class="ph-note">Profile photo</span></div><div class="post-body"><div class="post-tag">Founder · RegTech</div><h3>Turning compliance into a product</h3><p class="ex">A co-founder on why the most boring corner of fintech is the most underrated opportunity.</p><div class="post-foot"><span>Fri · 8 min</span><span class="read">Read →</span></div></div></article>
+      <article class="post"><div class="post-img g5"><span class="num">FFF</span><span class="ph-note">Profile photo</span></div><div class="post-body"><div class="post-tag">Leader · Wealth</div><h3>What 20 years in markets taught me</h3><p class="ex">A managing director on mentorship, sponsorship, and pulling other women up the ladder.</p><div class="post-foot"><span>Fri · 6 min</span><span class="read">Read →</span></div></div></article>
+      <article class="post"><div class="post-img g6"><span class="num">FFF</span><span class="ph-note">Profile photo</span></div><div class="post-body"><div class="post-tag">Designer · Lending</div><h3>Designing money people actually trust</h3><p class="ex">A head of design on building financial products that feel human — and why that's a competitive edge.</p><div class="post-foot"><span>Fri · 5 min</span><span class="read">Read →</span></div></div></article>
+    </div>
+
+    <div class="sec-foot"><a href="#" class="btn btn-ghost btn-lg">Load more profiles →</a></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand"><span class="dot"></span> NYC Fintech Women</div>
+        <p>A community of 5,000+ women shaping the future of financial services across NYC, San Francisco, and Chicago.</p>
+      </div>
+      <div class="foot-col"><h4>Events</h4><ul><li><a href="events.html">Events</a></li><li><a href="events.html#past">Past Events</a></li><li><a href="inspiring-fintech-females.html">Inspiring Fintech Females</a></li><li><a href="fintech-female-fridays.html">Fintech Female Fridays</a></li></ul></div>
+      <div class="foot-col"><h4>Community</h4><ul><li><a href="co-founder-matching.html">Co-Founder Matching</a></li><li><a href="meet-the-team.html">Meet the Team</a></li><li><a href="inspiring-fintech-females.html#nominate">Nominate</a></li><li><a href="#">Regional Chapters</a></li></ul></div>
+      <div class="foot-col"><h4>Get involved</h4><ul><li><a href="#">Become a Member</a></li><li><a href="#">Sponsor</a></li><li><a href="#">Contact</a></li><li><a href="#">LinkedIn</a></li></ul></div>
+    </div>
+    <div class="foot-bot"><span>© 2026 NYC Fintech Women · All rights reserved</span><span>Built with care in NYC</span></div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Co-Founder Matching — NYC Fintech Women</title>
+<link rel="stylesheet" href="site.css" />
+<style>
+  .cfm-grid { display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 56px; align-items: start; }
+  @media (max-width: 940px) { .cfm-grid { grid-template-columns: 1fr; gap: 40px; } }
+  /* left rail */
+  .rail .steps { list-style: none; padding: 0; margin: 28px 0 0; display: flex; flex-direction: column; gap: 18px; }
+  .rail .steps li { display: flex; gap: 16px; align-items: flex-start; }
+  .rail .steps .n { flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%; background: var(--soft); color: var(--pink-deep); font-family: var(--font-display); font-weight: 600; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+  .rail .steps .t { font-weight: 600; color: var(--plum); font-size: 16px; margin: 0 0 2px; }
+  .rail .steps .d { color: var(--muted); font-size: 14.5px; line-height: 1.5; }
+  .rail .stat-card { margin-top: 34px; background: var(--plum); color: #fff; border-radius: 22px; padding: 28px 30px; position: relative; overflow: hidden; }
+  .rail .stat-card::before { content: ""; position: absolute; top: -80px; right: -60px; width: 240px; height: 240px; border-radius: 50%; background: radial-gradient(circle, rgba(224,37,123,0.4) 0%, transparent 70%); }
+  .rail .stat-card .num { font-family: var(--font-display); font-weight: 600; font-size: 46px; letter-spacing: -0.03em; line-height: 1; position: relative; }
+  .rail .stat-card .num .plus { color: #ffb4d3; }
+  .rail .stat-card .lbl { font-size: 14px; color: rgba(255,255,255,0.75); margin-top: 8px; position: relative; }
+  /* form card */
+  .form-card { background: #fff; border: 1px solid var(--line); border-radius: 26px; padding: 40px; box-shadow: 0 16px 50px rgba(59,13,58,0.06); }
+  @media (max-width: 560px) { .form-card { padding: 28px 22px; } }
+  .form-card h2 { font-family: var(--font-display); font-weight: 500; font-size: 26px; letter-spacing: -0.02em; color: var(--plum); margin: 0 0 6px; }
+  .form-card .sub { color: var(--muted); font-size: 14.5px; margin: 0 0 28px; }
+  .field { margin-bottom: 20px; }
+  .field label { display: block; font-size: 13px; font-weight: 600; color: var(--plum); margin-bottom: 7px; }
+  .field label .req { color: var(--pink); }
+  .field input, .field select, .field textarea { width: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 12px; font-family: inherit; font-size: 15px; color: var(--fg); background: #fff; transition: border-color .18s, box-shadow .18s; }
+  .field textarea { resize: vertical; min-height: 96px; line-height: 1.5; }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--pink); box-shadow: 0 0 0 3px rgba(224,37,123,0.12); }
+  .field input.err, .field select.err, .field textarea.err { border-color: #dc2626; box-shadow: 0 0 0 3px rgba(220,38,38,0.1); }
+  .field .msg { display: none; color: #dc2626; font-size: 12.5px; margin-top: 6px; }
+  .field.invalid .msg { display: block; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 480px) { .row2 { grid-template-columns: 1fr; } }
+  .chips-input { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chips-input .opt { padding: 8px 14px; border-radius: 999px; border: 1.5px solid var(--line); background: #fff; font-size: 13px; font-weight: 600; color: var(--plum); cursor: pointer; transition: all .15s; user-select: none; }
+  .chips-input .opt.sel { background: var(--soft); border-color: var(--pink); color: var(--pink-deep); }
+  .form-actions { margin-top: 8px; }
+  .form-actions .btn { width: 100%; justify-content: center; }
+  .form-foot { text-align: center; font-size: 13.5px; color: var(--muted); margin-top: 18px; }
+  .form-foot a { color: var(--pink-deep); font-weight: 600; }
+  .form-foot a:hover { color: var(--pink); }
+  /* success */
+  .success { display: none; text-align: center; padding: 24px 8px; }
+  .success.show { display: block; animation: pop .4s ease; }
+  @keyframes pop { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+  .success .ico { width: 64px; height: 64px; border-radius: 50%; background: var(--soft); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+  .success .ico::after { content: ""; width: 22px; height: 12px; border-left: 3px solid var(--pink); border-bottom: 3px solid var(--pink); transform: rotate(-45deg) translateY(-3px); }
+  .success h2 { font-family: var(--font-display); font-weight: 500; font-size: 28px; color: var(--plum); margin: 0 0 12px; }
+  .success p { color: var(--muted); font-size: 16px; line-height: 1.6; max-width: 420px; margin: 0 auto 24px; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a href="v6-brand.html" class="logo"><span class="dot"></span> NYC Fintech Women</a>
+    <div class="nav-links">
+      <div class="has-menu"><a href="events.html">Events</a><div class="dropdown"><a href="events.html">Upcoming Events<small>NYC · SF · Chicago</small></a><a href="events.html#past">Past Events<small>Browse the archive</small></a><a href="fintech-female-fridays.html">Fintech Female Fridays<small>Weekly profiles</small></a></div></div>
+      <div class="has-menu"><a href="inspiring-fintech-females.html">Nominate</a><div class="dropdown"><a href="inspiring-fintech-females.html">Inspiring Fintech Females<small>The annual honoree list</small></a><a href="inspiring-fintech-females.html#nominate">Submit a Nomination<small>2026 nominations open</small></a></div></div>
+      <div class="has-menu"><a href="co-founder-matching.html" class="active">Community</a><div class="dropdown"><a href="co-founder-matching.html">Co-Founder Matching<small>Find your partner</small></a><a href="#">Regional Chapters<small>NYC · SF · Chicago</small></a></div></div>
+      <div class="has-menu"><a href="meet-the-team.html">About</a><div class="dropdown"><a href="meet-the-team.html">Meet the Team<small>The people behind the work</small></a><a href="v6-brand.html#mission">Our Mission<small>Why we exist</small></a></div></div>
+      <a href="#">Resources</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#" class="btn btn-ghost">Sponsor</a>
+      <a href="#" class="btn btn-pink">Become a Member</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="wrap inner">
+    <div class="kicker">Co-Founder Matching</div>
+    <h1>Your next partner is <em>already in this community.</em></h1>
+    <p>Building a career is difficult if you go it alone. Whether you're a seasoned entrepreneur with multiple exits, or you just have the drive to build something, the right partner can change everything.</p>
+  </div>
+</section>
+
+<!-- MATCHING -->
+<section class="section" style="padding-top: 8px;">
+  <div class="wrap cfm-grid">
+    <!-- LEFT RAIL -->
+    <div class="rail">
+      <div class="kicker">How it works</div>
+      <h2 style="font-family: var(--font-display); font-weight: 500; font-size: 30px; letter-spacing: -0.02em; color: var(--plum); margin: 0 0 8px;">A real human reviews every match.</h2>
+      <p style="color: var(--muted); font-size: 16px; line-height: 1.6; margin: 0;">NYC Fintech Women's Co-Founder Matching program connects ambitious women across our 10,000+ member network who are ready to create together. Fill out the form and our in-house matchmaker will reach out with a curated recommendation based on your goals, skills, and vision.</p>
+      <ul class="steps">
+        <li><div class="n">1</div><div><p class="t">Tell us about you</p><div class="d">Your background, what you want to build, and the kind of partner you're missing.</div></div></li>
+        <li><div class="n">2</div><div><p class="t">We hand-match</p><div class="d">Our in-house matchmaker reviews the network and finds people aligned with your goals.</div></div></li>
+        <li><div class="n">3</div><div><p class="t">You get introduced</p><div class="d">We make a warm intro and you take it from there — coffee, a working session, a build.</div></div></li>
+      </ul>
+      <div class="stat-card">
+        <div class="num">10,000<span class="plus">+</span></div>
+        <div class="lbl">Members in the network ready to build</div>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="form-card">
+      <form id="cfm-form" novalidate>
+        <h2>Find your co-founder</h2>
+        <p class="sub">Takes about 3 minutes. Required fields are marked <span style="color: var(--pink);">*</span>.</p>
+
+        <div class="row2">
+          <div class="field"><label>Full name <span class="req">*</span></label><input type="text" name="name" data-required placeholder="Your name" /><div class="msg">Please enter your name.</div></div>
+          <div class="field"><label>Email <span class="req">*</span></label><input type="email" name="email" data-required data-email placeholder="you@email.com" /><div class="msg">Enter a valid email address.</div></div>
+        </div>
+
+        <div class="row2">
+          <div class="field"><label>Current role <span class="req">*</span></label><input type="text" name="role" data-required placeholder="e.g. Product Lead, Engineer, Founder" /><div class="msg">Tell us your current role.</div></div>
+          <div class="field"><label>Home chapter</label>
+            <select name="chapter"><option value="">Select a chapter</option><option>New York</option><option>San Francisco</option><option>Chicago</option><option>Elsewhere / remote</option></select>
+          </div>
+        </div>
+
+        <div class="field"><label>What do you want to build? <span class="req">*</span></label><textarea name="vision" data-required placeholder="The idea, the space, or the problem you're drawn to — even if it's still forming."></textarea><div class="msg">Give us a sentence or two on what you want to build.</div></div>
+
+        <div class="field"><label>What you bring</label>
+          <div class="chips-input" data-group="skills">
+            <span class="opt">Engineering</span><span class="opt">Product</span><span class="opt">Design</span><span class="opt">Go-to-market</span><span class="opt">Sales</span><span class="opt">Operations</span><span class="opt">Fundraising</span><span class="opt">Domain / industry</span>
+          </div>
+        </div>
+
+        <div class="field"><label>What you're looking for in a partner <span class="req">*</span></label><textarea name="looking" data-required placeholder="The skills, experience, or working style that would complement you."></textarea><div class="msg">Let us know what you're looking for.</div></div>
+
+        <div class="row2">
+          <div class="field"><label>Stage you're at</label>
+            <select name="stage"><option value="">Select stage</option><option>Just an idea</option><option>Validating / researching</option><option>Building a prototype</option><option>Launched, pre-revenue</option><option>Generating revenue</option></select>
+          </div>
+          <div class="field"><label>Commitment</label>
+            <select name="commitment"><option value="">Select commitment</option><option>Exploring on the side</option><option>Ready to go part-time</option><option>Ready to go full-time</option></select>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-pink btn-lg">Find My Co-Founder →</button>
+        </div>
+        <p class="form-foot">Already matched? <a href="#">We'd love to hear your success stories.</a></p>
+      </form>
+
+      <!-- SUCCESS -->
+      <div class="success" id="success">
+        <div class="ico"></div>
+        <h2>Request received.</h2>
+        <p>Thanks — our in-house matchmaker will review the network and reach out with a curated recommendation. Keep an eye on your inbox.</p>
+        <a href="v6-brand.html" class="btn btn-ghost">Back to home</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand"><span class="dot"></span> NYC Fintech Women</div>
+        <p>A community of 10,000+ members shaping the future of financial services across NYC, San Francisco, and Chicago.</p>
+      </div>
+      <div class="foot-col"><h4>Events</h4><ul><li><a href="events.html">Events</a></li><li><a href="events.html#past">Past Events</a></li><li><a href="inspiring-fintech-females.html">Inspiring Fintech Females</a></li><li><a href="fintech-female-fridays.html">Fintech Female Fridays</a></li></ul></div>
+      <div class="foot-col"><h4>Community</h4><ul><li><a href="co-founder-matching.html">Co-Founder Matching</a></li><li><a href="meet-the-team.html">Meet the Team</a></li><li><a href="inspiring-fintech-females.html#nominate">Nominate</a></li><li><a href="#">Regional Chapters</a></li></ul></div>
+      <div class="foot-col"><h4>Get involved</h4><ul><li><a href="#">Become a Member</a></li><li><a href="#">Sponsor</a></li><li><a href="#">Contact</a></li><li><a href="#">LinkedIn</a></li></ul></div>
+    </div>
+    <div class="foot-bot"><span>© 2026 NYC Fintech Women · All rights reserved</span><span>Built with care in NYC</span></div>
+  </div>
+</footer>
+
+<script>
+  // multi-select chips
+  document.querySelectorAll('.chips-input .opt').forEach(opt => {
+    opt.addEventListener('click', () => opt.classList.toggle('sel'));
+  });
+
+  const form = document.getElementById('cfm-form');
+  const success = document.getElementById('success');
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function validateField(el) {
+    const field = el.closest('.field');
+    let ok = true;
+    const val = el.value.trim();
+    if (el.hasAttribute('data-required') && !val) ok = false;
+    if (ok && el.hasAttribute('data-email') && !emailRe.test(val)) ok = false;
+    field.classList.toggle('invalid', !ok);
+    el.classList.toggle('err', !ok);
+    return ok;
+  }
+
+  // live-clear errors as the user fixes them
+  form.querySelectorAll('[data-required]').forEach(el => {
+    el.addEventListener('input', () => { if (el.closest('.field').classList.contains('invalid')) validateField(el); });
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let valid = true;
+    let firstBad = null;
+    form.querySelectorAll('[data-required]').forEach(el => {
+      const ok = validateField(el);
+      if (!ok && !firstBad) firstBad = el;
+      valid = valid && ok;
+    });
+    if (!valid) { firstBad && firstBad.focus(); return; }
+    form.style.display = 'none';
+    success.classList.add('show');
+    const y = success.getBoundingClientRect().top + window.scrollY - 120;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Meet the Team — NYC Fintech Women</title>
+<link rel="stylesheet" href="site.css" />
+<style>
+  .intro-note { display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--muted); background: var(--soft); border: 1px solid var(--line); padding: 8px 14px; border-radius: 999px; margin-bottom: 36px; }
+  .intro-note b { color: var(--pink-deep); font-weight: 700; }
+  .team-block + .team-block { margin-top: 64px; }
+  .block-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 26px; }
+  .block-head h2 { font-family: var(--font-display); font-weight: 500; font-size: 30px; letter-spacing: -0.02em; color: var(--plum); margin: 0; }
+  .block-head .count { font-size: 13px; color: var(--muted); font-weight: 600; }
+  .block-head::before { content: ""; }
+  .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+  .team-grid.three { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 980px) { .team-grid, .team-grid.three { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .team-grid, .team-grid.three { grid-template-columns: 1fr; } }
+  .team-card { background: #fff; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; transition: transform .25s, box-shadow .25s; }
+  .team-card:hover { transform: translateY(-4px); box-shadow: 0 16px 44px rgba(59,13,58,0.10); }
+  .team-photo { aspect-ratio: 1/1; position: relative; display: flex; align-items: flex-end; padding: 14px; }
+  .team-photo::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.18) 100%); }
+  .team-photo .ph-note { position: relative; z-index: 1; color: rgba(255,255,255,0.85); }
+  .tag-loc { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.22); color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; z-index: 1; }
+  .team-info { padding: 16px 18px 20px; }
+  .team-info .nm { font-family: var(--font-display); font-weight: 600; font-size: 18px; color: var(--plum); margin: 0 0 3px; }
+  .team-info .rl { font-size: 13px; color: var(--muted); line-height: 1.4; }
+  .g1 { background: linear-gradient(160deg, #ff7eb9 0%, #e0257b 100%); }
+  .g2 { background: linear-gradient(160deg, #ffd24a 0%, #ff9a4a 100%); }
+  .g3 { background: linear-gradient(160deg, #c084fc 0%, #7e22ce 100%); }
+  .g4 { background: linear-gradient(160deg, #5eead4 0%, #0d9488 100%); }
+  .g5 { background: linear-gradient(160deg, #fda4af 0%, #be123c 100%); }
+  .g6 { background: linear-gradient(160deg, #93c5fd 0%, #4f46e5 100%); }
+  .g7 { background: linear-gradient(160deg, #5b1e5c 0%, #3b0d3a 100%); }
+  .join-team { background: linear-gradient(135deg, var(--soft) 0%, var(--soft-2) 100%); border-radius: 28px; padding: 56px; text-align: center; margin-top: 72px; }
+  .join-team h2 { font-family: var(--font-display); font-weight: 500; font-size: clamp(28px, 3.4vw, 40px); letter-spacing: -0.02em; color: var(--plum); margin: 0 0 14px; }
+  .join-team p { color: var(--muted); font-size: 17px; max-width: 540px; margin: 0 auto 26px; line-height: 1.6; }
+  @media (max-width: 560px) { .join-team { padding: 40px 24px; } }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a href="v6-brand.html" class="logo"><span class="dot"></span> NYC Fintech Women</a>
+    <div class="nav-links">
+      <div class="has-menu"><a href="events.html">Events</a><div class="dropdown"><a href="events.html">Upcoming Events<small>NYC · SF · Chicago</small></a><a href="events.html#past">Past Events<small>Browse the archive</small></a><a href="fintech-female-fridays.html">Fintech Female Fridays<small>Weekly profiles</small></a></div></div>
+      <div class="has-menu"><a href="inspiring-fintech-females.html">Nominate</a><div class="dropdown"><a href="inspiring-fintech-females.html">Inspiring Fintech Females<small>The annual honoree list</small></a><a href="inspiring-fintech-females.html#nominate">Submit a Nomination<small>2026 nominations open</small></a></div></div>
+      <div class="has-menu"><a href="co-founder-matching.html">Community</a><div class="dropdown"><a href="co-founder-matching.html">Co-Founder Matching<small>Find your partner</small></a><a href="#">Regional Chapters<small>NYC · SF · Chicago</small></a></div></div>
+      <div class="has-menu"><a href="meet-the-team.html" class="active">About</a><div class="dropdown"><a href="meet-the-team.html">Meet the Team<small>The people behind the work</small></a><a href="v6-brand.html#mission">Our Mission<small>Why we exist</small></a></div></div>
+      <a href="#">Resources</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#" class="btn btn-ghost">Sponsor</a>
+      <a href="#" class="btn btn-pink">Become a Member</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="wrap inner">
+    <div class="kicker">Meet the team</div>
+    <h1>The people <em>behind the work.</em></h1>
+    <p>NYC Fintech Women runs on people who care. Every event, every recognition, every connection made through this community exists because a group of women in fintech decided to give their time, energy, and expertise to make this industry better than they found it.</p>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="section" style="padding-top: 8px;">
+  <div class="wrap">
+    <div class="intro-note">🟣 <b>Placeholder roster</b> — photos &amp; names are labelled placeholders. Drop in the real team here.</div>
+
+    <div class="team-block">
+      <div class="block-head"><h2>Leadership</h2><span class="count">The core team</span></div>
+      <div class="team-grid">
+        <article class="team-card"><div class="team-photo g1"><span class="tag-loc">NYC</span><span class="ph-note">Photo</span></div><div class="team-info"><h3 class="nm">Member name</h3><div class="rl">Co-Founder &amp; Executive Director</div></div></article>
+        <article class="team-card"><div class="team-photo g3"><span class="tag-loc">NYC</span><span class="ph-note">Photo</span></div><div class="team-info"><h3 class="nm">Member name</h3><div class="rl">Co-Founder &amp; Head of Programs</div></div></article>
+        <article class="team-card"><div class="team-photo g4"><span class="tag-loc">SF</span><span class="ph-note">Photo</span></div><div class="team-info"><h3 class="nm">Member name</h3><div class="rl">Managing Director</div></div></article>
+        <article class="team-card"><div class="team-photo g2"><span class="tag-loc">CHI</span><span class="ph-note">Photo</span></div><div class="team-info"><h3 class="nm">Member name</h3><div class="rl">Director of Partnerships</div></div></article>
+      </div>
+    </div>
+
+    <div class="team-block">
+      <div class="block-head"><h2>Chapter leads</h2><span class="count">New York · San Francisco · Chicago</span></div>
+      <div class="team-grid three">
+        <article class="team-card"><div class="team-photo g5"><span class="tag-loc">NYC</span><span class="ph-note">Photo</span></div><div class="team-info"><h3 class="nm">Member name</h3><div class="rl">New York Chapter Lead</div></div></article>
+        <article class="team-card"><div class="team-photo g6"><span class="tag-loc">SF</span><span class="ph-note">Photo</span></div><div class="team-info"><h3 class="nm">Member name</h3><div class="rl">San Francisco Chapter Lead</div></div></article>
+        <article class="team-card"><div class="team-photo g7"><span class="tag-loc">CHI</span><span class="ph-note">Photo</span></div><div class="team-info"><h3 class="nm">Member name</h3><div class="rl">Chicago Chapter Lead</div></div></article>
+      </div>
+    </div>
+
+    <div class="team-block">
+      <div class="block-head"><h2>Committee &amp; volunteers</h2><span class="count">The builders behind the scenes</span></div>
+      <div class="team-grid">
+        <article class="team-card"><div class="team-photo g2"><span class="tag-loc">NYC</span><span class="ph-note">Photo</span></div><div class="team-info"><h3 class="nm">Member name</h3><div class="rl">Events Committee</div></div></article>
+        <article class="team-card"><div class="team-photo g4"><span class="tag-loc">NYC</span><span class="ph-note">Photo</span></div><div class="team-info"><h3 class="nm">Member name</h3><div class="rl">Inspiring FinTech Females Lead</div></div></article>
+        <article class="team-card"><div class="team-photo g1"><span class="tag-loc">SF</span><span class="ph-note">Photo</span></div><div class="team-info"><h3 class="nm">Member name</h3><div class="rl">Content &amp; Editorial</div></div></article>
+        <article class="team-card"><div class="team-photo g3"><span class="tag-loc">CHI</span><span class="ph-note">Photo</span></div><div class="team-info"><h3 class="nm">Member name</h3><div class="rl">Membership &amp; Community</div></div></article>
+        <article class="team-card"><div class="team-photo g6"><span class="tag-loc">NYC</span><span class="ph-note">Photo</span></div><div class="team-info"><h3 class="nm">Member name</h3><div class="rl">Co-Founder Matching</div></div></article>
+        <article class="team-card"><div class="team-photo g5"><span class="tag-loc">SF</span><span class="ph-note">Photo</span></div><div class="team-info"><h3 class="nm">Member name</h3><div class="rl">Sponsorships</div></div></article>
+        <article class="team-card"><div class="team-photo g7"><span class="tag-loc">NYC</span><span class="ph-note">Photo</span></div><div class="team-info"><h3 class="nm">Member name</h3><div class="rl">Social &amp; Communications</div></div></article>
+        <article class="team-card"><div class="team-photo g2"><span class="tag-loc">CHI</span><span class="ph-note">Photo</span></div><div class="team-info"><h3 class="nm">Member name</h3><div class="rl">Operations</div></div></article>
+      </div>
+    </div>
+
+    <div class="join-team">
+      <h2>Want to help build this?</h2>
+      <p>We're always looking for women who want to give their time and expertise to the community. Volunteers run our events, programs, and chapters.</p>
+      <a href="#" class="btn btn-pink btn-lg">Get involved →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand"><span class="dot"></span> NYC Fintech Women</div>
+        <p>A community of 5,000+ women shaping the future of financial services across NYC, San Francisco, and Chicago.</p>
+      </div>
+      <div class="foot-col"><h4>Events</h4><ul><li><a href="events.html">Events</a></li><li><a href="events.html#past">Past Events</a></li><li><a href="inspiring-fintech-females.html">Inspiring Fintech Females</a></li><li><a href="fintech-female-fridays.html">Fintech Female Fridays</a></li></ul></div>
+      <div class="foot-col"><h4>Community</h4><ul><li><a href="co-founder-matching.html">Co-Founder Matching</a></li><li><a href="meet-the-team.html">Meet the Team</a></li><li><a href="inspiring-fintech-females.html#nominate">Nominate</a></li><li><a href="#">Regional Chapters</a></li></ul></div>
+      <div class="foot-col"><h4>Get involved</h4><ul><li><a href="#">Become a Member</a></li><li><a href="#">Sponsor</a></li><li><a href="#">Contact</a></li><li><a href="#">LinkedIn</a></li></ul></div>
+    </div>
+    <div class="foot-bot"><span>© 2026 NYC Fintech Women · All rights reserved</span><span>Built with care in NYC</span></div>
+  </div>
+</footer>
+
+</body>
+</html>
