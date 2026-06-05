@@ -225,7 +225,11 @@
   .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 56px; }
   @media (max-width: 800px) { .foot-grid { grid-template-columns: 1fr 1fr; gap: 36px; } }
   .foot-brand { font-family: var(--font-display); font-weight: 500; font-size: 28px; color: #fff; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; letter-spacing: -0.02em; }
-  .foot-brand .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--pink); }
+  .foot-brand .dot { width: 14px; height: 14px; min-width: 14px; min-height: 14px; flex-shrink: 0; border-radius: 50%; background: var(--pink); display: inline-block; }
+  @media (max-width: 1040px) {
+    .foot-brand { font-size: 17px; gap: 8px; }
+    .foot-brand .dot { width: 9px; height: 9px; min-width: 9px; min-height: 9px; }
+  }
   .foot-grid p { font-size: 14.5px; line-height: 1.6; max-width: 320px; }
   .foot-col h4 { font-size: 12px; font-weight: 700; color: #ffb4d3; letter-spacing: 0.14em; text-transform: uppercase; margin: 0 0 18px; }
   .foot-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
