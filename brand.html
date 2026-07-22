@@ -64,6 +64,61 @@
   .rule-dot.dont { background: #ef4444; }
   .rule-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); width: 36px; flex-shrink: 0; margin-top: 4px; }
   .rule-text { font-size: 15px; color: var(--fg); line-height: 1.5; }
+
+  /* tertiary note */
+  .palette-note { font-size: 15px; color: var(--muted); line-height: 1.6; margin: 0 0 20px; max-width: 720px; }
+  .palette-subhead { font-family: var(--font-display); font-weight: 600; font-size: 20px; color: var(--plum); margin: 40px 0 8px; }
+  .swatch .proposed-tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--pink-deep); background: var(--soft); border: 1px solid var(--line); border-radius: 999px; padding: 2px 8px; margin-top: 8px; }
+
+  /* font source links */
+  .font-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+  .font-link { display: inline-flex; align-items: center; gap: 8px; padding: 12px 18px; background: #fff; border: 1px solid var(--line); border-radius: 999px; font-size: 14px; font-weight: 600; color: var(--plum); transition: border-color .2s, box-shadow .2s; }
+  .font-link:hover { border-color: var(--pink); box-shadow: 0 6px 18px rgba(59,13,58,0.08); color: var(--pink-deep); }
+  .font-link svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+  /* photo / duotone treatment */
+  .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; margin-top: 8px; }
+  .duotone-card { border-radius: 18px; overflow: hidden; border: 1px solid var(--line); background: #fff; }
+  .duotone-frame { position: relative; aspect-ratio: 1 / 1.15; overflow: hidden; background: var(--plum); }
+  .duotone-frame img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1) contrast(1.05); transition: filter .35s ease; }
+  .duotone-frame::after { content: ""; position: absolute; inset: 0; mix-blend-mode: multiply; opacity: 0.88; transition: opacity .35s ease; pointer-events: none; }
+  .duotone-frame.pink::after { background: #e0257b; }
+  .duotone-frame.plum::after { background: #8b4a7a; opacity: 0.65; }
+  .duotone-frame.teal::after { background: #0f766e; }
+  .duotone-frame.teal-light::after { background: #14b8a6; }
+  .duotone-frame.teal-mist::after { background: #99f6e4; }
+  .duotone-card:hover .duotone-frame img { filter: none; }
+  .duotone-card:hover .duotone-frame::after { opacity: 0; }
+  .duotone-meta { padding: 14px 16px; }
+  .duotone-meta .name { font-family: var(--font-display); font-weight: 600; font-size: 16px; color: var(--plum); margin: 0 0 4px; }
+  .duotone-meta .hint { font-size: 12px; color: var(--muted); }
+
+  /* social templates */
+  .social-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+  .social-card { border-radius: 18px; overflow: hidden; border: 1px solid var(--line); background: #fff; }
+  .social-mock { aspect-ratio: 1; position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: 22px; overflow: hidden; }
+  .social-mock .brand-mark { position: absolute; top: 18px; left: 18px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.85; }
+  .social-mock .headline { font-family: var(--font-display); font-weight: 500; font-size: 26px; line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 8px; }
+  .social-mock .sub { font-size: 13px; line-height: 1.4; opacity: 0.85; margin: 0; }
+  .social-mock.do-balance { background: linear-gradient(160deg, #3b0d3a 0%, #5b1e5c 55%, #0f766e 100%); color: #fff; }
+  .social-mock.do-text { background: #fff; color: var(--plum); border-bottom: 1px solid var(--line); }
+  .social-mock.do-text .brand-mark { color: var(--pink-deep); }
+  .social-mock.do-text .headline em { color: var(--pink); font-style: italic; }
+  .social-mock.do-photo { background: url("images/iff/ximena-aleman.jpg") center / cover no-repeat; color: #fff; }
+  .social-mock.do-photo::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(59,13,58,0.15) 0%, rgba(59,13,58,0.82) 100%); z-index: 0; }
+  .social-mock.do-photo .brand-mark,
+  .social-mock.do-photo .headline,
+  .social-mock.do-photo .sub { position: relative; z-index: 1; }
+  .social-mock.do-photo .brand-mark { position: absolute; z-index: 1; }
+  .social-mock.dont-pink { background: linear-gradient(145deg, #ff7eb9 0%, #e0257b 45%, #ff4da6 100%); color: #fff; }
+  .social-mock.dont-clash { background: #ffd24a; color: #e0257b; }
+  .social-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 12px 16px; border-top: 1px solid var(--line); }
+  .social-badge.do { color: #047857; }
+  .social-badge.dont { color: #b91c1c; }
+  .social-badge .pip { width: 8px; height: 8px; border-radius: 50%; }
+  .social-badge.do .pip { background: #10b981; }
+  .social-badge.dont .pip { background: #ef4444; }
+  .social-card .caption { padding: 0 16px 16px; font-size: 13px; color: var(--muted); line-height: 1.5; margin: 0; }
 </style>
 </head>
 <body>
@@ -175,6 +230,14 @@
         </div>
       </div>
       <div class="swatch">
+        <div class="swatch-color" style="background: #8b4a7a;"></div>
+        <div class="swatch-info">
+          <div class="name">Soft Plum</div>
+          <div class="hex">#8b4a7a</div>
+          <div class="token">--plum-soft · Portrait duotone</div>
+        </div>
+      </div>
+      <div class="swatch">
         <div class="swatch-color" style="background: #ffd24a;"></div>
         <div class="swatch-info">
           <div class="name">Sun Accent</div>
@@ -214,6 +277,30 @@
           <div class="token">--line · Borders / dividers</div>
         </div>
       </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #0f766e;"></div>
+        <div class="swatch-info">
+          <div class="name">Brand Teal</div>
+          <div class="hex">#0f766e</div>
+          <div class="token">--teal · Tertiary accent</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #14b8a6;"></div>
+        <div class="swatch-info">
+          <div class="name">Light Teal</div>
+          <div class="hex">#14b8a6</div>
+          <div class="token">--teal-light · Soft tertiary</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #99f6e4;"></div>
+        <div class="swatch-info">
+          <div class="name">Mist Teal</div>
+          <div class="hex">#99f6e4</div>
+          <div class="token">--teal-mist · Lightest tertiary</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -249,6 +336,19 @@
         <div style="font-family: 'Inter', system-ui, sans-serif; font-size: 14px; font-weight: 600; color: var(--plum);">UI / Button · 14px Semi-bold — used in navigation, buttons, and labels.</div>
       </div>
     </div>
+
+    <h3 class="palette-subhead">Font sources</h3>
+    <p class="palette-note">Do not embed font files in brand assets. Pull Fraunces and Inter from Google Fonts when setting up Canva, Figma, or web projects.</p>
+    <div class="font-links">
+      <a class="font-link" href="https://fonts.google.com/specimen/Fraunces" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Fraunces on Google Fonts
+      </a>
+      <a class="font-link" href="https://fonts.google.com/specimen/Inter" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Inter on Google Fonts
+      </a>
+    </div>
   </div>
 </section>
 
@@ -264,10 +364,79 @@
   </div>
 </section>
 
+<!-- PHOTO TREATMENT -->
+<section class="brand-section">
+  <div class="wrap">
+    <div class="section-label">04 — Photography</div>
+    <h2 class="section-title">Member portrait treatment</h2>
+    <p class="palette-note">Member portraits use a brand-color duotone overlay by default. Preferred treatment for IFF and member grids: soft plum (<code>#8b4a7a</code> at 65% opacity) over a desaturated photo. On hover (web), the overlay lifts to reveal the full-color photo. Alternate with teal overlays so grids do not read as all pink.</p>
+    <div class="photo-grid">
+      <div class="duotone-card">
+        <div class="duotone-frame plum">
+          <img src="images/iff/michele-alt.jpeg" alt="Example portrait with soft plum duotone">
+        </div>
+        <div class="duotone-meta">
+          <div class="name">Plum duotone · preferred</div>
+          <div class="hint">#8b4a7a · 65% opacity · hover to reveal</div>
+        </div>
+      </div>
+      <div class="duotone-card">
+        <div class="duotone-frame pink">
+          <img src="images/iff/ximena-aleman.jpg" alt="Example portrait with pink duotone">
+        </div>
+        <div class="duotone-meta">
+          <div class="name">Pink duotone</div>
+          <div class="hint">Hover to reveal full color</div>
+        </div>
+      </div>
+      <div class="duotone-card">
+        <div class="duotone-frame teal">
+          <img src="images/iff/elaine-asher.jpg" alt="Example portrait with teal duotone">
+        </div>
+        <div class="duotone-meta">
+          <div class="name">Teal duotone</div>
+          <div class="hint">Hover to reveal full color</div>
+        </div>
+      </div>
+      <div class="duotone-card">
+        <div class="duotone-frame teal-mist">
+          <img src="images/iff/sarah-biller.jpg" alt="Example portrait with mist teal duotone">
+        </div>
+        <div class="duotone-meta">
+          <div class="name">Mist Teal duotone</div>
+          <div class="hint">Hover to reveal full color</div>
+        </div>
+      </div>
+    </div>
+    <div style="background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 28px 32px; margin-top: 28px;">
+      <div class="rule-row">
+        <div class="rule-dot do"></div>
+        <div class="rule-label">Do</div>
+        <div class="rule-text">Default member and IFF portraits to soft plum duotone (<code>#8b4a7a</code>, 65% multiply) — lighter than Deep Plum so faces stay readable.</div>
+      </div>
+      <div class="rule-row">
+        <div class="rule-dot do"></div>
+        <div class="rule-label">Do</div>
+        <div class="rule-text">On web, remove the overlay on hover so the authentic photo shows through.</div>
+      </div>
+      <div class="rule-row">
+        <div class="rule-dot dont"></div>
+        <div class="rule-label">Don't</div>
+        <div class="rule-text">Use Deep Plum (<code>#3b0d3a</code>) at full strength for duotones — it reads too dark on portrait grids.</div>
+      </div>
+      <div class="rule-row">
+        <div class="rule-dot dont"></div>
+        <div class="rule-label">Don't</div>
+        <div class="rule-text">Run an entire row in the same pink overlay. Alternate tertiary colors to avoid a “too pink” grid.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- MISSION -->
 <section class="brand-section">
   <div class="wrap">
-    <div class="section-label">04 — Mission</div>
+    <div class="section-label">05 — Mission</div>
     <h2 class="section-title">Mission statement</h2>
     <div class="placeholder-block">
       <h3>Mission statement</h3>
@@ -283,7 +452,7 @@
 <!-- VOICE GUIDELINES -->
 <section class="brand-section">
   <div class="wrap">
-    <div class="section-label">05 — Voice</div>
+    <div class="section-label">06 — Voice</div>
     <h2 class="section-title">Brand voice &amp; tone</h2>
 
     <div class="placeholder-block" style="padding-bottom: 36px;">
@@ -320,7 +489,7 @@
 <!-- CANVA TEMPLATES -->
 <section class="brand-section">
   <div class="wrap">
-    <div class="section-label">06 — Templates</div>
+    <div class="section-label">07 — Templates</div>
     <h2 class="section-title">Canva templates</h2>
     <p style="color: var(--muted); font-size: 16px; margin: 0 0 28px; max-width: 600px;">Canva templates for the team use the colors, fonts, and style defined in this guide. Links will be added here as templates are created.</p>
     <div class="canva-grid">
@@ -371,6 +540,77 @@
         <h4>Stat / milestone card</h4>
         <p>For sharing member milestones, event numbers, and community stats.</p>
         <a href="#">Template coming soon →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL MEDIA -->
+<section class="brand-section">
+  <div class="wrap">
+    <div class="section-label">08 — Social</div>
+    <h2 class="section-title">Social media templates</h2>
+    <p class="palette-note">Use these patterns for Instagram and LinkedIn. Balance brand pink with plum and tertiary teal. Prefer clear hierarchy: one headline, one supporting line, and either a photo treatment or a strong text-only lockup.</p>
+
+    <h3 class="palette-subhead" style="margin-top: 8px;">Color combinations</h3>
+    <div class="social-grid" style="margin-bottom: 36px;">
+      <div class="social-card">
+        <div class="social-mock do-balance">
+          <div class="brand-mark">NYC Fintech Women</div>
+          <div class="headline">Build with women who get it.</div>
+          <p class="sub">Plum + teal balance · brand-forward without all pink</p>
+        </div>
+        <div class="social-badge do"><span class="pip"></span> Do · Balanced palette</div>
+        <p class="caption">Lead with plum, introduce teal as a second plane. Keep pink for accents and CTAs.</p>
+      </div>
+      <div class="social-card">
+        <div class="social-mock dont-pink">
+          <div class="brand-mark">NYC Fintech Women</div>
+          <div class="headline">Everything in pink.</div>
+          <p class="sub">Too much brand pink across the whole frame</p>
+        </div>
+        <div class="social-badge dont"><span class="pip"></span> Don't · All pink</div>
+        <p class="caption">Avoid flooding the canvas with pink gradients. It reads promotional and washes out type.</p>
+      </div>
+      <div class="social-card">
+        <div class="social-mock dont-clash">
+          <div class="brand-mark">NYC Fintech Women</div>
+          <div class="headline">Sun + pink clash</div>
+          <p class="sub">Accent yellow as a full background fights the brand</p>
+        </div>
+        <div class="social-badge dont"><span class="pip"></span> Don't · Accent overload</div>
+        <p class="caption">Sun Accent is for highlights and chips, not full-bleed backgrounds behind body copy.</p>
+      </div>
+    </div>
+
+    <h3 class="palette-subhead">Text-only vs. image with text</h3>
+    <div class="social-grid">
+      <div class="social-card">
+        <div class="social-mock do-text">
+          <div class="brand-mark">Fintech Female Fridays</div>
+          <div class="headline">Every Friday, a woman <em>building</em> the future.</div>
+          <p class="sub">Text-only · strong type hierarchy</p>
+        </div>
+        <div class="social-badge do"><span class="pip"></span> Do · Text-only</div>
+        <p class="caption">Use Fraunces for the line, Inter for the kicker. White or soft backgrounds keep long headlines readable.</p>
+      </div>
+      <div class="social-card">
+        <div class="social-mock do-photo">
+          <div class="brand-mark">Inspiring Fintech Females</div>
+          <div class="headline">Meet the 2025 cohort.</div>
+          <p class="sub">Photo + gradient scrim · name or theme below</p>
+        </div>
+        <div class="social-badge do"><span class="pip"></span> Do · Image with text</div>
+        <p class="caption">Anchor with a real photo, then a dark plum scrim for type. Keep text in the lower third.</p>
+      </div>
+      <div class="social-card">
+        <div class="social-mock dont-pink" style="justify-content: center; text-align: center;">
+          <div class="brand-mark" style="position: static; margin-bottom: 16px;">NYC Fintech Women</div>
+          <div class="headline" style="font-size: 20px;">Event tonight!! Join us now!! Speakers!! RSVP!!</div>
+          <p class="sub">Crowded copy · no hierarchy</p>
+        </div>
+        <div class="social-badge dont"><span class="pip"></span> Don't · Overstuffed text</div>
+        <p class="caption">One message per post. Skip stacked CTAs, emoji piles, and competing headlines.</p>
       </div>
     </div>
   </div>
