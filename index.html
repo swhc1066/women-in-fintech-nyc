@@ -180,9 +180,20 @@
   @media (max-width: 900px) { .iff-row { grid-template-columns: repeat(2, 1fr); } }
   .iff-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 0; overflow: hidden; display: flex; flex-direction: column; transition: transform .3s, background .3s; cursor: pointer; text-decoration: none; color: inherit; }
   .iff-card:hover { transform: translateY(-6px); background: rgba(255,255,255,0.08); }
-  .iff-portrait { aspect-ratio: 1/1.1; background: #8b4a7a; position: relative; overflow: hidden; }
+  .iff-portrait { aspect-ratio: 1/1.1; background: linear-gradient(160deg, #ff7eb9 0%, #e0257b 100%); position: relative; overflow: hidden; }
   .iff-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1) contrast(1.05); transition: filter .35s ease; }
-  .iff-portrait::after { content: ""; position: absolute; inset: 0; background: #8b4a7a; mix-blend-mode: multiply; opacity: 0.65; transition: opacity .35s ease; pointer-events: none; }
+  .iff-portrait::after { content: ""; position: absolute; inset: 0; mix-blend-mode: multiply; opacity: 0.7; transition: opacity .35s ease; pointer-events: none; }
+  /* Meet-the-team g1–g5 placeholder gradients as per-portrait overlays */
+  .iff-card:nth-child(1) .iff-portrait,
+  .iff-card:nth-child(1) .iff-portrait::after { background: linear-gradient(160deg, #ff7eb9 0%, #e0257b 100%); } /* g1 pink */
+  .iff-card:nth-child(2) .iff-portrait,
+  .iff-card:nth-child(2) .iff-portrait::after { background: linear-gradient(160deg, #ffd24a 0%, #ff9a4a 100%); } /* g2 amber */
+  .iff-card:nth-child(3) .iff-portrait,
+  .iff-card:nth-child(3) .iff-portrait::after { background: linear-gradient(160deg, #c084fc 0%, #7e22ce 100%); } /* g3 purple */
+  .iff-card:nth-child(4) .iff-portrait,
+  .iff-card:nth-child(4) .iff-portrait::after { background: linear-gradient(160deg, #5eead4 0%, #0d9488 100%); } /* g4 teal */
+  .iff-card:nth-child(5) .iff-portrait,
+  .iff-card:nth-child(5) .iff-portrait::after { background: linear-gradient(160deg, #fda4af 0%, #be123c 100%); } /* g5 rose */
   .iff-card:hover .iff-portrait img { filter: none; }
   .iff-card:hover .iff-portrait::after { opacity: 0; }
   .iff-portrait .num { position: absolute; top: 14px; left: 14px; font-family: var(--font-display); font-size: 14px; font-weight: 600; color: #fff; background: rgba(0,0,0,0.35); padding: 4px 10px; border-radius: 999px; z-index: 1; }
