@@ -6,12 +6,22 @@
 <title>Events — NYC Fintech Women</title>
 <link rel="stylesheet" href="site.css" />
 <style>
+  /* The nav is sticky (~91px), so anchor jumps must clear it or the section
+     heading lands underneath it. #upcoming needs this most: it overrides
+     .section's 80px top padding down to 8px. */
+  #upcoming, #past { scroll-margin-top: 104px; }
   .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 36px; align-items: center; }
   .filters .lbl { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
   .chip { padding: 9px 16px; border-radius: 999px; border: 1.5px solid var(--line); background: #fff; color: var(--plum); font-size: 13.5px; font-weight: 600; font-family: inherit; cursor: pointer; transition: all .18s; }
   .chip:hover { border-color: var(--pink); color: var(--pink-deep); }
   .chip.active { background: var(--pink); border-color: var(--pink); color: #fff; }
   .empty { display: none; text-align: center; color: var(--muted); padding: 48px; font-size: 15px; }
+  /* Luma-backed cards are links; the .event styles come from site.css. */
+  a.event { text-decoration: none; color: inherit; }
+  .event-img.has-cover { background-size: cover; background-position: center; }
+  .event-img.has-cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.28) 0%, rgba(0,0,0,0) 55%); }
+  .event-img .date-chip { z-index: 1; }
+  .events-grid.is-loading { opacity: .55; transition: opacity .2s; }
   /* past events */
   .past { background: linear-gradient(135deg, var(--soft) 0%, var(--soft-2) 100%); }
   .past-list { display: flex; flex-direction: column; gap: 0; background: #fff; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; }
@@ -37,7 +47,7 @@
     <div class="nav-inner">
     <a href="index.html" class="logo"><img src="images/nyc-fintech-women-logo.png" alt="NYC Fintech Women"></a>
     <div class="nav-links">
-      <div class="has-menu"><a href="events.html" class="active">Events</a><div class="dropdown"><a href="#past">Past Events</a></div></div>
+      <div class="has-menu"><a href="events.html" class="active">Events</a><div class="dropdown"><a href="#upcoming">Upcoming Events</a><a href="#past">Past Events</a></div></div>
       <div class="has-menu"><a href="fintech-female-fridays.html">Our Programs</a><div class="dropdown"><a href="fintech-female-fridays.html">Fintech Female Fridays</a><a href="co-founder-matching.html">Co-founder Matching</a><a href="inspiring-fintech-females.html">Inspiring Fintech Females</a></div></div>
       <div class="has-menu"><a href="meet-the-team.html">About</a><div class="dropdown"><a href="meet-the-team.html">Meet the Team</a><a href="#">Become a Member</a><a href="#">Sponsor</a></div></div>
       <a href="new-york.html">New York</a>
@@ -71,7 +81,7 @@
       </div>
       <div class="mobile-nav-group open">
         <button type="button" class="mobile-nav-trigger current" aria-expanded="true">Events</button>
-        <div class="mobile-nav-sub"><a href="#past">Past Events</a></div>
+        <div class="mobile-nav-sub"><a href="#upcoming">Upcoming Events</a><a href="#past">Past Events</a></div>
       </div>
       <div class="mobile-nav-group">
         <button type="button" class="mobile-nav-trigger" aria-expanded="false">Our Programs</button>
@@ -106,7 +116,7 @@
 </section>
 
 <!-- UPCOMING -->
-<section class="section" style="padding-top: 8px;">
+<section class="section" id="upcoming" style="padding-top: 8px;">
   <div class="wrap">
     <div class="filters" id="filters">
       <span class="lbl">Filter by city</span>
@@ -154,7 +164,7 @@
     <div class="foot-grid">
       <div>
         <div class="foot-brand"><span class="dot"></span> NYC Fintech Women</div>
-        <p>A community of 5,000+ women shaping the future of financial services across NYC, San Francisco, and Chicago.</p>
+        <p>A community of 20,000+ women shaping the future of financial services across NYC, San Francisco, and Chicago.</p>
       </div>
       <div class="foot-col"><h4>Events</h4><ul><li><a href="events.html">Events</a></li><li><a href="#past">Past Events</a></li><li><a href="inspiring-fintech-females.html">Inspiring Fintech Females</a></li><li><a href="fintech-female-fridays.html">Fintech Female Fridays</a></li></ul></div>
       <div class="foot-col"><h4>Community</h4><ul><li><a href="co-founder-matching.html">Co-founder Matching</a></li><li><a href="meet-the-team.html">Meet the Team</a></li><li><a href="inspiring-fintech-females.html">Inspiring Fintech Females</a></li><li><a href="new-york.html">New York</a></li><li><a href="san-francisco.html">San Francisco</a></li><li><a href="chicago.html">Chicago</a></li></ul></div>
@@ -166,20 +176,122 @@
 
 <script>
   const chips = document.querySelectorAll('.chip');
-  const events = document.querySelectorAll('#grid .event');
+  const grid = document.getElementById('grid');
   const empty = document.getElementById('empty');
-  chips.forEach(chip => chip.addEventListener('click', () => {
-    chips.forEach(c => c.classList.remove('active'));
-    chip.classList.add('active');
-    const city = chip.dataset.city;
+
+  /* Query the cards live rather than snapshotting them: the grid is replaced
+     wholesale once Luma responds. */
+  function applyFilter() {
+    const active = document.querySelector('.chip.active');
+    const city = active ? active.dataset.city : 'all';
     let shown = 0;
-    events.forEach(e => {
+    grid.querySelectorAll('.event').forEach(e => {
       const match = city === 'all' || e.dataset.city === city;
       e.style.display = match ? '' : 'none';
       if (match) shown++;
     });
     empty.style.display = shown === 0 ? 'block' : 'none';
+  }
+
+  chips.forEach(chip => chip.addEventListener('click', () => {
+    chips.forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    applyFilter();
   }));
+
+  /* ---------------- Luma-backed upcoming events ----------------
+     /api/events proxies the Luma calendar (the API key is server-side only).
+     If it is unreachable, unconfigured, or returns nothing, the events already
+     in the HTML stay on the page — the section never renders empty. */
+
+  const VARIANTS = ['', 'v-pink', 'v-plum', 'v-sun', 'v-mint'];
+
+  function fmt(iso, timezone, opts) {
+    try {
+      return new Intl.DateTimeFormat('en-US', Object.assign({ timeZone: timezone }, opts)).format(new Date(iso));
+    } catch (e) {
+      return new Intl.DateTimeFormat('en-US', opts).format(new Date(iso));
+    }
+  }
+
+  function el(tag, className, text) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text != null) node.textContent = text;   // never innerHTML: event names come from Luma
+    return node;
+  }
+
+  function eventTag(ev) {
+    if (ev.tags && ev.tags.length) return ev.tags[0];
+    if (ev.membersOnly) return 'Members only';
+    if (ev.locationType === 'zoom' || ev.locationType === 'meet') return 'Online';
+    return 'In person';
+  }
+
+  function card(ev, index) {
+    const a = el('a', 'event' + (VARIANTS[index % VARIANTS.length] ? ' ' + VARIANTS[index % VARIANTS.length] : ''));
+    a.href = ev.url;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.dataset.city = ev.city;
+
+    const img = el('div', 'event-img');
+    if (ev.coverUrl) {
+      img.classList.add('has-cover');
+      img.style.backgroundImage = 'url("' + encodeURI(ev.coverUrl) + '")';
+    } else {
+      img.appendChild(el('span', null, 'NYC Fintech Women'));
+    }
+    const chip = el('div', 'date-chip');
+    chip.appendChild(el('div', 'd', fmt(ev.startAt, ev.timezone, { day: '2-digit' })));
+    chip.appendChild(el('div', 'm', fmt(ev.startAt, ev.timezone, { month: 'short' })));
+    img.appendChild(chip);
+    a.appendChild(img);
+
+    const body = el('div', 'event-body');
+    body.appendChild(el('span', 'event-tag', eventTag(ev)));
+    body.appendChild(el('h3', 'event-name', ev.name));
+
+    const meta = el('div', 'event-meta');
+    meta.appendChild(el('span', null,
+      fmt(ev.startAt, ev.timezone, { month: 'short', day: 'numeric' }) + ' · ' +
+      fmt(ev.startAt, ev.timezone, { hour: 'numeric', minute: '2-digit' })));
+    if (ev.place) {
+      meta.appendChild(el('span', 'sep', '·'));
+      meta.appendChild(el('span', null, ev.place));
+    }
+    body.appendChild(meta);
+    body.appendChild(el('span', 'event-cta', 'RSVP →'));
+    a.appendChild(body);
+    return a;
+  }
+
+  async function loadLumaEvents() {
+    grid.classList.add('is-loading');
+    try {
+      // no-store applies to the *browser* cache only; the CDN still serves its
+      // own cached copy (s-maxage=300), so Luma is not hit on every view.
+      const res = await fetch('/api/events', { cache: 'no-store', headers: { accept: 'application/json' } });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        console.warn('[events] keeping built-in events — /api/events returned', res.status, body.error || '');
+        return;
+      }
+      const data = await res.json();
+      if (!data.events || !data.events.length) {
+        console.warn('[events] keeping built-in events — Luma returned no upcoming events');
+        return;
+      }
+      grid.replaceChildren(...data.events.map(card));
+      applyFilter();
+    } catch (err) {
+      console.warn('[events] keeping built-in events —', err.message);
+    } finally {
+      grid.classList.remove('is-loading');
+    }
+  }
+
+  loadLumaEvents();
 </script>
 <script src="nav-mobile.js"></script>
 

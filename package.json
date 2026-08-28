@@ -1,0 +1,8 @@
+{
+  "name": "nyc-fintech-women",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "22.x"
+  }
+}
