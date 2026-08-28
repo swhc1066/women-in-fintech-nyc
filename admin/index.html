@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Post editor — NYC Fintech Women</title>
+<!-- Deliberately does NOT link ../site.css: the preview is an iframe, and
+     linking it would make this tool's chrome drift with the brand CSS. -->
+<style>
+  :root {
+    --bg: #ffffff; --soft: #fdf2f7; --soft-2: #faf5ff;
+    --fg: #1a1024; --muted: #5b4a66; --line: #ece4f0;
+    --pink: #e0257b; --pink-deep: #b91767; --plum: #3b0d3a; --accent: #ffd24a;
+    --ok: #0d9488; --warn: #b45309;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-sans); color: var(--fg); background: var(--soft-2);
+    font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---- top bar ---- */
+  .topbar {
+    position: sticky; top: 0; z-index: 20; background: var(--plum); color: #fff;
+    display: flex; align-items: center; gap: 16px; padding: 0 20px; height: 56px;
+  }
+  .topbar .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -0.01em; }
+  .topbar .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .topbar select {
+    font: inherit; font-size: 13px; background: rgba(255,255,255,0.12); color: #fff;
+    border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 6px 10px;
+  }
+  .topbar .spacer { margin-left: auto; }
+  .topbar .status { font-size: 12px; color: rgba(255,255,255,0.65); }
+
+  /* ---- buttons ---- */
+  .btn {
+    font: inherit; font-size: 13px; font-weight: 600; border-radius: 9px;
+    padding: 8px 14px; border: 1px solid transparent; cursor: pointer;
+    background: #fff; color: var(--plum); border-color: var(--line);
+    transition: background .15s, border-color .15s, color .15s;
+  }
+  .btn:hover { border-color: var(--pink); color: var(--pink-deep); }
+  .btn-pink { background: var(--pink); color: #fff; border-color: var(--pink); }
+  .btn-pink:hover { background: var(--pink-deep); border-color: var(--pink-deep); color: #fff; }
+  .btn-sm { font-size: 12px; padding: 5px 10px; border-radius: 7px; }
+  .btn-icon {
+    font-size: 12px; line-height: 1; padding: 6px 8px; border-radius: 6px;
+    background: transparent; border-color: transparent; color: var(--muted);
+  }
+  .btn-icon:hover { background: var(--soft); color: var(--pink-deep); border-color: transparent; }
+  .btn:disabled { opacity: .4; cursor: not-allowed; }
+
+  /* ---- layout ---- */
+  .panes {
+    display: grid; grid-template-columns: minmax(360px, 30%) 1fr minmax(320px, 26%);
+    height: calc(100vh - 56px);
+  }
+  .pane { overflow-y: auto; min-width: 0; }
+  .pane-form { background: #fff; border-right: 1px solid var(--line); }
+  /* min-width:0 lets the 1fr column shrink below the iframe's natural 1240px
+     width; without it the grid stretches and pushes the output pane offscreen. */
+  .pane-preview { background: var(--soft-2); display: flex; flex-direction: column; min-height: 0; min-width: 0; overflow: hidden; }
+  .pane-out { background: #fff; border-left: 1px solid var(--line); }
+  @media (max-width: 1200px) {
+    .panes { grid-template-columns: 1fr; height: auto; }
+    .pane { overflow: visible; }
+    .pane-preview { height: 80vh; }
+  }
+
+  /* ---- sections ---- */
+  .sec { border-bottom: 1px solid var(--line); padding: 20px; }
+  .sec > h2 {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--pink-deep); margin: 0 0 16px;
+  }
+
+  /* ---- fields ---- */
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 12px; font-weight: 600; color: var(--plum); margin-bottom: 5px; }
+  .field label .req { color: var(--pink); }
+  .field input[type="text"], .field input[type="url"], .field input[type="date"], .field textarea, .blk input[type="text"], .blk textarea {
+    width: 100%; font: inherit; font-size: 13.5px; color: var(--fg);
+    border: 1px solid var(--line); border-radius: 9px; padding: 9px 11px;
+    background: #fff; resize: vertical;
+  }
+  .field textarea, .blk textarea { line-height: 1.55; }
+  .field input:focus, .field textarea:focus, .blk input:focus, .blk textarea:focus {
+    outline: none; border-color: var(--pink); box-shadow: 0 0 0 3px rgba(224,37,123,0.1);
+  }
+  .field input.mono, .field .affix { font-family: var(--font-mono); font-size: 12.5px; }
+  .field .affixed { display: flex; align-items: center; border: 1px solid var(--line); border-radius: 9px; background: #fff; overflow: hidden; }
+  .field .affixed:focus-within { border-color: var(--pink); box-shadow: 0 0 0 3px rgba(224,37,123,0.1); }
+  .field .affixed input { border: none !important; box-shadow: none !important; border-radius: 0; }
+  .field .affix { color: var(--muted); padding: 0 4px; white-space: nowrap; }
+  .field .affix:first-child { padding-left: 11px; }
+  .field .affix:last-child { padding-right: 11px; }
+  .field .help { font-size: 11.5px; color: var(--muted); margin-top: 5px; line-height: 1.45; }
+  .field .warn { font-size: 11.5px; color: var(--warn); margin-top: 5px; font-weight: 600; }
+  .field.invalid input, .field.invalid textarea { border-color: #dc2626; }
+
+  /* ---- blocks ---- */
+  .blk {
+    border: 1px solid var(--line); border-radius: 12px; margin-bottom: 12px;
+    background: #fff; overflow: hidden;
+  }
+  .blk-head {
+    display: flex; align-items: center; gap: 4px; padding: 8px 8px 8px 12px;
+    background: var(--soft); border-bottom: 1px solid var(--line);
+  }
+  .blk-head .type {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--pink-deep); margin-right: auto;
+  }
+  .blk-body { padding: 12px; }
+  .blk-body .field:last-child { margin-bottom: 0; }
+  .blk .check { display: flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600; color: var(--plum); }
+  .blk-empty {
+    border: 1px dashed var(--line); border-radius: 12px; padding: 22px; text-align: center;
+    color: var(--muted); font-size: 13px;
+  }
+  .add-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+
+  /* ---- image ---- */
+  .img-row { display: flex; gap: 14px; align-items: flex-start; }
+  .img-thumb {
+    width: 84px; height: 84px; border-radius: 12px; flex-shrink: 0;
+    background: var(--soft) center/cover no-repeat; border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; color: var(--muted); text-align: center; overflow: hidden;
+  }
+  .img-ctl { flex: 1; min-width: 0; }
+  input[type="file"] { font-size: 12px; max-width: 100%; }
+  .path-hint {
+    font-family: var(--font-mono); font-size: 12px; color: var(--plum);
+    background: var(--soft); border: 1px solid var(--line); border-radius: 7px;
+    padding: 6px 9px; margin-top: 8px; word-break: break-all;
+  }
+  .steps { margin: 12px 0 0; padding-left: 18px; font-size: 12px; color: var(--muted); line-height: 1.7; }
+  .steps code { font-family: var(--font-mono); font-size: 11.5px; background: var(--soft); padding: 1px 5px; border-radius: 4px; color: var(--plum); }
+
+  /* ---- preview ---- */
+  .preview-bar {
+    display: flex; align-items: center; gap: 8px; padding: 10px 16px;
+    border-bottom: 1px solid var(--line); background: #fff; flex-shrink: 0;
+  }
+  .preview-bar .note { margin-left: auto; font-size: 11.5px; color: var(--muted); }
+  .preview-wrap { flex: 1; overflow: auto; padding: 16px; min-height: 0; }
+  /* The iframe renders at a real device width and is then scaled to fit the
+     pane, so the post's own breakpoints behave exactly as they will in a
+     browser at that width. .preview-stage reserves the post-scale footprint. */
+  .preview-stage { margin: 0 auto; }
+  #preview {
+    border: 1px solid var(--line); border-radius: 10px; background: #fff;
+    width: 1240px; height: 1400px; display: block;
+    transform-origin: top left; border-width: 1px;
+  }
+  #preview.mobile { width: 390px; height: 844px; }
+
+  /* ---- output ---- */
+  .snip { margin-bottom: 18px; }
+  .snip-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .snip-head h3 { font-size: 12.5px; font-weight: 700; color: var(--plum); margin: 0; }
+  .snip-head .btn { margin-left: auto; }
+  .snip .note { font-size: 11.5px; color: var(--muted); margin: 0 0 6px; line-height: 1.45; }
+  .snip textarea {
+    width: 100%; height: 130px; font-family: var(--font-mono); font-size: 11px;
+    line-height: 1.5; border: 1px solid var(--line); border-radius: 9px;
+    padding: 9px; background: var(--soft-2); color: var(--plum); resize: vertical;
+  }
+  .checklist { font-size: 12px; color: var(--muted); line-height: 1.7; padding-left: 18px; margin: 0; }
+  .toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: var(--plum); color: #fff; font-size: 13px; font-weight: 600;
+    padding: 10px 18px; border-radius: 10px; opacity: 0; pointer-events: none;
+    transition: opacity .2s, transform .2s; z-index: 50;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(-4px); }
+  .banner {
+    background: #fffbeb; border: 1px solid #fde68a; color: #92400e;
+    border-radius: 10px; padding: 10px 12px; font-size: 12.5px; line-height: 1.5;
+    margin-bottom: 16px; display: flex; gap: 10px; align-items: center;
+  }
+  .banner .btn { margin-left: auto; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand"><span class="dot"></span> Post editor</div>
+  <select id="type-select" aria-label="Page type"></select>
+  <div class="spacer"></div>
+  <span class="status" id="save-status">—</span>
+  <button type="button" class="btn btn-sm" id="btn-import">Import JSON</button>
+  <button type="button" class="btn btn-sm" id="btn-export">Export JSON</button>
+  <button type="button" class="btn btn-sm" id="btn-clear">New post</button>
+  <button type="button" class="btn btn-pink" id="btn-download">Download HTML</button>
+</header>
+
+<div class="panes">
+
+  <!-- ─────────────── form ─────────────── -->
+  <div class="pane pane-form">
+    <div id="restore-banner"></div>
+
+    <section class="sec">
+      <h2>Cover &amp; headshot</h2>
+      <div class="img-row">
+        <div class="img-thumb" id="img-thumb">No image</div>
+        <div class="img-ctl">
+          <input type="file" id="img-file" accept="image/*" />
+          <label class="check" style="margin-top:8px; display:flex; align-items:center; gap:7px; font-size:12px; font-weight:600; color:var(--plum);">
+            <input type="checkbox" id="img-keep" /> Keep original file (skip resize)
+          </label>
+          <div class="path-hint" id="img-path">images/fff-….jpg</div>
+          <button type="button" class="btn btn-sm" id="btn-img-download" style="margin-top:8px;" disabled>Download renamed image</button>
+        </div>
+      </div>
+      <div class="field" style="margin-top:14px;">
+        <label for="f-coverPath">Or use an image already in /images/</label>
+        <input type="text" id="f-coverPath" class="mono" placeholder="images/fff-shira-amrany.jpg" />
+        <div class="help">Overrides the path above. Leave blank to use the uploaded file's name.</div>
+      </div>
+      <ol class="steps">
+        <li>Save the image into <code>images/</code></li>
+        <li>Save the HTML into the repo root</li>
+        <li>Paste the card snippets (right pane)</li>
+        <li>Commit all three</li>
+      </ol>
+    </section>
+
+    <section class="sec">
+      <h2>Post details</h2>
+      <div id="fields"></div>
+    </section>
+
+    <section class="sec">
+      <h2>Body</h2>
+      <div id="blocks"></div>
+      <div class="add-row" id="add-row"></div>
+    </section>
+  </div>
+
+  <!-- ─────────────── preview ─────────────── -->
+  <div class="pane-preview">
+    <div class="preview-bar">
+      <button type="button" class="btn btn-sm" id="btn-desktop">Desktop</button>
+      <button type="button" class="btn btn-sm" id="btn-mobile">Mobile</button>
+      <span class="note">Scripts are disabled in preview, so the mobile drawer won't open here.</span>
+    </div>
+    <div class="preview-wrap">
+      <div class="preview-stage" id="preview-stage">
+        <iframe id="preview" title="Post preview" sandbox="allow-same-origin"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────── output ─────────────── -->
+  <div class="pane pane-out">
+    <section class="sec">
+      <h2>Paste into the listing</h2>
+      <div id="snippets"></div>
+    </section>
+    <section class="sec">
+      <h2>Promote the feature</h2>
+      <ol class="checklist">
+        <li>Paste the <strong>featured card</strong> over the existing <code>&lt;a class="feature"&gt;</code> block in <code>fintech-female-fridays.html</code>.</li>
+        <li>Move the card it replaced into the top of <code>.blog-grid</code> using its grid-card form.</li>
+        <li>Drop the oldest grid card if the row is full.</li>
+        <li>Paste the <strong>homepage card</strong> at the top of the <code>#fff</code> stack in <code>index.html</code> and remove the last one.</li>
+      </ol>
+    </section>
+  </div>
+</div>
+
+<input type="file" id="import-file" accept="application/json" hidden />
+<div class="toast" id="toast"></div>
+
+<script src="templates.js"></script>
+<script src="types.js"></script>
+<script src="editor.js"></script>
+</body>
+</html>
