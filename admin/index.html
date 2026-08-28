@@ -283,5 +283,22 @@
 <script src="templates.js"></script>
 <script src="types.js"></script>
 <script src="editor.js"></script>
+<script>
+  /* The scripts above are relative, so they only resolve when this page is
+     served with its trailing slash (/admin/). Hitting /admin without the
+     redirect 404s all three and the form renders empty with no explanation —
+     say so instead of showing a blank shell. */
+  if (!window.WIF_TEMPLATES || !window.WIF_TYPES || !window.WIF_EDITOR) {
+    var missing = ['templates.js', 'types.js', 'editor.js'].filter(function (f, i) {
+      return ![window.WIF_TEMPLATES, window.WIF_TYPES, window.WIF_EDITOR][i];
+    });
+    document.body.insertAdjacentHTML('afterbegin',
+      '<div style="background:#fef2f2;border-bottom:1px solid #fecaca;color:#991b1b;' +
+      'padding:14px 20px;font:600 13px/1.5 system-ui,sans-serif;">' +
+      'Editor scripts failed to load (' + missing.join(', ') + '). ' +
+      'Open this page at <code style="font-family:ui-monospace,monospace">/admin/</code> ' +
+      'with the trailing slash.</div>');
+  }
+</script>
 </body>
 </html>
