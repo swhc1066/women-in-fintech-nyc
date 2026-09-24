@@ -1,0 +1,154 @@
+{
+  "groups": [
+    {
+      "id": "founders",
+      "heading": "Founders &amp; chairs",
+      "subtitle": "The core team",
+      "gridModifier": " five"
+    },
+    {
+      "id": "committee",
+      "heading": "Committee &amp; team",
+      "subtitle": "The builders behind the scenes",
+      "gridModifier": ""
+    }
+  ],
+  "members": [
+    {
+      "name": "Michelle Tran",
+      "role": "Co-Founder · Operations Chair",
+      "group": "founders",
+      "photo": "images/team/michelle-tran.jpg",
+      "linkedin": "https://www.linkedin.com/in/michellektran",
+      "gradient": "g1"
+    },
+    {
+      "name": "Sasha Pilch",
+      "role": "Co-Founder · Sponsorship Chair",
+      "group": "founders",
+      "photo": "images/team/sasha-pilch.jpg",
+      "linkedin": "https://www.linkedin.com/in/sasha-pilch",
+      "gradient": "g2"
+    },
+    {
+      "name": "Kristen Stewart",
+      "role": "Events Chair",
+      "group": "founders",
+      "photo": "images/team/kristen-stewart.jpg",
+      "linkedin": "https://www.linkedin.com/in/kristen-stewart-34516814",
+      "gradient": "g3"
+    },
+    {
+      "name": "Ratika Gandhi",
+      "role": "Professional Development Chair",
+      "group": "founders",
+      "photo": "images/team/ratika-gandhi.jpg",
+      "linkedin": "https://www.linkedin.com/in/ratikagandhi",
+      "gradient": "g4"
+    },
+    {
+      "name": "Filippa Noghani",
+      "role": "Marketing Chair",
+      "group": "founders",
+      "photo": "images/team/filippa-noghani.jpg",
+      "linkedin": "https://www.linkedin.com/in/fnoghani",
+      "gradient": "g5"
+    },
+    {
+      "name": "Elsie Russell Brown",
+      "role": "Operations Team Member",
+      "group": "committee",
+      "photo": "images/team/elsie-russell-brown.jpg",
+      "linkedin": "https://www.linkedin.com/in/elsie-brown-9626971a",
+      "gradient": "g6"
+    },
+    {
+      "name": "Christina Donnelly",
+      "role": "Events Team Member",
+      "group": "committee",
+      "photo": "images/team/christina-donnelly.jpg",
+      "linkedin": "https://www.linkedin.com/in/christinadonnelly",
+      "gradient": "g7"
+    },
+    {
+      "name": "Angelie Xiong",
+      "role": "Events Team Member",
+      "group": "committee",
+      "photo": "images/team/angelie-xiong.jpg",
+      "linkedin": "https://www.linkedin.com/in/angelie-xiong-792623126",
+      "gradient": "g1"
+    },
+    {
+      "name": "Jacqueline Tran",
+      "role": "Co-Founder Matching · Marketing Committee",
+      "group": "committee",
+      "photo": "images/team/jacqueline-tran.jpg",
+      "linkedin": "https://www.linkedin.com/in/jacqueline--tran",
+      "gradient": "g2"
+    },
+    {
+      "name": "Evan Zhang",
+      "role": "Hire Her",
+      "group": "committee",
+      "photo": "images/team/evan-zhang.jpg",
+      "linkedin": "https://www.linkedin.com/in/evan-z-58737b90",
+      "gradient": "g3"
+    },
+    {
+      "name": "Claire Priestley",
+      "role": "Marketing Committee Member",
+      "group": "committee",
+      "photo": "images/team/claire-priestley.jpg",
+      "linkedin": "https://www.linkedin.com/in/clairefrancispriestley",
+      "gradient": "g4"
+    },
+    {
+      "name": "Megan Chang",
+      "role": "Marketing Committee Member",
+      "group": "committee",
+      "photo": "images/team/megan-chang.jpg",
+      "linkedin": "https://www.linkedin.com/in/meganchang98",
+      "gradient": "g5"
+    },
+    {
+      "name": "Elizabeth Waggoner",
+      "role": "Marketing Committee Member",
+      "group": "committee",
+      "photo": "images/team/elizabeth-waggoner.jpg",
+      "linkedin": "https://www.linkedin.com/in/elizwagg",
+      "gradient": "g6"
+    },
+    {
+      "name": "Diwakshi Tejaswi",
+      "role": "Marketing Committee Member",
+      "group": "committee",
+      "photo": "images/team/diwakshi-tejaswi.jpg",
+      "linkedin": "https://www.linkedin.com/in/diwakshi",
+      "gradient": "g7"
+    },
+    {
+      "name": "Maggie Wong",
+      "role": "Marketing Committee Member",
+      "group": "committee",
+      "photo": "images/team/maggie-wong.jpg",
+      "linkedin": "https://www.linkedin.com/in/tmmaggiewong",
+      "gradient": "g1"
+    },
+    {
+      "name": "Anli Valdez",
+      "role": "Marketing Committee Member",
+      "group": "committee",
+      "photo": "images/team/anli-valdez.jpg",
+      "linkedin": "https://www.linkedin.com/in/anli-valdez",
+      "gradient": "g2"
+    },
+    {
+      "name": "Ivie Clifford",
+      "role": "Marketing Committee Member",
+      "group": "committee",
+      "photo": "images/team/ivie-clifford.jpg",
+      "linkedin": "https://www.linkedin.com/in/ivie-clifford",
+      "gradient": "g3"
+    }
+  ]
+}

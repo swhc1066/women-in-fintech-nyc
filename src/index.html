@@ -265,7 +265,7 @@
     <div>
       <div class="pill"><span class="pulse"></span> Spring 2026 cohort now open</div>
       <h1>You belong at the <em>table.</em><br/><span class="underline">Build it</span> with us.</h1>
-      <p>Too many women in fintech are building careers in isolation. Join 20,000+ peers, curated events, and the people who open doors and build alongside you.</p>
+      <p>Too many women in fintech are building careers in isolation. Join {{ site.memberCount.display }}{{ site.memberCount.plus }} peers, curated events, and the people who open doors and build alongside you.</p>
       <div class="hero-ctas">
         <a href="#" class="btn btn-pink">Become a Member →</a>
         <a href="#" class="btn btn-ghost">Explore events</a>
@@ -278,7 +278,7 @@
       <div class="tile small1"><span>Member Mixer</span></div>
       <div class="tile small2"><span>Founders Roundtable</span></div>
       <div class="floating-stat">
-        <div class="num">20,000<span class="plus">+</span></div>
+        <div class="num" data-target="{{ site.memberCount.numeric }}">{{ site.memberCount.display }}<span class="plus">{{ site.memberCount.plus }}</span></div>
         <div class="lbl">Members across NYC, SF & Chicago</div>
       </div>
     </div>
@@ -441,11 +441,11 @@
     <div>
       <div class="kicker">Partner with us</div>
       <h2>Put your brand in front of the industry's <em>most talented</em> people.</h2>
-      <p>NYC Fintech Women is a community of 20,000+ professionals across financial services and fintech. We partner with organizations committed to showing up for this community in a meaningful way — event sponsorship, panels, talent access, and more.</p>
+      <p>NYC Fintech Women is a community of {{ site.memberCount.display }}{{ site.memberCount.plus }} professionals across financial services and fintech. We partner with organizations committed to showing up for this community in a meaningful way — event sponsorship, panels, talent access, and more.</p>
       <a href="#" class="btn btn-dark">Become a Partner →</a>
     </div>
     <div class="partner-stats">
-      <div class="partner-stat"><div class="n">20,000<span class="plus">+</span></div><div class="lbl">Active members across fintech & financial services</div></div>
+      <div class="partner-stat"><div class="n">{{ site.memberCount.display }}<span class="plus">{{ site.memberCount.plus }}</span></div><div class="lbl">Active members across fintech & financial services</div></div>
       <div class="partner-stat"><div class="n">120<span class="plus">+</span></div><div class="lbl">Events hosted every year across three chapters</div></div>
       <div class="partner-stat"><div class="n">3</div><div class="lbl">Regional chapters — NYC, SF, Chicago</div></div>
       <div class="partner-stat"><div class="n">8 <span style="font-size:24px; color:var(--muted)">yrs</span></div><div class="lbl">Building the community, one room at a time</div></div>
@@ -471,14 +471,14 @@
   // Animated counter for the floating stat
   const num = document.querySelector('.floating-stat .num');
   if (num) {
-    const target = 20000;
+    const target = Number(num.dataset.target);
     let current = 0;
     const duration = 1600;
     const step = target / (duration / 16);
     const animate = () => {
       current += step;
       if (current >= target) {
-        num.innerHTML = '20,000<span class="plus">+</span>';
+        num.innerHTML = target.toLocaleString() + '<span class="plus">+</span>';
         return;
       }
       num.innerHTML = Math.floor(current).toLocaleString() + '<span class="plus">+</span>';

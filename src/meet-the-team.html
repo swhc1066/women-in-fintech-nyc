@@ -64,34 +64,17 @@ active: "meet-the-team.html"
 <!-- TEAM -->
 <section class="section" style="padding-top: 8px;">
   <div class="wrap">
+    {%- for group in team.groups %}
     <div class="team-block">
-      <div class="block-head"><h2>Founders &amp; chairs</h2><span class="count">The core team</span></div>
-      <div class="team-grid five">
-        <a class="team-card" href="https://www.linkedin.com/in/michellektran" target="_blank" rel="noopener"><div class="team-photo g1"><span class="tag-li">in</span><img src="images/team/michelle-tran.jpg" alt="Michelle Tran" loading="lazy"></div><div class="team-info"><h3 class="nm">Michelle Tran</h3><div class="rl">Co-Founder · Operations Chair</div></div></a>
-        <a class="team-card" href="https://www.linkedin.com/in/sasha-pilch" target="_blank" rel="noopener"><div class="team-photo g2"><span class="tag-li">in</span><img src="images/team/sasha-pilch.jpg" alt="Sasha Pilch" loading="lazy"></div><div class="team-info"><h3 class="nm">Sasha Pilch</h3><div class="rl">Co-Founder · Sponsorship Chair</div></div></a>
-        <a class="team-card" href="https://www.linkedin.com/in/kristen-stewart-34516814" target="_blank" rel="noopener"><div class="team-photo g3"><span class="tag-li">in</span><img src="images/team/kristen-stewart.jpg" alt="Kristen Stewart" loading="lazy"></div><div class="team-info"><h3 class="nm">Kristen Stewart</h3><div class="rl">Events Chair</div></div></a>
-        <a class="team-card" href="https://www.linkedin.com/in/ratikagandhi" target="_blank" rel="noopener"><div class="team-photo g4"><span class="tag-li">in</span><img src="images/team/ratika-gandhi.jpg" alt="Ratika Gandhi" loading="lazy"></div><div class="team-info"><h3 class="nm">Ratika Gandhi</h3><div class="rl">Professional Development Chair</div></div></a>
-        <a class="team-card" href="https://www.linkedin.com/in/fnoghani" target="_blank" rel="noopener"><div class="team-photo g5"><span class="tag-li">in</span><img src="images/team/filippa-noghani.jpg" alt="Filippa Noghani" loading="lazy"></div><div class="team-info"><h3 class="nm">Filippa Noghani</h3><div class="rl">Marketing Chair</div></div></a>
+      <div class="block-head"><h2>{{ group.heading | safe }}</h2><span class="count">{{ group.subtitle }}</span></div>
+      <div class="team-grid{{ group.gridModifier }}">
+        {%- for member in team.members %}{% if member.group == group.id %}
+        <a class="team-card" href="{{ member.linkedin }}" target="_blank" rel="noopener"><div class="team-photo {{ member.gradient }}"><span class="tag-li">in</span><img src="{{ member.photo }}" alt="{{ member.name }}" loading="lazy"></div><div class="team-info"><h3 class="nm">{{ member.name }}</h3><div class="rl">{{ member.role }}</div></div></a>
+        {%- endif %}{% endfor %}
       </div>
     </div>
 
-    <div class="team-block">
-      <div class="block-head"><h2>Committee &amp; team</h2><span class="count">The builders behind the scenes</span></div>
-      <div class="team-grid">
-        <a class="team-card" href="https://www.linkedin.com/in/elsie-brown-9626971a" target="_blank" rel="noopener"><div class="team-photo g6"><span class="tag-li">in</span><img src="images/team/elsie-russell-brown.jpg" alt="Elsie Russell Brown" loading="lazy"></div><div class="team-info"><h3 class="nm">Elsie Russell Brown</h3><div class="rl">Operations Team Member</div></div></a>
-        <a class="team-card" href="https://www.linkedin.com/in/christinadonnelly" target="_blank" rel="noopener"><div class="team-photo g7"><span class="tag-li">in</span><img src="images/team/christina-donnelly.jpg" alt="Christina Donnelly" loading="lazy"></div><div class="team-info"><h3 class="nm">Christina Donnelly</h3><div class="rl">Events Team Member</div></div></a>
-        <a class="team-card" href="https://www.linkedin.com/in/angelie-xiong-792623126" target="_blank" rel="noopener"><div class="team-photo g1"><span class="tag-li">in</span><img src="images/team/angelie-xiong.jpg" alt="Angelie Xiong" loading="lazy"></div><div class="team-info"><h3 class="nm">Angelie Xiong</h3><div class="rl">Events Team Member</div></div></a>
-        <a class="team-card" href="https://www.linkedin.com/in/jacqueline--tran" target="_blank" rel="noopener"><div class="team-photo g2"><span class="tag-li">in</span><img src="images/team/jacqueline-tran.jpg" alt="Jacqueline Tran" loading="lazy"></div><div class="team-info"><h3 class="nm">Jacqueline Tran</h3><div class="rl">Co-Founder Matching · Marketing Committee</div></div></a>
-        <a class="team-card" href="https://www.linkedin.com/in/evan-z-58737b90" target="_blank" rel="noopener"><div class="team-photo g3"><span class="tag-li">in</span><img src="images/team/evan-zhang.jpg" alt="Evan Zhang" loading="lazy"></div><div class="team-info"><h3 class="nm">Evan Zhang</h3><div class="rl">Hire Her</div></div></a>
-        <a class="team-card" href="https://www.linkedin.com/in/clairefrancispriestley" target="_blank" rel="noopener"><div class="team-photo g4"><span class="tag-li">in</span><img src="images/team/claire-priestley.jpg" alt="Claire Priestley" loading="lazy"></div><div class="team-info"><h3 class="nm">Claire Priestley</h3><div class="rl">Marketing Committee Member</div></div></a>
-        <a class="team-card" href="https://www.linkedin.com/in/meganchang98" target="_blank" rel="noopener"><div class="team-photo g5"><span class="tag-li">in</span><img src="images/team/megan-chang.jpg" alt="Megan Chang" loading="lazy"></div><div class="team-info"><h3 class="nm">Megan Chang</h3><div class="rl">Marketing Committee Member</div></div></a>
-        <a class="team-card" href="https://www.linkedin.com/in/elizwagg" target="_blank" rel="noopener"><div class="team-photo g6"><span class="tag-li">in</span><img src="images/team/elizabeth-waggoner.jpg" alt="Elizabeth Waggoner" loading="lazy"></div><div class="team-info"><h3 class="nm">Elizabeth Waggoner</h3><div class="rl">Marketing Committee Member</div></div></a>
-        <a class="team-card" href="https://www.linkedin.com/in/diwakshi" target="_blank" rel="noopener"><div class="team-photo g7"><span class="tag-li">in</span><img src="images/team/diwakshi-tejaswi.jpg" alt="Diwakshi Tejaswi" loading="lazy"></div><div class="team-info"><h3 class="nm">Diwakshi Tejaswi</h3><div class="rl">Marketing Committee Member</div></div></a>
-        <a class="team-card" href="https://www.linkedin.com/in/tmmaggiewong" target="_blank" rel="noopener"><div class="team-photo g1"><span class="tag-li">in</span><img src="images/team/maggie-wong.jpg" alt="Maggie Wong" loading="lazy"></div><div class="team-info"><h3 class="nm">Maggie Wong</h3><div class="rl">Marketing Committee Member</div></div></a>
-        <a class="team-card" href="https://www.linkedin.com/in/anli-valdez" target="_blank" rel="noopener"><div class="team-photo g2"><span class="tag-li">in</span><img src="images/team/anli-valdez.jpg" alt="Anli Valdez" loading="lazy"></div><div class="team-info"><h3 class="nm">Anli Valdez</h3><div class="rl">Marketing Committee Member</div></div></a>
-        <a class="team-card" href="https://www.linkedin.com/in/ivie-clifford" target="_blank" rel="noopener"><div class="team-photo g3"><span class="tag-li">in</span><img src="images/team/ivie-clifford.jpg" alt="Ivie Clifford" loading="lazy"></div><div class="team-info"><h3 class="nm">Ivie Clifford</h3><div class="rl">Marketing Committee Member</div></div></a>
-      </div>
-    </div>
+    {%- endfor %}
 
     <div class="join-team">
       <h2>Want to help build this?</h2>

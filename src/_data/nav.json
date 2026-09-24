@@ -77,7 +77,7 @@
   ],
 
   "footer": {
-    "tagline": "A community of 20,000+ women shaping the future of financial services across NYC, San Francisco, and Chicago.",
+    "tagline": "A community of {memberCount} women shaping the future of financial services across NYC, San Francisco, and Chicago.",
     "columns": [
       {
         "heading": "Events",
