@@ -276,11 +276,21 @@
       .replace(/^-|-$/g, '');
   }
 
+  /* The inline markers, removed. An excerpt is read as plain text -- a meta
+     description, a JSON-LD field, a card -- where "[Alessia Russo](https://...)"
+     would be printed as written. */
+  function stripInline(text) {
+    return String(text == null ? '' : text)
+      .replace(/\[([^\]]+)\]\([^)\s]*\)/g, '$1')
+      .replace(/\*\*([^*]+)\*\*/g, '$1')
+      .replace(/(^|[^*])\*([^*]+)\*/g, '$1$2');
+  }
+
   /* First ~240 chars on a word boundary. No trailing ellipsis: the existing
      cards on fintech-female-fridays.html end mid-thought without one. */
   function makeExcerpt(text, max) {
     var limit = max || 240;
-    var flat = String(text == null ? '' : text).replace(/\s+/g, ' ').trim();
+    var flat = stripInline(text).replace(/\s+/g, ' ').trim();
     if (flat.length <= limit) return flat;
     var cut = flat.slice(0, limit);
     var lastSpace = cut.lastIndexOf(' ');

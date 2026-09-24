@@ -12,7 +12,7 @@ Static marketing website for NYC Fintech Women, a community for women building c
 | Inspiring Fintech Females | `inspiring-fintech-females.html` |
 | Co-Founder Matching | `co-founder-matching.html` |
 | Meet the Team | `meet-the-team.html` |
-| FFF post pages | `fff-<slug>.html` (generated — see below) |
+| FFF post pages | `fff-<slug>.html` (built from `src/posts/<slug>.html`) |
 | Post editor | `admin/index.html` |
 
 ## Tech stack
@@ -63,7 +63,8 @@ template engine reflows is ignored while real changes are still caught.
 │   ├── inspiring-fintech-females.html
 │   ├── co-founder-matching.html
 │   ├── meet-the-team.html
-│   ├── fff-shira-amrany.html   # A generated Fintech Female Fridays post
+│   ├── posts/           # Fintech Female Fridays posts, one file each:
+│   │                    # front matter only, rendered to /fff-<slug>.html
 │   ├── site.css
 │   ├── nav-mobile.js
 │   ├── robots.txt
@@ -71,9 +72,12 @@ template engine reflows is ignored while real changes are still caught.
 │   └── admin/           # Post editor (not linked from the site)
 ├── api/                 # Vercel Functions — must stay at the repo root,
 │   └── events.js        # NOT in src/, or Vercel won't detect them
-├── tools/               # Dev-only regression harness (not deployed)
+├── lib/                 # Shared build code
+│   └── render-blocks.mjs   # Turns a post's blocks into HTML
+├── tools/               # Dev-only (not deployed)
 │   ├── htmlcanon.mjs
-│   └── snapshot.mjs
+│   ├── snapshot.mjs
+│   └── import-wix-post.mjs # One-shot: Wix archive -> src/posts/
 ├── eleventy.config.js
 ├── _site/               # Build output — generated, gitignored
 └── design/              # Reference PDFs from the design process
@@ -132,6 +136,33 @@ and which mobile drawer group starts open.
 > One copy remains, in `src/admin/templates.js`, because the post editor still
 > generates standalone HTML in the browser. It is flagged in that file and goes
 > away when posts become build-rendered data.
+
+### Posts
+
+All seven Fintech Female Fridays posts live in `src/posts/` as data. A post
+file is front matter and nothing else: the metadata, an `intro`, and a `blocks`
+list of `paragraph`, `heading`, `qa`, `quote`, `list` and `image` entries that
+`lib/render-blocks.mjs` turns into the page. Eleventy writes each one to
+`fff-<slug>.html`, where every inbound link already points.
+
+Text in a block is the author's plain source, not HTML. Three inline markers
+are understood — `**bold**`, `*italic*` and `[text](url)` — and the renderer
+applies smart quotes and dashes on the way out. That pass is one-way, so never
+paste rendered text back into a post file.
+
+The six posts that used to live on Wix were imported from the HTML archive by
+`tools/import-wix-post.mjs`, which is committed so the import can be rerun and
+reviewed rather than taken on trust. It needs the archive at
+`~/Desktop/Projects/wix-archive-nycfintechwomen/` and, for resizing the images
+it pulls out, macOS `sips`:
+
+```bash
+node tools/import-wix-post.mjs --all            # rewrite every post file
+node tools/import-wix-post.mjs --post mor-grisariu --dry-run
+```
+
+It overwrites `src/posts/`, so hand-edits to a post are lost on a rerun. Once
+Wix is gone the tool has nothing to read and can go.
 
 ### Team member gradients
 
@@ -196,6 +227,12 @@ then:
 Drafts autosave to `localStorage`, so a reload won't lose work — but the image
 file itself must be re-selected (only its path is stored). Use **Export JSON** to
 move a draft between machines.
+
+> **The editor still predates the posts pipeline.** Every published post is now
+> a data file in `src/posts/`, while the editor downloads a finished standalone
+> page. Until Phase 5 rewrites it to write a post file instead, the editor's
+> HTML is a preview: take its **Export JSON** and hand-write the front matter,
+> rather than committing the downloaded page.
 
 ### Maintenance
 
