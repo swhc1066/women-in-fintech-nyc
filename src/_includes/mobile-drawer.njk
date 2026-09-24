@@ -12,11 +12,11 @@
       <div class="mobile-nav-group{% if open %} open{% endif %}">
         <button type="button" class="mobile-nav-trigger{% if open %} current{% endif %}" aria-expanded="{{ "true" if open else "false" }}">{{ group.label }}</button>
         {%- if group.inline %}
-        <div class="mobile-nav-sub">{% for child in group.children %}<a href="{{ child.href | selfLink(selfPage) }}"{% if child.href == active %} class="active"{% endif %}>{{ child.label }}</a>{% endfor %}</div>
+        <div class="mobile-nav-sub">{% for child in group.children %}<a href="{{ child.href | resolveUrl(site) | selfLink(selfPage) }}"{% if child.href == active %} class="active"{% endif %}>{{ child.label }}</a>{% endfor %}</div>
         {%- else %}
         <div class="mobile-nav-sub">
           {%- for child in group.children %}
-          <a href="{{ child.href | selfLink(selfPage) }}"{% if child.href == active %} class="active"{% endif %}>{{ child.label }}</a>
+          <a href="{{ child.href | resolveUrl(site) | selfLink(selfPage) }}"{% if child.href == active %} class="active"{% endif %}>{{ child.label }}</a>
           {%- endfor %}
         </div>
         {%- endif %}
@@ -24,7 +24,7 @@
       {%- endfor %}
     </div>
     <div class="mobile-nav-foot">
-      <a href="#" class="btn btn-pink">Become a Member</a>
+      <a href="{{ site.membershipUrl }}" class="btn btn-pink">Become a Member</a>
     </div>
   </aside>
 </div>

@@ -6,7 +6,7 @@
     "ctas": [
       {
         "label": "Become a Member →",
-        "href": "#",
+        "href": "{membershipUrl}",
         "style": "btn btn-pink"
       },
       {

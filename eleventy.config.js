@@ -30,6 +30,16 @@ export default function (eleventyConfig) {
     return (item.children || []).some((child) => child.href === active);
   });
 
+  /* Data files are JSON and cannot interpolate, so a link that should point at
+     a value from site.json carries a {token} instead. Today only
+     {membershipUrl} uses this — membership signup still lives on the old Wix
+     site, so the destination will change at cutover and is written once. */
+  eleventyConfig.addFilter('resolveUrl', (href, site) =>
+    typeof href === 'string' && href.startsWith('{') && href.endsWith('}')
+      ? (site[href.slice(1, -1)] || '#')
+      : href
+  );
+
   /* On the page a link points at, the site links to an anchor rather than
      reloading itself: events.html#past becomes #past on events.html. */
   eleventyConfig.addFilter('selfLink', (href, selfPage) =>

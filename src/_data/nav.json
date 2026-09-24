@@ -28,7 +28,7 @@
       "href": "meet-the-team.html",
       "children": [
         { "label": "Meet the Team", "href": "meet-the-team.html" },
-        { "label": "Become a Member", "href": "#" },
+        { "label": "Become a Member", "href": "{membershipUrl}" },
         { "label": "Sponsor", "href": "#" }
       ]
     },
@@ -70,7 +70,7 @@
       "inline": false,
       "children": [
         { "label": "Meet the Team", "href": "meet-the-team.html" },
-        { "label": "Become a Member", "href": "#" },
+        { "label": "Become a Member", "href": "{membershipUrl}" },
         { "label": "Sponsor", "href": "#" }
       ]
     }
@@ -102,7 +102,7 @@
       {
         "heading": "Get involved",
         "links": [
-          { "label": "Become a Member", "href": "#" },
+          { "label": "Become a Member", "href": "{membershipUrl}" },
           { "label": "Sponsor", "href": "#" },
           { "label": "Contact", "href": "#" },
           { "label": "LinkedIn", "href": "#" }

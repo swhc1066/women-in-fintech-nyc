@@ -6,9 +6,9 @@
     <div class="nav-links">
       {%- for item in nav.primary %}
       {%- if item.children %}
-      <div class="has-menu"><a href="{{ item.href | selfLink(selfPage) }}"{% if item | isCurrent(active) %} class="active"{% endif %}>{{ item.label }}</a><div class="dropdown">{% for child in item.children %}<a href="{{ child.href | selfLink(selfPage) }}"{% if child.href == active %} class="active"{% endif %}>{{ child.label }}</a>{% endfor %}</div></div>
+      <div class="has-menu"><a href="{{ item.href | resolveUrl(site) | selfLink(selfPage) }}"{% if item | isCurrent(active) %} class="active"{% endif %}>{{ item.label }}</a><div class="dropdown">{% for child in item.children %}<a href="{{ child.href | resolveUrl(site) | selfLink(selfPage) }}"{% if child.href == active %} class="active"{% endif %}>{{ child.label }}</a>{% endfor %}</div></div>
       {%- else %}
-      <a href="{{ item.href }}"{% if item.href == active %} class="active"{% endif %}>{{ item.label }}</a>
+      <a href="{{ item.href | resolveUrl(site) }}"{% if item.href == active %} class="active"{% endif %}>{{ item.label }}</a>
       {%- endif %}
       {%- endfor %}
     </div>

@@ -12,7 +12,7 @@
         <p>{{ nav.footer.tagline | replace("{memberCount}", site.memberCount.display + site.memberCount.plus) }}</p>
       </div>
       {%- for column in nav.footer.columns %}
-      <div class="foot-col"><h4>{{ column.heading }}</h4><ul>{% for link in column.links %}<li><a href="{{ link.href | selfLink(selfPage) }}">{{ link.label }}</a></li>{% endfor %}</ul></div>
+      <div class="foot-col"><h4>{{ column.heading }}</h4><ul>{% for link in column.links %}<li><a href="{{ link.href | resolveUrl(site) | selfLink(selfPage) }}">{{ link.label }}</a></li>{% endfor %}</ul></div>
       {%- endfor %}
     </div>
     <div class="foot-bot"><span>{{ nav.footer.copyright }}</span><span>{{ nav.footer.builtWith }}</span></div>

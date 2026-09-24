@@ -268,7 +268,7 @@
       <p>{{ home.hero.body | replace("{memberCount}", "" ~ site.memberCount.display ~ site.memberCount.plus) }}</p>
       <div class="hero-ctas">
         {%- for cta in home.hero.ctas %}
-        <a href="{{ cta.href }}" class="{{ cta.style }}">{{ cta.label }}</a>
+        <a href="{{ cta.href | resolveUrl(site) }}" class="{{ cta.style }}">{{ cta.label }}</a>
         {%- endfor %}
         <span class="more">{{ home.hero.ctaNote }}</span>
       </div>
@@ -422,7 +422,7 @@
       {%- endfor %}
     </div>
     <div class="why-cta">
-      <a href="#" class="btn btn-pink">Become a Member →</a>
+      <a href="{{ site.membershipUrl }}" class="btn btn-pink">Become a Member →</a>
     </div>
   </div>
 </section>
@@ -451,7 +451,7 @@
     <h2>This community exists because the industry wasn't built for us. <em>We're changing it from within.</em></h2>
     <p>The number of women leading, building, and investing in financial services has grown — but the structural barriers, missing connections, and rooms women still aren't in haven't disappeared on their own. NYC Fintech Women exists because women in this industry deserve a community built specifically for them — not an afterthought or a diversity initiative. A substantive network where careers get accelerated and ambitions get taken seriously.</p>
     <p style="color: var(--plum); font-weight: 500;">If you're ready to build your real career in a real community with likeminded women, this is where you start.</p>
-    <a href="#" class="btn btn-pink" style="margin-top: 12px;">Become a Member →</a>
+    <a href="{{ site.membershipUrl }}" class="btn btn-pink" style="margin-top: 12px;">Become a Member →</a>
   </div>
 </section>
 

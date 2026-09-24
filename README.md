@@ -86,6 +86,7 @@ Most of what changes over time now lives in `src/_data/` as JSON, not markup:
 | Change | File |
 |---|---|
 | Member count (appears on all 11 pages) | `site.json` |
+| Where "Become a Member" points (50 links) | `site.json` |
 | Team members, roles, LinkedIn links | `team.json` |
 | Homepage hero copy, stats, why-join cards | `home.json` |
 | Nav, drawer and footer links | `nav.json` |
@@ -98,6 +99,14 @@ Two conventions worth knowing:
 
 - `{memberCount}` inside a string is replaced with the current count, so
   taglines never restate the number.
+- A link `href` of `{membershipUrl}` resolves to `site.membershipUrl`. JSON
+  cannot interpolate, so data files reference site values by token.
+
+> **Membership signup still lives on the old Wix site.** All 50 "Become a
+> Member" links point there via `site.membershipUrl`. When the rebuild takes
+> over the domain that URL dies, so a signup page has to exist here first —
+> then change the one value in `site.json`. The Wix form is Wix-native, so its
+> 18 fields and its submissions do not come across on their own.
 - Fields rendered with `| safe` may contain HTML — the hero headline uses
   `<em>` and `<span class="underline">`. Everything else is escaped.
 
