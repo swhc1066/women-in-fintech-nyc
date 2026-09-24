@@ -20,12 +20,6 @@ selfPage: "events.html"
   .chip:hover { border-color: var(--pink); color: var(--pink-deep); }
   .chip.active { background: var(--pink); border-color: var(--pink); color: #fff; }
   .empty { display: none; text-align: center; color: var(--muted); padding: 48px; font-size: 15px; }
-  /* Luma-backed cards are links; the .event styles come from site.css. */
-  a.event { text-decoration: none; color: inherit; }
-  .event-img.has-cover { background-size: cover; background-position: center; }
-  .event-img.has-cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.28) 0%, rgba(0,0,0,0) 55%); }
-  .event-img .date-chip { z-index: 1; }
-  .events-grid.is-loading { opacity: .55; transition: opacity .2s; }
   /* past events */
   .past { background: linear-gradient(135deg, var(--soft) 0%, var(--soft-2) 100%); }
   .past-list { display: flex; flex-direction: column; gap: 0; background: #fff; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; }
@@ -105,6 +99,7 @@ selfPage: "events.html"
 <!-- FOOTER -->
 {% include "footer.njk" %}
 
+<script src="luma-events.js"></script>
 <script>
   const chips = document.querySelectorAll('.chip');
   const grid = document.getElementById('grid');
@@ -130,99 +125,9 @@ selfPage: "events.html"
     applyFilter();
   }));
 
-  /* ---------------- Luma-backed upcoming events ----------------
-     /api/events proxies the Luma calendar (the API key is server-side only).
-     If it is unreachable, unconfigured, or returns nothing, the events already
-     in the HTML stay on the page — the section never renders empty. */
-
-  const VARIANTS = ['', 'v-pink', 'v-plum', 'v-sun', 'v-mint'];
-
-  function fmt(iso, timezone, opts) {
-    try {
-      return new Intl.DateTimeFormat('en-US', Object.assign({ timeZone: timezone }, opts)).format(new Date(iso));
-    } catch (e) {
-      return new Intl.DateTimeFormat('en-US', opts).format(new Date(iso));
-    }
-  }
-
-  function el(tag, className, text) {
-    const node = document.createElement(tag);
-    if (className) node.className = className;
-    if (text != null) node.textContent = text;   // never innerHTML: event names come from Luma
-    return node;
-  }
-
-  function eventTag(ev) {
-    if (ev.tags && ev.tags.length) return ev.tags[0];
-    if (ev.membersOnly) return 'Members only';
-    if (ev.locationType === 'zoom' || ev.locationType === 'meet') return 'Online';
-    return 'In person';
-  }
-
-  function card(ev, index) {
-    const a = el('a', 'event' + (VARIANTS[index % VARIANTS.length] ? ' ' + VARIANTS[index % VARIANTS.length] : ''));
-    a.href = ev.url;
-    a.target = '_blank';
-    a.rel = 'noopener';
-    a.dataset.city = ev.city;
-
-    const img = el('div', 'event-img');
-    if (ev.coverUrl) {
-      img.classList.add('has-cover');
-      img.style.backgroundImage = 'url("' + encodeURI(ev.coverUrl) + '")';
-    } else {
-      img.appendChild(el('span', null, 'NYC Fintech Women'));
-    }
-    const chip = el('div', 'date-chip');
-    chip.appendChild(el('div', 'd', fmt(ev.startAt, ev.timezone, { day: '2-digit' })));
-    chip.appendChild(el('div', 'm', fmt(ev.startAt, ev.timezone, { month: 'short' })));
-    img.appendChild(chip);
-    a.appendChild(img);
-
-    const body = el('div', 'event-body');
-    body.appendChild(el('span', 'event-tag', eventTag(ev)));
-    body.appendChild(el('h3', 'event-name', ev.name));
-
-    const meta = el('div', 'event-meta');
-    meta.appendChild(el('span', null,
-      fmt(ev.startAt, ev.timezone, { month: 'short', day: 'numeric' }) + ' · ' +
-      fmt(ev.startAt, ev.timezone, { hour: 'numeric', minute: '2-digit' })));
-    if (ev.place) {
-      meta.appendChild(el('span', 'sep', '·'));
-      meta.appendChild(el('span', null, ev.place));
-    }
-    body.appendChild(meta);
-    body.appendChild(el('span', 'event-cta', 'RSVP →'));
-    a.appendChild(body);
-    return a;
-  }
-
-  async function loadLumaEvents() {
-    grid.classList.add('is-loading');
-    try {
-      // no-store applies to the *browser* cache only; the CDN still serves its
-      // own cached copy (s-maxage=300), so Luma is not hit on every view.
-      const res = await fetch('/api/events', { cache: 'no-store', headers: { accept: 'application/json' } });
-      if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
-        console.warn('[events] keeping built-in events — /api/events returned', res.status, body.error || '');
-        return;
-      }
-      const data = await res.json();
-      if (!data.events || !data.events.length) {
-        console.warn('[events] keeping built-in events — Luma returned no upcoming events');
-        return;
-      }
-      grid.replaceChildren(...data.events.map(card));
-      applyFilter();
-    } catch (err) {
-      console.warn('[events] keeping built-in events —', err.message);
-    } finally {
-      grid.classList.remove('is-loading');
-    }
-  }
-
-  loadLumaEvents();
+  /* Cards are rendered by luma-events.js, shared with the chapter pages. The
+     six events already in the HTML stay put if /api/events has nothing. */
+  LumaEvents.load({ grid: grid, onRender: applyFilter });
 </script>
 <script src="nav-mobile.js"></script>
 

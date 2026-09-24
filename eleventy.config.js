@@ -18,6 +18,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ 'src/images': 'images' });
   eleventyConfig.addPassthroughCopy({ 'src/site.css': 'site.css' });
   eleventyConfig.addPassthroughCopy({ 'src/nav-mobile.js': 'nav-mobile.js' });
+  eleventyConfig.addPassthroughCopy({ 'src/luma-events.js': 'luma-events.js' });
   eleventyConfig.addPassthroughCopy({ 'src/robots.txt': 'robots.txt' });
 
   /* A page is "current" if the link is its own, and a dropdown parent is

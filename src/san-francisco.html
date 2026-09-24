@@ -99,7 +99,7 @@ logo: "sfo"
       </div>
       <a href="events.html" class="btn btn-ghost">All events →</a>
     </div>
-    <div class="event-2col">
+    <div class="event-2col" id="chapter-events">
       <article class="event v-pink">
         <div class="event-img">
           <div class="date-chip"><div class="d">22</div><div class="m">Jun</div></div>
@@ -209,6 +209,17 @@ logo: "sfo"
 <!-- FOOTER -->
 {% include "footer.njk" %}
 
+<script src="luma-events.js"></script>
+<script>
+  /* The next two San Francisco events from the Luma calendar. If /api/events has
+     nothing for this city, the two events already in the HTML stay. */
+  LumaEvents.load({
+    grid: document.getElementById('chapter-events'),
+    city: 'sf',
+    limit: 2,
+    variants: ['v-pink', 'v-mint']
+  });
+</script>
 <script src="nav-mobile.js"></script>
 </body>
 </html>

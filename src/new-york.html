@@ -104,7 +104,7 @@ active: "new-york.html"
       </div>
       <a href="events.html" class="btn btn-ghost">All events →</a>
     </div>
-    <div class="event-2col">
+    <div class="event-2col" id="chapter-events">
       <article class="event">
         <div class="event-img">
           <div class="date-chip"><div class="d">14</div><div class="m">Jun</div></div>
@@ -218,6 +218,17 @@ active: "new-york.html"
 <!-- FOOTER -->
 {% include "footer.njk" %}
 
+<script src="luma-events.js"></script>
+<script>
+  /* The next two New York events from the Luma calendar. If /api/events has
+     nothing for this city, the two events already in the HTML stay. */
+  LumaEvents.load({
+    grid: document.getElementById('chapter-events'),
+    city: 'nyc',
+    limit: 2,
+    variants: ['', 'v-sun']
+  });
+</script>
 <script src="nav-mobile.js"></script>
 </body>
 </html>
