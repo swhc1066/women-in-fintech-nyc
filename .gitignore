@@ -9,3 +9,7 @@ Thumbs.db
 # Vercel
 .vercel
 node_modules/
+
+# Build output
+_site/
+.cache/

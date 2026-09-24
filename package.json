@@ -4,5 +4,12 @@
   "type": "module",
   "engines": {
     "node": "22.x"
+  },
+  "scripts": {
+    "verify": "node tools/snapshot.mjs",
+    "verify:self-test": "node tools/snapshot.mjs --self-test"
+  },
+  "devDependencies": {
+    "parse5": "^8.0.1"
   }
 }
