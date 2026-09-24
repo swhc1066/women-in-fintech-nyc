@@ -48,6 +48,12 @@ template engine reflows is ignored while real changes are still caught.
 ```
 .
 ├── src/                 # everything the site is built from
+│   ├── _data/
+│   │   └── nav.json     # nav, mobile drawer and footer links — ONE source
+│   ├── _includes/       # shared chrome, rendered into every page
+│   │   ├── nav.njk
+│   │   ├── mobile-drawer.njk
+│   │   └── footer.njk
 │   ├── index.html
 │   ├── events.html
 │   ├── fintech-female-fridays.html
@@ -70,9 +76,28 @@ template engine reflows is ignored while real changes are still caught.
 └── design/              # Reference PDFs from the design process
 ```
 
-> Files in `src/` are currently copied verbatim — no templating yet. That is
-> deliberate: it let the build step be introduced and proven inert before any
-> page was converted to a template.
+### Editing the navigation
+
+The nav, mobile drawer and footer used to exist as 12 copy-pasted blocks. They
+now live in [`src/_data/nav.json`](src/_data/nav.json) and render through
+`src/_includes/`. **Change the nav in one place.**
+
+Each page declares its own state in front matter:
+
+```yaml
+---
+active: "chicago.html"    # which link is highlighted; omit for pages not in the nav
+logo: "chi"               # nyc (default) | chi | sfo
+selfPage: "events.html"   # links to this page become #anchors instead of reloads
+---
+```
+
+`active` drives everything: the highlighted top-level link, its dropdown parent,
+and which mobile drawer group starts open.
+
+> One copy remains, in `src/admin/templates.js`, because the post editor still
+> generates standalone HTML in the browser. It is flagged in that file and goes
+> away when posts become build-rendered data.
 
 ## Luma events integration
 

@@ -1,0 +1,21 @@
+{#
+  footerTagline is a per-page override kept only so this refactor changes no
+  output: co-founder-matching.html says "10,000+ members" where every other
+  page says "20,000+ women". That inconsistency is real and predates this
+  change; it gets resolved when the member count moves into site data, as a
+  deliberate, reviewed edit rather than a silent side effect of templating.
+#}
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand"><span class="dot"></span> NYC Fintech Women</div>
+        <p>{{ footerTagline | default(nav.footer.tagline) }}</p>
+      </div>
+      {%- for column in nav.footer.columns %}
+      <div class="foot-col"><h4>{{ column.heading }}</h4><ul>{% for link in column.links %}<li><a href="{{ link.href | selfLink(selfPage) }}">{{ link.label }}</a></li>{% endfor %}</ul></div>
+      {%- endfor %}
+    </div>
+    <div class="foot-bot"><span>{{ nav.footer.copyright }}</span><span>{{ nav.footer.builtWith }}</span></div>
+  </div>
+</footer>

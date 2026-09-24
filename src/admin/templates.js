@@ -3,9 +3,15 @@
  * Classic script, no modules: the admin tool must work from file:// as well as
  * over http, and ES modules are hard-blocked on file:// (origin null).
  *
- * MAINTENANCE: NAV_HTML / MOBILE_NAV_HTML / FOOTER_HTML below are copies of the
- * markup in the 10 root pages. There is no templating on this site, so when the
- * nav or footer changes, update them here too or generated posts will drift.
+ * MAINTENANCE: NAV_HTML / MOBILE_NAV_HTML / FOOTER_HTML below are the LAST
+ * hand-maintained copy of the site chrome. The 11 pages now render theirs from
+ * src/_data/nav.json via src/_includes/, so a nav change means editing exactly
+ * two places: nav.json, and these constants.
+ *
+ * This copy survives only because the editor still generates standalone post
+ * HTML in the browser. Once posts become data that the build renders, it goes
+ * away and nav.json becomes the single source. Until then: change nav.json,
+ * change these too, or newly generated posts ship an out-of-date nav.
  * Backticks and ${ inside that markup must be escaped.
  */
 (function () {

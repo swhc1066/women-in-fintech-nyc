@@ -1,0 +1,30 @@
+{%- set brand = nav.logos[logo | default("nyc")] -%}
+<div class="mobile-nav" id="mobile-nav" aria-hidden="true">
+  <div class="mobile-nav-backdrop"></div>
+  <aside class="mobile-nav-panel" role="dialog" aria-modal="true" aria-label="Navigation menu">
+    <div class="mobile-nav-head">
+      <div class="mobile-nav-brand"><img src="{{ brand.src }}" alt="{{ brand.alt }}"></div>
+      <button type="button" class="mobile-nav-close" aria-label="Close menu">&times;</button>
+    </div>
+    <div class="mobile-nav-body">
+      {%- for group in nav.mobile %}
+      {%- set open = group | isCurrent(active) %}
+      <div class="mobile-nav-group{% if open %} open{% endif %}">
+        <button type="button" class="mobile-nav-trigger{% if open %} current{% endif %}" aria-expanded="{{ "true" if open else "false" }}">{{ group.label }}</button>
+        {%- if group.inline %}
+        <div class="mobile-nav-sub">{% for child in group.children %}<a href="{{ child.href | selfLink(selfPage) }}"{% if child.href == active %} class="active"{% endif %}>{{ child.label }}</a>{% endfor %}</div>
+        {%- else %}
+        <div class="mobile-nav-sub">
+          {%- for child in group.children %}
+          <a href="{{ child.href | selfLink(selfPage) }}"{% if child.href == active %} class="active"{% endif %}>{{ child.label }}</a>
+          {%- endfor %}
+        </div>
+        {%- endif %}
+      </div>
+      {%- endfor %}
+    </div>
+    <div class="mobile-nav-foot">
+      <a href="#" class="btn btn-pink">Become a Member</a>
+    </div>
+  </aside>
+</div>

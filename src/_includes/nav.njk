@@ -1,0 +1,22 @@
+{%- set brand = nav.logos[logo | default("nyc")] -%}
+<nav class="nav">
+  <div class="wrap">
+    <div class="nav-inner">
+    <a href="index.html" class="logo"><img src="{{ brand.src }}" alt="{{ brand.alt }}"></a>
+    <div class="nav-links">
+      {%- for item in nav.primary %}
+      {%- if item.children %}
+      <div class="has-menu"><a href="{{ item.href | selfLink(selfPage) }}"{% if item | isCurrent(active) %} class="active"{% endif %}>{{ item.label }}</a><div class="dropdown">{% for child in item.children %}<a href="{{ child.href | selfLink(selfPage) }}"{% if child.href == active %} class="active"{% endif %}>{{ child.label }}</a>{% endfor %}</div></div>
+      {%- else %}
+      <a href="{{ item.href }}"{% if item.href == active %} class="active"{% endif %}>{{ item.label }}</a>
+      {%- endif %}
+      {%- endfor %}
+    </div>
+    <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+    </div>
+  </div>
+</nav>

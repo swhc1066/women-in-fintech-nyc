@@ -1,3 +1,7 @@
+---
+active: "chicago.html"
+logo: "chi"
+---
 <!doctype html>
 <html lang="en">
 <head>
@@ -57,69 +61,9 @@
 <body>
 
 <!-- NAV -->
-<nav class="nav">
-  <div class="wrap">
-    <div class="nav-inner">
-    <a href="index.html" class="logo"><img src="images/chi-fintech-women-logo.png" alt="CHI Fintech Women"></a>
-    <div class="nav-links">
-      <div class="has-menu"><a href="events.html">Events</a><div class="dropdown"><a href="events.html#upcoming">Upcoming Events</a><a href="events.html#past">Past Events</a></div></div>
-      <div class="has-menu"><a href="fintech-female-fridays.html">Our Programs</a><div class="dropdown"><a href="fintech-female-fridays.html">Fintech Female Fridays</a><a href="co-founder-matching.html">Co-founder Matching</a><a href="inspiring-fintech-females.html">Inspiring Fintech Females</a></div></div>
-      <div class="has-menu"><a href="meet-the-team.html">About</a><div class="dropdown"><a href="meet-the-team.html">Meet the Team</a><a href="#">Become a Member</a><a href="#">Sponsor</a></div></div>
-      <a href="new-york.html">New York</a>
-      <a href="chicago.html" class="active">Chicago</a>
-      <a href="san-francisco.html">San Francisco</a>
-    </div>
-    <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
-      <span class="nav-toggle-bar"></span>
-      <span class="nav-toggle-bar"></span>
-      <span class="nav-toggle-bar"></span>
-    </button>
-    </div>
-  </div>
-</nav>
+{% include "nav.njk" %}
 
-<div class="mobile-nav" id="mobile-nav" aria-hidden="true">
-  <div class="mobile-nav-backdrop"></div>
-  <aside class="mobile-nav-panel" role="dialog" aria-modal="true" aria-label="Navigation menu">
-    <div class="mobile-nav-head">
-      <div class="mobile-nav-brand"><img src="images/chi-fintech-women-logo.png" alt="CHI Fintech Women"></div>
-      <button type="button" class="mobile-nav-close" aria-label="Close menu">&times;</button>
-    </div>
-    <div class="mobile-nav-body">
-      <div class="mobile-nav-group open">
-        <button type="button" class="mobile-nav-trigger current" aria-expanded="true">Chapters</button>
-        <div class="mobile-nav-sub">
-          <a href="new-york.html">New York</a>
-          <a href="san-francisco.html">San Francisco</a>
-          <a href="chicago.html" class="active">Chicago</a>
-        </div>
-      </div>
-      <div class="mobile-nav-group">
-        <button type="button" class="mobile-nav-trigger" aria-expanded="false">Events</button>
-        <div class="mobile-nav-sub"><a href="events.html#upcoming">Upcoming Events</a><a href="events.html#past">Past Events</a></div>
-      </div>
-      <div class="mobile-nav-group">
-        <button type="button" class="mobile-nav-trigger" aria-expanded="false">Our Programs</button>
-        <div class="mobile-nav-sub">
-          <a href="fintech-female-fridays.html">Fintech Female Fridays</a>
-          <a href="co-founder-matching.html">Co-founder Matching</a>
-          <a href="inspiring-fintech-females.html">Inspiring Fintech Females</a>
-        </div>
-      </div>
-      <div class="mobile-nav-group">
-        <button type="button" class="mobile-nav-trigger" aria-expanded="false">About</button>
-        <div class="mobile-nav-sub">
-          <a href="meet-the-team.html">Meet the Team</a>
-          <a href="#">Become a Member</a>
-          <a href="#">Sponsor</a>
-        </div>
-      </div>
-    </div>
-    <div class="mobile-nav-foot">
-      <a href="#" class="btn btn-pink">Become a Member</a>
-    </div>
-  </aside>
-</div>
+{% include "mobile-drawer.njk" %}
 
 <!-- HERO -->
 <section class="chapter-hero">
@@ -263,20 +207,7 @@
 </section>
 
 <!-- FOOTER -->
-<footer>
-  <div class="wrap">
-    <div class="foot-grid">
-      <div>
-        <div class="foot-brand"><span class="dot"></span> NYC Fintech Women</div>
-        <p>A community of 20,000+ women shaping the future of financial services across NYC, San Francisco, and Chicago.</p>
-      </div>
-      <div class="foot-col"><h4>Events</h4><ul><li><a href="events.html">Events</a></li><li><a href="events.html#past">Past Events</a></li><li><a href="inspiring-fintech-females.html">Inspiring Fintech Females</a></li><li><a href="fintech-female-fridays.html">Fintech Female Fridays</a></li></ul></div>
-      <div class="foot-col"><h4>Community</h4><ul><li><a href="co-founder-matching.html">Co-founder Matching</a></li><li><a href="meet-the-team.html">Meet the Team</a></li><li><a href="inspiring-fintech-females.html">Inspiring Fintech Females</a></li><li><a href="new-york.html">New York</a></li><li><a href="san-francisco.html">San Francisco</a></li><li><a href="chicago.html">Chicago</a></li></ul></div>
-      <div class="foot-col"><h4>Get involved</h4><ul><li><a href="#">Become a Member</a></li><li><a href="#">Sponsor</a></li><li><a href="#">Contact</a></li><li><a href="#">LinkedIn</a></li></ul></div>
-    </div>
-    <div class="foot-bot"><span>© 2026 NYC Fintech Women · All rights reserved</span><span>Built with care in NYC</span></div>
-  </div>
-</footer>
+{% include "footer.njk" %}
 
 <script src="nav-mobile.js"></script>
 </body>

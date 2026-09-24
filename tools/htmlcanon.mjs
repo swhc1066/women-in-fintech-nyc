@@ -17,6 +17,27 @@ import { parse, serialize } from 'parse5';
 /* Elements where inner whitespace changes meaning or output. */
 const PRESERVE_WS = new Set(['pre', 'textarea', 'script', 'style']);
 
+/* Containers this site declares display:flex or display:grid. A whitespace-only
+   text node between flex or grid items generates no anonymous item, so it never
+   renders — regardless of whether the children are inline elements. Derived from
+   the `display: flex|grid` rules in site.css and index.html's inline <style>;
+   re-derive it if those change. This is what lets pretty-printed markup and
+   single-line markup compare equal inside the nav, dropdowns and card grids. */
+const FLEX_CONTAINERS = new Set([
+  'btn', 'dropdown', 'event', 'event-body', 'event-img', 'event-meta',
+  'events-grid', 'date-chip', 'floating-stat', 'foot-bot', 'foot-brand',
+  'foot-grid', 'hero-ctas', 'hero-grid', 'iff-card', 'iff-row', 'logo',
+  'marquee-track', 'mobile-nav-brand', 'mobile-nav-close', 'mobile-nav-foot',
+  'mobile-nav-head', 'mobile-nav-panel', 'mobile-nav-trigger', 'nav-cta',
+  'nav-inner', 'nav-links', 'nav-toggle', 'partner-inner', 'partner-stats',
+  'pill', 'sec-head', 'tile', 'why-card', 'why-grid', 'num',
+  'mobile-nav-sub', 'mobile-nav-body', 'foot-col',
+  // .has-menu is not itself flex, but its only block child (.dropdown) is
+  // position:absolute and therefore out of flow, which leaves any whitespace
+  // around it as trailing whitespace in an inline context — also not rendered.
+  'has-menu'
+]);
+
 /* Whitespace between these is layout-irrelevant. Inline elements are excluded
    because " <em>x</em>" and "<em>x</em>" genuinely differ on screen. */
 const BLOCK = new Set([
@@ -29,6 +50,13 @@ const BLOCK = new Set([
 
 const isText = (n) => n.nodeName === '#text';
 const isElement = (n) => !!n.tagName;
+
+function isFlexContainer(node) {
+  if (!isElement(node) || !node.attrs) return false;
+  const cls = node.attrs.find((a) => a.name === 'class');
+  if (!cls) return false;
+  return cls.value.split(/\s+/).some((c) => FLEX_CONTAINERS.has(c));
+}
 
 function canonicalizeNode(node, inPreserve = false) {
   if (node.attrs && node.attrs.length > 1) {
@@ -46,12 +74,22 @@ function canonicalizeNode(node, inPreserve = false) {
       const child = children[i];
 
       if (isText(child) && /^\s*$/.test(child.value)) {
-        // Drop the node only when both neighbours are block-level (or absent),
-        // so inter-word spacing around inline elements survives.
         const prev = children[i - 1];
         const next = children[i + 1];
         const blockish = (n) => !n || (isElement(n) && BLOCK.has(n.tagName));
+
+        // Between two block-level elements, whitespace never renders.
         if (blockish(prev) && blockish(next)) continue;
+
+        // Inside a flex or grid container, whitespace-only nodes never render.
+        if (isFlexContainer(node)) continue;
+
+        // Leading or trailing whitespace inside a block container is stripped
+        // by CSS white-space processing, so it cannot render either. This is
+        // what separates one-line markup from the same markup pretty-printed:
+        //   <div class="has-menu"><a>  vs  <div class="has-menu">\n  <a>
+        if (isElement(node) && BLOCK.has(node.tagName) && (!prev || !next)) continue;
+
         child.value = ' ';
         kept.push(child);
         continue;
