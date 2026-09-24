@@ -93,20 +93,41 @@
   /* A deliberately tiny whitelist applied AFTER escaping, so the markers can
      never introduce tags the author didn't ask for.
      **bold** · *italic* · [text](url) */
+  /* The bold and italic markers, applied AFTER escaping so they can never
+     introduce a tag the author didn't ask for. */
+  function applyMarkers(escaped) {
+    return escaped
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');
+  }
+
+  /* A deliberately tiny whitelist: **bold** · *italic* · [text](url)
+   *
+   * Links come out of the text first and go back in last, so the URL misses
+   * both rewrites that exist here for prose: typo(), which turned .../o'brien
+   * into .../o&rsquo;brien, and the marker pass, which turned a '*' in a path
+   * into an <em> in the middle of the href. Either one produced a dead link
+   * from a URL the author pasted correctly. */
   function renderInline(text) {
-    var out = escText(text);
-    out = out.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, function (_m, label, url) {
-      // `url` came through escText above; undo that before validating, or a
-      // query string's & ends up as &amp;amp; in the href.
-      var raw = String(url).replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
-      var href = safeUrl(raw);
+    var links = [];
+    /* NUL cannot survive in authored copy and means nothing to escText, typo
+       or the markers, which is what makes it usable as a placeholder. Any in
+       the input is dropped first so a post cannot forge one. */
+    var lifted = String(text == null ? '' : text)
+      .replace(/\0/g, '')
+      .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, function (_m, label, url) {
+        links.push({ label: label, url: url });
+        return '\0' + (links.length - 1) + '\0';
+      });
+
+    return applyMarkers(escText(lifted)).replace(/\0(\d+)\0/g, function (_m, index) {
+      var link = links[Number(index)];
+      var href = safeUrl(link.url);
       var ext = /^https?:\/\//i.test(href);
       return '<a href="' + escAttr(href) + '"' +
-        (ext ? ' target="_blank" rel="noopener"' : '') + '>' + label + '</a>';
+        (ext ? ' target="_blank" rel="noopener"' : '') + '>' +
+        applyMarkers(escText(link.label)) + '</a>';
     });
-    out = out.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-    out = out.replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');
-    return out;
   }
 
   /* Split on blank lines so one textarea can produce several <p>s. */

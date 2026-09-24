@@ -45,6 +45,15 @@ const STRINGS = [
   '**bold** and *italic* and [link](https://example.com)',
   '[relative](fintech-female-fridays.html) and [bad](javascript:alert(1))',
   'query [x](https://e.com/?a=1&b=2)',
+  /* URLs holding the characters the prose rewrites act on. Every one of these
+     used to come out as a dead link: typo() rewrote the apostrophe, ellipsis
+     and double hyphen inside the href, and the bold/italic pass turned a '*'
+     in a path into an <em> in the middle of it. */
+  "[apostrophe](https://e.com/o'brien)",
+  '[ellipsis](https://e.com/a...b)',
+  '[asterisks](https://e.com/a/*b*c/d)',
+  '[double hyphen](https://e.com/a--b)',
+  '[**bold label**](https://e.com/p) and [*em label*](https://e.com/q)',
   'Data & Analytics',
   "trailing apostrophe s' and 'leading",
   'mixed: don\'t -- "quote" ... -> end',
@@ -101,6 +110,29 @@ function compare(T, lib, report) {
   return checks;
 }
 
+/* Parity alone cannot catch a fault both copies share -- it did not catch the
+   mangled hrefs above, because templates.js was ported from the same broken
+   code. These assert the output itself, and they belong with whatever replaces
+   this file when Phase 5 retires templates.js. */
+const LINK_INTEGRITY = [
+  "https://e.com/o'brien",
+  'https://e.com/a...b',
+  'https://e.com/a/*b*c/d',
+  'https://e.com/a--b',
+  'https://e.com/s?a=1&b=2'
+];
+
+function checkLinks(lib) {
+  const failures = [];
+  for (const url of LINK_INTEGRITY) {
+    const href = (lib.renderInline(`[x](${url})`).match(/href="([^"]*)"/) || [])[1] || '';
+    /* The href is escaped for an attribute, so compare against the same
+       escaping rather than the raw URL -- & is legitimately &amp; in there. */
+    if (href !== lib.escAttr(url)) failures.push({ url, href });
+  }
+  return failures;
+}
+
 async function main() {
   const T = loadOriginal();
   const lib = await import(path.join(ROOT, 'lib/render-blocks.mjs'));
@@ -119,6 +151,12 @@ async function main() {
     return;
   }
 
+  const brokenLinks = checkLinks(lib);
+  for (const f of brokenLinks) {
+    console.log(`\nMANGLED URL  ${f.url}`);
+    console.log('  rendered href:', f.href);
+  }
+
   const diffs = [];
   const checks = compare(T, lib, (d) => diffs.push(d));
 
@@ -128,11 +166,13 @@ async function main() {
     console.log('  render-blocks.mjs:', JSON.stringify(d.ported).slice(0, 200));
   }
 
-  if (diffs.length) {
-    console.log(`\n${diffs.length} of ${checks} checks differ`);
+  if (diffs.length || brokenLinks.length) {
+    if (diffs.length) console.log(`\n${diffs.length} of ${checks} checks differ`);
+    if (brokenLinks.length) console.log(`${brokenLinks.length} URLs mangled by the inline renderer`);
     process.exit(1);
   }
   console.log(`render parity: ${checks} checks, all identical`);
+  console.log(`link integrity: ${LINK_INTEGRITY.length} URLs survive rendering intact`);
 }
 
 main();

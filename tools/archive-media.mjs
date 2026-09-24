@@ -20,6 +20,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
+import { fileURLToPath } from 'node:url';
 
 const ARCHIVE = flag('archive', path.join(os.homedir(), 'Desktop/Projects/wix-archive-nycfintechwomen'));
 const CONCURRENCY = Number(flag('concurrency', '8'));
@@ -204,7 +205,27 @@ async function main() {
 
 /* Only run when invoked directly. Importing this module — to reuse walk() or
    collectIds() from another tool, or from a test — must not start a 1.9GB
-   download as a side effect. */
-if (import.meta.url === `file://${process.argv[1]}`) {
+   download as a side effect.
+
+   Compared as paths, not as strings: import.meta.url is percent-encoded, so
+   under a checkout holding a space ("~/My Projects/…") it reads
+   file:///Users/…/My%20Projects/… while argv[1] has the literal space. That
+   comparison is false, main() never runs, and the tool exits 0 having
+   downloaded nothing — which looks exactly like success for a job that has
+   one chance to run before the source site goes away.
+
+   Resolved through symlinks for the same reason: Node reports import.meta.url
+   as the real path, so a link on PATH would not match argv[1] either. */
+function invokedDirectly() {
+  if (!process.argv[1]) return false;
+  const here = fileURLToPath(import.meta.url);
+  try {
+    return fs.realpathSync(process.argv[1]) === fs.realpathSync(here);
+  } catch {
+    return path.resolve(process.argv[1]) === here;
+  }
+}
+
+if (invokedDirectly()) {
   main();
 }
