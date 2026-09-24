@@ -1,3 +1,4 @@
-# The post editor is an internal authoring tool, not site content.
+# Internal tools and references, not site content.
 User-agent: *
 Disallow: /admin/
+Disallow: /brand.html
