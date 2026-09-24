@@ -48,8 +48,11 @@ template engine reflows is ignored while real changes are still caught.
 ```
 .
 ├── src/                 # everything the site is built from
-│   ├── _data/
-│   │   └── nav.json     # nav, mobile drawer and footer links — ONE source
+│   ├── _data/           # site content — edit these, not the markup
+│   │   ├── site.json    # the member count, written once
+│   │   ├── nav.json     # nav, mobile drawer and footer links
+│   │   ├── team.json    # the 17 team members
+│   │   └── home.json    # homepage hero, stats and why-join cards
 │   ├── _includes/       # shared chrome, rendered into every page
 │   │   ├── nav.njk
 │   │   ├── mobile-drawer.njk
@@ -76,6 +79,28 @@ template engine reflows is ignored while real changes are still caught.
 └── design/              # Reference PDFs from the design process
 ```
 
+### Editing content
+
+Most of what changes over time now lives in `src/_data/` as JSON, not markup:
+
+| Change | File |
+|---|---|
+| Member count (appears on all 11 pages) | `site.json` |
+| Team members, roles, LinkedIn links | `team.json` |
+| Homepage hero copy, stats, why-join cards | `home.json` |
+| Nav, drawer and footer links | `nav.json` |
+
+Edit the JSON, run `npm run build`, done. The member count in particular is
+written **once**: it feeds the hero, the animated counter, the partner stats,
+the brand guide and every page's footer.
+
+Two conventions worth knowing:
+
+- `{memberCount}` inside a string is replaced with the current count, so
+  taglines never restate the number.
+- Fields rendered with `| safe` may contain HTML — the hero headline uses
+  `<em>` and `<span class="underline">`. Everything else is escaped.
+
 ### Editing the navigation
 
 The nav, mobile drawer and footer used to exist as 12 copy-pasted blocks. They
@@ -98,6 +123,12 @@ and which mobile drawer group starts open.
 > One copy remains, in `src/admin/templates.js`, because the post editor still
 > generates standalone HTML in the browser. It is flagged in that file and goes
 > away when posts become build-rendered data.
+
+### Team member gradients
+
+Each member in `team.json` carries an explicit `gradient` (`g1`–`g7`). Do not
+compute it from position: the founders run `g1`–`g5` but the committee runs
+`g6,g7,g1,g2,…`, so deriving it would silently restyle the page.
 
 ## Luma events integration
 

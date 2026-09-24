@@ -263,23 +263,23 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <div class="pill"><span class="pulse"></span> Spring 2026 cohort now open</div>
-      <h1>You belong at the <em>table.</em><br/><span class="underline">Build it</span> with us.</h1>
-      <p>Too many women in fintech are building careers in isolation. Join {{ site.memberCount.display }}{{ site.memberCount.plus }} peers, curated events, and the people who open doors and build alongside you.</p>
+      <div class="pill"><span class="pulse"></span> {{ home.hero.pill }}</div>
+      <h1>{{ home.hero.headline | safe }}</h1>
+      <p>{{ home.hero.body | replace("{memberCount}", "" ~ site.memberCount.display ~ site.memberCount.plus) }}</p>
       <div class="hero-ctas">
-        <a href="#" class="btn btn-pink">Become a Member →</a>
-        <a href="#" class="btn btn-ghost">Explore events</a>
-        <span class="more">Free to join · 3 chapters</span>
+        {%- for cta in home.hero.ctas %}
+        <a href="{{ cta.href }}" class="{{ cta.style }}">{{ cta.label }}</a>
+        {%- endfor %}
+        <span class="more">{{ home.hero.ctaNote }}</span>
       </div>
     </div>
     <div class="collage">
-      <div class="tile large"><span>Annual Summit · 2025</span></div>
-      <div class="tile mid"><span>Inspiring Fintech Females</span></div>
-      <div class="tile small1"><span>Member Mixer</span></div>
-      <div class="tile small2"><span>Founders Roundtable</span></div>
+      {%- for tile in home.hero.tiles %}
+      <div class="tile {{ tile.variant }}"><span>{{ tile.caption }}</span></div>
+      {%- endfor %}
       <div class="floating-stat">
         <div class="num" data-target="{{ site.memberCount.numeric }}">{{ site.memberCount.display }}<span class="plus">{{ site.memberCount.plus }}</span></div>
-        <div class="lbl">Members across NYC, SF & Chicago</div>
+        <div class="lbl">{{ home.hero.statLabel }}</div>
       </div>
     </div>
   </div>
@@ -413,21 +413,13 @@
       </div>
     </div>
     <div class="why-grid">
+      {%- for card in home.whyCards %}
       <div class="why-card">
-        <div class="num">01 / Connect</div>
-        <h3>Get in the right rooms.</h3>
-        <p>Our events bring together founders, investors, and executives across every corner of financial services. Every gathering is curated to create real connections — not another networking happy hour.</p>
+        <div class="num">{{ card.num }}</div>
+        <h3>{{ card.heading }}</h3>
+        <p>{{ card.body }}</p>
       </div>
-      <div class="why-card">
-        <div class="num">02 / Visibility</div>
-        <h3>Be seen and recognized.</h3>
-        <p>From our annual Inspiring Fintech Females program to speaking opportunities on industry panels, we create visibility for women doing meaningful work in this space.</p>
-      </div>
-      <div class="why-card">
-        <div class="num">03 / Support</div>
-        <h3>Find support wherever you are.</h3>
-        <p>Whether you're job searching, building a company, or growing into leadership, our community offers mentorship, coaching, co-founder matching, and peers who understand you.</p>
-      </div>
+      {%- endfor %}
     </div>
     <div class="why-cta">
       <a href="#" class="btn btn-pink">Become a Member →</a>
@@ -445,10 +437,9 @@
       <a href="#" class="btn btn-dark">Become a Partner →</a>
     </div>
     <div class="partner-stats">
-      <div class="partner-stat"><div class="n">{{ site.memberCount.display }}<span class="plus">{{ site.memberCount.plus }}</span></div><div class="lbl">Active members across fintech & financial services</div></div>
-      <div class="partner-stat"><div class="n">120<span class="plus">+</span></div><div class="lbl">Events hosted every year across three chapters</div></div>
-      <div class="partner-stat"><div class="n">3</div><div class="lbl">Regional chapters — NYC, SF, Chicago</div></div>
-      <div class="partner-stat"><div class="n">8 <span style="font-size:24px; color:var(--muted)">yrs</span></div><div class="lbl">Building the community, one room at a time</div></div>
+      {%- for stat in home.partnerStats %}
+      <div class="partner-stat"><div class="n">{% if stat.memberCount %}{{ site.memberCount.display }}<span class="plus">{{ site.memberCount.plus }}</span>{% else %}{{ stat.value | safe }}{% endif %}</div><div class="lbl">{{ stat.label | safe }}</div></div>
+      {%- endfor %}
     </div>
   </div>
 </section>

@@ -1,0 +1,74 @@
+{
+  "hero": {
+    "pill": "Spring 2026 cohort now open",
+    "headline": "You belong at the <em>table.</em><br/><span class=\"underline\">Build it</span> with us.",
+    "body": "Too many women in fintech are building careers in isolation. Join {memberCount} peers, curated events, and the people who open doors and build alongside you.",
+    "ctas": [
+      {
+        "label": "Become a Member →",
+        "href": "#",
+        "style": "btn btn-pink"
+      },
+      {
+        "label": "Explore events",
+        "href": "#",
+        "style": "btn btn-ghost"
+      }
+    ],
+    "ctaNote": "Free to join · 3 chapters",
+    "statLabel": "Members across NYC, SF & Chicago",
+    "tiles": [
+      {
+        "variant": "large",
+        "caption": "Annual Summit · 2025"
+      },
+      {
+        "variant": "mid",
+        "caption": "Inspiring Fintech Females"
+      },
+      {
+        "variant": "small1",
+        "caption": "Member Mixer"
+      },
+      {
+        "variant": "small2",
+        "caption": "Founders Roundtable"
+      }
+    ]
+  },
+  "whyCards": [
+    {
+      "num": "01 / Connect",
+      "heading": "Get in the right rooms.",
+      "body": "Our events bring together founders, investors, and executives across every corner of financial services. Every gathering is curated to create real connections — not another networking happy hour."
+    },
+    {
+      "num": "02 / Visibility",
+      "heading": "Be seen and recognized.",
+      "body": "From our annual Inspiring Fintech Females program to speaking opportunities on industry panels, we create visibility for women doing meaningful work in this space."
+    },
+    {
+      "num": "03 / Support",
+      "heading": "Find support wherever you are.",
+      "body": "Whether you're job searching, building a company, or growing into leadership, our community offers mentorship, coaching, co-founder matching, and peers who understand you."
+    }
+  ],
+  "partnerStats": [
+    {
+      "memberCount": true,
+      "label": "Active members across fintech & financial services"
+    },
+    {
+      "value": "120<span class=\"plus\">+</span>",
+      "label": "Events hosted every year across three chapters"
+    },
+    {
+      "value": "3",
+      "label": "Regional chapters — NYC, SF, Chicago"
+    },
+    {
+      "value": "8 <span style=\"font-size:24px; color:var(--muted)\">yrs</span>",
+      "label": "Building the community, one room at a time"
+    }
+  ]
+}
