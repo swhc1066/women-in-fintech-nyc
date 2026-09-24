@@ -6,10 +6,13 @@
     "node": "22.x"
   },
   "scripts": {
+    "build": "eleventy",
+    "dev": "eleventy --serve",
     "verify": "node tools/snapshot.mjs",
     "verify:self-test": "node tools/snapshot.mjs --self-test"
   },
   "devDependencies": {
+    "@11ty/eleventy": "^3.1.6",
     "parse5": "^8.0.1"
   }
 }

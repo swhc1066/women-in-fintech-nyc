@@ -17,44 +17,62 @@ Static marketing website for NYC Fintech Women, a community for women building c
 
 ## Tech stack
 
-- Plain HTML and CSS (no build step or framework)
-- Shared styles in `site.css`
+- Plain HTML and CSS, built with [Eleventy](https://www.11ty.dev/)
+- Shared styles in `src/site.css`
 - Mobile-first, responsive layout
 
 ## Local development
 
-Open any HTML file in a browser, or serve the folder locally:
-
 ```bash
-python3 -m http.server 8000
+npm install
+npm run dev      # builds and serves with live reload
 ```
 
-Then visit [http://localhost:8000](http://localhost:8000).
+Then visit [http://localhost:8080](http://localhost:8080).
+
+`npm run build` writes the site to `_site/`, which is what Vercel deploys.
+`_site/` is generated — never edit it, and never commit it.
+
+### Verifying a change didn't break anything
+
+```bash
+npm run verify             # compare the build against the pre-eleventy baseline
+npm run verify:self-test   # confirm the check can still detect a change
+```
+
+`npm run verify` canonicalizes HTML before comparing, so the whitespace a
+template engine reflows is ignored while real changes are still caught.
 
 ## Project structure
 
 ```
 .
-├── index.html
-├── events.html
-├── fintech-female-fridays.html
-├── inspiring-fintech-females.html
-├── co-founder-matching.html
-├── meet-the-team.html
-├── fff-shira-amrany.html    # A generated Fintech Female Fridays post
-├── site.css
-├── nav-mobile.js
-├── robots.txt
-├── package.json     # No dependencies — only sets "type": "module" for /api
-├── api/
-│   └── events.js    # Luma proxy (holds LUMA_API_KEY server-side)
-├── admin/           # Post editor (not linked from the site)
+├── src/                 # everything the site is built from
 │   ├── index.html
-│   ├── templates.js
-│   ├── types.js
-│   └── editor.js
-└── design/          # Reference PDFs from the design process
+│   ├── events.html
+│   ├── fintech-female-fridays.html
+│   ├── inspiring-fintech-females.html
+│   ├── co-founder-matching.html
+│   ├── meet-the-team.html
+│   ├── fff-shira-amrany.html   # A generated Fintech Female Fridays post
+│   ├── site.css
+│   ├── nav-mobile.js
+│   ├── robots.txt
+│   ├── images/
+│   └── admin/           # Post editor (not linked from the site)
+├── api/                 # Vercel Functions — must stay at the repo root,
+│   └── events.js        # NOT in src/, or Vercel won't detect them
+├── tools/               # Dev-only regression harness (not deployed)
+│   ├── htmlcanon.mjs
+│   └── snapshot.mjs
+├── eleventy.config.js
+├── _site/               # Build output — generated, gitignored
+└── design/              # Reference PDFs from the design process
 ```
+
+> Files in `src/` are currently copied verbatim — no templating yet. That is
+> deliberate: it let the build step be introduced and proven inert before any
+> page was converted to a template.
 
 ## Luma events integration
 
@@ -77,9 +95,9 @@ public display fields.
 
 ### Local development
 
-`python3 -m http.server` serves static files only and cannot run `/api`, so the
-events section will show its fallback. To run the function locally use
-`vercel dev` (Vercel CLI), which reads `.env` automatically.
+`npm run dev` serves static files only and cannot run `/api`, so the events
+section will show its fallback. To run the function locally use `vercel dev`
+(Vercel CLI), which reads `.env` automatically.
 
 ### Behaviour
 
