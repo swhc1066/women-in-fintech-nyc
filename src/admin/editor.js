@@ -462,8 +462,9 @@ function showRestoreBanner(draft) {
 /* ------------------------------------------------------------------ image */
 
 /* The resize path re-encodes to JPEG, so the file that lands on disk is
-   .jpg regardless of what was uploaded. The path baked into the post and the
-   card snippets has to match, or every cover 404s. */
+   .jpg regardless of what was uploaded. The extension here has to match
+   what actually lands on disk, or the post's own coverPath -- the only
+   source cards render their image from -- 404s. */
 function outputExt() {
   if (!cover.file) return cover.ext;
   return $('img-keep') && $('img-keep').checked ? cover.ext : 'jpg';

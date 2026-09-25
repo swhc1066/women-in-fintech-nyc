@@ -37,7 +37,7 @@ Then visit [http://localhost:8080](http://localhost:8080).
 
 ```bash
 npm test                   # post-file round trip, the seven committed posts,
-                            # and the renderer's escaping and links
+                           # and the renderer's escaping and links
 npm run verify             # compare the build against the pre-eleventy baseline
 npm run verify:self-test   # confirm the check can still detect a change
 ```
@@ -80,7 +80,9 @@ template engine reflows is ignored while real changes are still caught.
 ├── tools/               # Dev-only (not deployed)
 │   ├── htmlcanon.mjs
 │   ├── snapshot.mjs
-│   └── import-wix-post.mjs # One-shot: Wix archive -> src/posts/
+│   ├── import-wix-post.mjs # One-shot: Wix archive -> src/posts/
+│   ├── post-file.test.mjs
+│   └── render-blocks.test.mjs
 ├── eleventy.config.js
 ├── _site/               # Build output — generated, gitignored
 └── design/              # Reference PDFs from the design process

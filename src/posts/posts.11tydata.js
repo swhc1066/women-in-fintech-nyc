@@ -40,9 +40,12 @@ export default {
        renamed or deleted post does not leave a stale entry that false-positives
        the next rebuild in the same `npm run dev` process. */
     permalink: (data) => {
+      const here = data.page.inputPath;
+      if (!String(data.slug || '').trim()) {
+        throw new Error(`Post has no slug, so it cannot get a URL: ${here}`);
+      }
       const seen = (globalThis.__postSlugs ||= new Map());
       const previous = seen.get(data.slug);
-      const here = data.page.inputPath;
       if (previous && previous !== here) {
         throw new Error(`Two posts share the slug "${data.slug}": ${previous} and ${here}`);
       }

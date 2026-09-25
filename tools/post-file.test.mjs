@@ -197,6 +197,40 @@ test('a value with leading whitespace on its first line round trips unchanged', 
   assert.deepEqual(readWithGrayMatter(text, 'leading-whitespace value').intro, post.intro);
 });
 
+// Regression for the round-3 fix report, CRITICAL 1: every top-level key
+// used to get indent 0 unless it was 'intro' or 'excerpt', so a multi-line
+// value in any other field (metaDescription is a textarea in the editor)
+// produced an unindented `|-` block -- invalid YAML that made gray-matter
+// throw and took the whole build down. The fix pads every top-level key's
+// literal block the same way; these fields must all round trip and must all
+// stay readable by gray-matter, the reader Eleventy actually builds with.
+for (const field of ['metaDescription', 'ogTitle', 'title', 'name']) {
+  test(`a multi-line ${field} does not break the build`, () => {
+    const value = 'Line one.\nLine two.';
+    const post = { slug: 's', intro: 'i', blocks: [], [field]: value };
+    const text = serializePost(post);
+    const theirs = readWithGrayMatter(text, `multi-line ${field}`);
+    const ours = parsePost(text);
+    assert.equal(ours[field], value, `${field} round trip`);
+    assert.equal(theirs[field], value, `${field} as gray-matter reads it`);
+    assert.equal(theirs[field], ours[field], `${field}: readers agree`);
+  });
+}
+
+// A list item passes indent 0 to yamlValue by construction (see yamlBlocks),
+// and was only ever single-line by UI convention, not by construction. A
+// multi-line item must fall back to a JSON string, not an unindented block.
+test('a multi-line list item does not break the build', () => {
+  const value = 'Line one.\nLine two.';
+  const post = { slug: 's', intro: 'i', blocks: [{ type: 'list', ordered: false, items: [value, 'one line'] }] };
+  const text = serializePost(post);
+  const theirs = readWithGrayMatter(text, 'multi-line list item');
+  const ours = parsePost(text);
+  assert.deepEqual(ours.blocks[0].items, [value, 'one line'], 'list item round trip');
+  assert.deepEqual(theirs.blocks[0].items, [value, 'one line'], 'list item as gray-matter reads it');
+  assert.deepEqual(theirs.blocks[0].items, ours.blocks[0].items, 'list item: readers agree');
+});
+
 test('a value that starts with a blank line round trips unchanged', () => {
   const post = { slug: 's', intro: '\n\nA', blocks: [] };
   const text = serializePost(post);

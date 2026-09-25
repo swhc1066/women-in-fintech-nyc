@@ -78,7 +78,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addCollection('fff', (api) =>
     api.getFilteredByGlob('src/posts/*.html')
       .filter((post) => (post.data.type || 'fff') === 'fff')
-      .sort((a, b) => (a.data.isoDate < b.data.isoDate ? 1 : -1)));
+      .sort((a, b) => ((a.data.isoDate || '') < (b.data.isoDate || '') ? 1 : -1)));
 
   return {
     dir: {
