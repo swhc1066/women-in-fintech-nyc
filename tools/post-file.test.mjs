@@ -133,3 +133,38 @@ test('parsePost agrees with the reader the build uses', () => {
     }
   }
 });
+
+test('a whitespace-only value round trips unchanged', () => {
+  const post = { slug: 's', intro: '   ', blocks: [] };
+  assert.deepEqual(parsePost(serializePost(post)), post);
+});
+
+test('a value ending in a blank line round trips unchanged', () => {
+  const post = { slug: 's', intro: 'A.\n\nB.\n\n', blocks: [] };
+  assert.deepEqual(parsePost(serializePost(post)), post);
+});
+
+test('a bare scalar of "true" stays a string, not a boolean', () => {
+  const post = { slug: 's', intro: 'i', blocks: [{ type: 'true' }] };
+  assert.deepEqual(parsePost(serializePost(post)), post);
+});
+
+test('a top-level bare field of "true" stays a string, not a boolean', () => {
+  const post = { slug: 's', type: 'true', intro: 'i', blocks: [] };
+  assert.deepEqual(parsePost(serializePost(post)), post);
+});
+
+test('a list block still round trips with ordered as a real boolean', () => {
+  const post = {
+    slug: 's',
+    intro: 'i',
+    blocks: [{ type: 'list', ordered: false, items: ['one', 'two'] }]
+  };
+  assert.deepEqual(parsePost(serializePost(post)), post);
+});
+
+test('parsePost agrees with gray-matter on a value ending in a blank line', () => {
+  const post = { slug: 's', intro: 'A.\n\nB.\n\n', blocks: [] };
+  const text = serializePost(post);
+  assert.deepEqual(parsePost(text).intro, matter(text).data.intro);
+});
