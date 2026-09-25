@@ -15,6 +15,9 @@ export default function (eleventyConfig) {
   eleventyConfig.ignores.add('src/admin/**');
 
   eleventyConfig.addPassthroughCopy({ 'src/admin': 'admin' });
+  /* The renderer and the post-file format, served so the editor imports the
+     same modules the build uses instead of carrying a second copy. */
+  eleventyConfig.addPassthroughCopy({ lib: 'lib' });
   eleventyConfig.addPassthroughCopy({ 'src/images': 'images' });
   eleventyConfig.addPassthroughCopy({ 'src/site.css': 'site.css' });
   eleventyConfig.addPassthroughCopy({ 'src/nav-mobile.js': 'nav-mobile.js' });

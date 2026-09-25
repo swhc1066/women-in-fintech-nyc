@@ -83,13 +83,13 @@
   .field { margin-bottom: 14px; }
   .field label { display: block; font-size: 12px; font-weight: 600; color: var(--plum); margin-bottom: 5px; }
   .field label .req { color: var(--pink); }
-  .field input[type="text"], .field input[type="url"], .field input[type="date"], .field textarea, .blk input[type="text"], .blk textarea {
+  .field input[type="text"], .field input[type="url"], .field input[type="date"], .field select, .field textarea, .blk input[type="text"], .blk textarea {
     width: 100%; font: inherit; font-size: 13.5px; color: var(--fg);
     border: 1px solid var(--line); border-radius: 9px; padding: 9px 11px;
     background: #fff; resize: vertical;
   }
   .field textarea, .blk textarea { line-height: 1.55; }
-  .field input:focus, .field textarea:focus, .blk input:focus, .blk textarea:focus {
+  .field input:focus, .field select:focus, .field textarea:focus, .blk input:focus, .blk textarea:focus {
     outline: none; border-color: var(--pink); box-shadow: 0 0 0 3px rgba(224,37,123,0.1);
   }
   .field input.mono, .field .affix { font-family: var(--font-mono); font-size: 12.5px; }
@@ -162,16 +162,7 @@
   #preview.mobile { width: 390px; height: 844px; }
 
   /* ---- output ---- */
-  .snip { margin-bottom: 18px; }
-  .snip-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-  .snip-head h3 { font-size: 12.5px; font-weight: 700; color: var(--plum); margin: 0; }
-  .snip-head .btn { margin-left: auto; }
-  .snip .note { font-size: 11.5px; color: var(--muted); margin: 0 0 6px; line-height: 1.45; }
-  .snip textarea {
-    width: 100%; height: 130px; font-family: var(--font-mono); font-size: 11px;
-    line-height: 1.5; border: 1px solid var(--line); border-radius: 9px;
-    padding: 9px; background: var(--soft-2); color: var(--plum); resize: vertical;
-  }
+  .hint { font-size: 12.5px; color: var(--muted); line-height: 1.6; margin: 0; }
   .checklist { font-size: 12px; color: var(--muted); line-height: 1.7; padding-left: 18px; margin: 0; }
   .toast {
     position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
@@ -198,7 +189,8 @@
   <button type="button" class="btn btn-sm" id="btn-import">Import JSON</button>
   <button type="button" class="btn btn-sm" id="btn-export">Export JSON</button>
   <button type="button" class="btn btn-sm" id="btn-clear">New post</button>
-  <button type="button" class="btn btn-pink" id="btn-download">Download HTML</button>
+  <button type="button" class="btn btn-sm" id="btn-open-post">Open post</button>
+  <button type="button" class="btn btn-pink" id="btn-download">Download post file</button>
 </header>
 
 <div class="panes">
@@ -226,10 +218,9 @@
         <div class="help">Overrides the path above. Leave blank to use the uploaded file's name.</div>
       </div>
       <ol class="steps">
-        <li>Save the image into <code>images/</code></li>
-        <li>Save the HTML into the repo root</li>
-        <li>Paste the card snippets (right pane)</li>
-        <li>Commit all three</li>
+        <li>Save the image into <code>src/images/</code></li>
+        <li>Save the post file into <code>src/posts/</code></li>
+        <li>Rebuild, then commit both</li>
       </ol>
     </section>
 
@@ -250,7 +241,7 @@
     <div class="preview-bar">
       <button type="button" class="btn btn-sm" id="btn-desktop">Desktop</button>
       <button type="button" class="btn btn-sm" id="btn-mobile">Mobile</button>
-      <span class="note">Scripts are disabled in preview, so the mobile drawer won't open here.</span>
+      <span class="note">The article body only — the hero, nav and footer come from the build.</span>
     </div>
     <div class="preview-wrap">
       <div class="preview-stage" id="preview-stage">
@@ -262,43 +253,42 @@
   <!-- ─────────────── output ─────────────── -->
   <div class="pane pane-out">
     <section class="sec">
-      <h2>Paste into the listing</h2>
-      <div id="snippets"></div>
+      <h2>Publishing</h2>
+      <p class="hint">The cards on the listing page and the homepage are generated from this post. Nothing to paste.</p>
     </section>
     <section class="sec">
-      <h2>Promote the feature</h2>
+      <h2>Checklist</h2>
       <ol class="checklist">
-        <li>Paste the <strong>featured card</strong> over the existing <code>&lt;a class="feature"&gt;</code> block in <code>fintech-female-fridays.html</code>.</li>
-        <li>Move the card it replaced into the top of <code>.blog-grid</code> using its grid-card form.</li>
-        <li>Drop the oldest grid card if the row is full.</li>
-        <li>Paste the <strong>homepage card</strong> at the top of the <code>#fff</code> stack in <code>index.html</code> and remove the last one.</li>
+        <li><strong>Open post</strong> reads a file from <code>src/posts/</code> back into this form.</li>
+        <li><strong>Download post file</strong> writes <code>&lt;slug&gt;.html</code>. Save it into <code>src/posts/</code>.</li>
+        <li>Save the cover into <code>src/images/</code> under the path shown in the form.</li>
+        <li>Run <code>npm run build</code> and check the post, the listing and the homepage.</li>
       </ol>
     </section>
   </div>
 </div>
 
 <input type="file" id="import-file" accept="application/json" hidden />
+<input type="file" id="post-file" accept=".html" hidden />
 <div class="toast" id="toast"></div>
 
-<script src="templates.js"></script>
-<script src="types.js"></script>
-<script src="editor.js"></script>
+<script type="module" src="editor.js"></script>
 <script>
-  /* The scripts above are relative, so they only resolve when this page is
-     served with its trailing slash (/admin/). Hitting /admin without the
-     redirect 404s all three and the form renders empty with no explanation —
-     say so instead of showing a blank shell. */
-  if (!window.WIF_TEMPLATES || !window.WIF_TYPES || !window.WIF_EDITOR) {
-    var missing = ['templates.js', 'types.js', 'editor.js'].filter(function (f, i) {
-      return ![window.WIF_TEMPLATES, window.WIF_TYPES, window.WIF_EDITOR][i];
-    });
+  /* The editor is an ES module importing /lib/*.mjs, so it needs an HTTP
+     origin: opened from disk, or at /admin without the trailing slash that
+     makes the relative imports resolve, every import 404s and the form would
+     render empty with no explanation. A module runs after the document is
+     parsed, so this check waits for load rather than firing immediately. */
+  window.addEventListener('load', function () {
+    if (window.WIF_EDITOR) return;
     document.body.insertAdjacentHTML('afterbegin',
       '<div style="background:#fef2f2;border-bottom:1px solid #fecaca;color:#991b1b;' +
       'padding:14px 20px;font:600 13px/1.5 system-ui,sans-serif;">' +
-      'Editor scripts failed to load (' + missing.join(', ') + '). ' +
-      'Open this page at <code style="font-family:ui-monospace,monospace">/admin/</code> ' +
-      'with the trailing slash.</div>');
-  }
+      'The editor did not load. It imports ES modules, so it has to be served: ' +
+      'run <code style="font-family:ui-monospace,monospace">npm run dev</code> and open ' +
+      '<code style="font-family:ui-monospace,monospace">/admin/</code> with the trailing ' +
+      'slash. Opening this file from disk will not work.</div>');
+  });
 </script>
 </body>
 </html>

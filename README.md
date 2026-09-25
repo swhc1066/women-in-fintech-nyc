@@ -74,8 +74,9 @@ template engine reflows is ignored while real changes are still caught.
 │   └── admin/           # Post editor (not linked from the site)
 ├── api/                 # Vercel Functions — must stay at the repo root,
 │   └── events.js        # NOT in src/, or Vercel won't detect them
-├── lib/                 # Shared build code
-│   └── render-blocks.mjs   # Turns a post's blocks into HTML
+├── lib/                 # Shared by the build and the editor; served at /lib/
+│   ├── render-blocks.mjs   # Turns a post's blocks into HTML
+│   └── post-file.mjs       # Reads and writes the src/posts/ file format
 ├── tools/               # Dev-only (not deployed)
 │   ├── htmlcanon.mjs
 │   ├── snapshot.mjs
@@ -134,10 +135,6 @@ selfPage: "events.html"   # links to this page become #anchors instead of reload
 
 `active` drives everything: the highlighted top-level link, its dropdown parent,
 and which mobile drawer group starts open.
-
-> One copy remains, in `src/admin/templates.js`, because the post editor still
-> generates standalone HTML in the browser. It is flagged in that file and goes
-> away when posts become build-rendered data.
 
 ### Posts
 
@@ -213,35 +210,44 @@ section will show its fallback. To run the function locally use `vercel dev`
 ## Post editor
 
 `admin/index.html` is a client-side authoring tool for Fintech Female Fridays
-posts. There is no backend and no database — it generates a finished HTML file
-that you download and commit.
+posts. There is no backend and no database: it opens a post file from
+`src/posts/` and gives you one back.
 
-Open it at [http://localhost:8000/admin/](http://localhost:8000/admin/) (it also
-works by opening the file directly). Fill in the form, watch the live preview,
-then:
+> **It has to be served.** The editor imports the same ES modules the build
+> renders with (`/lib/render-blocks.mjs`, `/lib/post-file.mjs`), so opening
+> `src/admin/index.html` from disk no longer works — every import fails and the
+> page tells you so. Run `npm run dev` and open
+> [http://localhost:8080/admin/](http://localhost:8080/admin/) with the trailing
+> slash, or use the deployed `/admin`.
 
-1. **Download HTML** → save `fff-<slug>.html` to the repo root.
-2. **Download renamed image** → save it into `images/`.
-3. Copy the **featured** and **grid** card snippets into `fintech-female-fridays.html`,
-   and the **homepage** card into the `#fff` section of `index.html`.
-4. Commit all the changed files together.
+To edit an existing post:
+
+1. **Open post** → pick the file from `src/posts/`. The form and the preview
+   fill in; a file it cannot read is refused with the line to fix, rather than
+   half-loaded.
+2. Edit, watching the live preview. The preview is the article body only — the
+   hero, nav and footer come from the build.
+3. **Download post file** → save `<slug>.html` back into `src/posts/`,
+   overwriting the original. Eleventy publishes it as `fff-<slug>.html`.
+
+A new post is the same minus step 1, plus **Download renamed image** → save it
+into `src/images/` under the path the form shows. Then `npm run build` and check
+the post, the listing page and the homepage.
+
+**Nothing gets pasted.** The cards on `fintech-female-fridays.html` and the
+homepage are generated from the post data, so adding a post to `src/posts/` is
+all it takes to put it on both pages.
 
 Drafts autosave to `localStorage`, so a reload won't lose work — but the image
 file itself must be re-selected (only its path is stored). Use **Export JSON** to
 move a draft between machines.
 
-> **The editor still predates the posts pipeline.** Every published post is now
-> a data file in `src/posts/`, while the editor downloads a finished standalone
-> page. Until Phase 5 rewrites it to write a post file instead, the editor's
-> HTML is a preview: take its **Export JSON** and hand-write the front matter,
-> rather than committing the downloaded page.
-
 ### Maintenance
 
-`admin/templates.js` contains its own copy of the site nav, mobile drawer, and
-footer, because this site has no templating — every page carries that markup
-inline. **When you change the nav or footer, update `admin/templates.js` too**,
-or newly generated posts will drift from the rest of the site.
+The editor has no copy of anything. It imports `lib/render-blocks.mjs` for the
+preview and `lib/post-file.mjs` for the file format, so a change to either is
+picked up by the editor and the build at once — and the site nav, drawer and
+footer live only in `src/_includes/`.
 
 `admin/` is deployed but unlinked and has no password. `robots.txt` keeps it out
 of search results; it does not make it private.
