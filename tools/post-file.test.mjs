@@ -30,7 +30,10 @@ test('serializes a minimal post', () => {
 });
 
 test('a multi-line value becomes a literal block, indented, never trailing space', () => {
-  const text = serializePost({ slug: 's', intro: 'One.\n\nTwo. ', blocks: [] });
+  // Trailing space mid-value (not at the string's own start/end, which must
+  // stay whitespace-free for the literal block to be usable at all -- see
+  // the round-2 fix report) still must not survive per line.
+  const text = serializePost({ slug: 's', intro: 'One. \n\nTwo.', blocks: [] });
   assert.match(text, /^intro: \|-\n  One\.\n\n  Two\.$/m);
 });
 
@@ -167,4 +170,35 @@ test('parsePost agrees with gray-matter on a value ending in a blank line', () =
   const post = { slug: 's', intro: 'A.\n\nB.\n\n', blocks: [] };
   const text = serializePost(post);
   assert.deepEqual(parsePost(text).intro, matter(text).data.intro);
+});
+
+// Fails clearly (naming the file) instead of letting a js-yaml throw crash
+// the whole test run -- a malformed post file must not take the build down.
+function readWithGrayMatter(text, label) {
+  try {
+    return matter(text).data;
+  } catch (err) {
+    assert.fail(`gray-matter could not read ${label}: ${err.message}`);
+  }
+}
+
+test('a value that is only whitespace across several lines round trips unchanged', () => {
+  const post = { slug: 's', intro: ' \n \n ', blocks: [] };
+  const text = serializePost(post);
+  assert.deepEqual(parsePost(text), post);
+  assert.deepEqual(readWithGrayMatter(text, 'whitespace-only value').intro, post.intro);
+});
+
+test('a value with leading whitespace on its first line round trips unchanged', () => {
+  const post = { slug: 's', intro: '  leading\n\nmore', blocks: [] };
+  const text = serializePost(post);
+  assert.deepEqual(parsePost(text), post);
+  assert.deepEqual(readWithGrayMatter(text, 'leading-whitespace value').intro, post.intro);
+});
+
+test('a value that starts with a blank line round trips unchanged', () => {
+  const post = { slug: 's', intro: '\n\nA', blocks: [] };
+  const text = serializePost(post);
+  assert.deepEqual(parsePost(text), post);
+  assert.deepEqual(readWithGrayMatter(text, 'leading-blank-line value').intro, post.intro);
 });
