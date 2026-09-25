@@ -239,3 +239,14 @@ test('homeTitle round trips and overrides the home card title, falling back to t
   const noOverride = { slug: 's', title: 'Full Title', blocks: [] };
   assert.equal(buildCardView(noOverride).homeTitleHtml, 'Full Title');
 });
+
+test('a slug with an attribute-breaking character does not break out of href', () => {
+  const card = buildCardView({ slug: 'x" onmouseover="alert(1)<', title: 't', blocks: [] });
+  assert.ok(!card.href.includes('"'), 'href contains a raw quote');
+  assert.ok(!card.href.includes('<'), 'href contains a raw angle bracket');
+});
+
+test('a name with an attribute-breaking character does not break out of alt', () => {
+  const card = buildCardView({ slug: 's', name: 'X" onmouseover="alert(1)', title: 't', blocks: [] });
+  assert.ok(!card.nameAttr.includes('"'), 'nameAttr contains a raw quote');
+});
