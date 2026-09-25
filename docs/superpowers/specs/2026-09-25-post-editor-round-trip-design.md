@@ -1,6 +1,7 @@
 # Phase 5 — the post editor reads and writes post data
 
-*Design approved 2026-09-25. Supersedes the editor's standalone-page output.*
+*Design approved 2026-09-25. Revised the same day, before implementation,
+after establishing who actually publishes a post. See "What changed and why".*
 
 ## Why
 
@@ -22,27 +23,59 @@ in the browser from its own copy of the renderer, which leaves three problems:
 `templates.js` also holds the last copy of the site nav, drawer and footer —
 the twelfth copy that `c344167` removed everywhere else.
 
+## What changed and why
+
+The first version of this design had the editor save straight into
+`src/posts/` through the File System Access API, with a directory handle on the
+repository. That assumed the person publishing has a checkout, a terminal and
+git.
+
+They don't. **A non-technical author publishes their own posts.** That makes
+the directory-handle machinery work the real user would never touch, and it
+moves publishing into its own phase, where it needs authentication and a way to
+commit from a deployed page.
+
+So this phase shrinks to what is needed either way — the format, one renderer,
+generated cards — and the mechanism for getting a file into the repo is
+designed separately. Round-trip editing survives the change: opening a file the
+user picks and downloading the edited result needs no special browser API,
+works on the deployed editor, and is the same hand-off the publishing phase
+will replace.
+
+A second content type also arrived with that answer: authors publish **general
+blog posts as well as FFF interviews**. The file format is designed for both
+here, because retrofitting a type field later means rewriting every post file.
+
 ## What success looks like
 
-Publishing a post is: open the editor, write, Save. The rebuild does the rest.
-Editing a published post is: open it in the editor, change it, Save.
+An author can open a published post in the editor, change it, and get back a
+file that is exactly what the repository expects. One renderer exists. Adding a
+post to the site does not involve pasting markup.
 
 When this is done, `src/admin/templates.js` and `tools/render-parity.mjs` are
-deleted, and one renderer exists.
+deleted.
 
 ## Decisions taken
 
 | Question | Decision |
 |---|---|
-| Editor scope | Full round-trip: open an existing post, edit, write back |
-| File access | File System Access API, with a directory handle on the project |
-| Cards | Rendered from the `fff` collection; snippet panel retired |
-| Images | Written into `src/images/` on save, alongside the post file |
+| Editor scope | Full round-trip: open an existing post, edit, write it back out |
+| Open / save mechanism | File picker in, download out. No File System Access API |
+| Cards | Rendered from the collection; snippet panel retired |
+| Content types | Format carries a `type`; this phase builds `fff` only |
+| Images | Unchanged in this phase; resizing belongs with publishing |
+| `/admin` auth | Still none — and a hard prerequisite for the publishing phase |
 
-Consequence of the file-access decision: the editor is served from `npm run
-dev` at localhost and **no longer opens as a `file://` page**. The API needs a
-secure context, and ES module imports are blocked over `file://`. This is a
-deliberate loss of a capability the README currently advertises.
+## Roadmap this phase sits in
+
+1. **Phase 5 (this spec)** — the post-file format, one renderer, generated
+   cards.
+2. **Phase 6** — the general blog post type: its listing page, URL pattern and
+   nav entry. The format is ready for it here; the pages are not built here.
+3. **Phase 7** — authenticated publishing. Sign-in from the site nav, and a
+   signed-in author publishing a post or an FFF interview from the deployed
+   editor, which commits to the repository. Auth is a prerequisite of that
+   phase, not an enhancement to it.
 
 ## Architecture
 
@@ -55,16 +88,20 @@ a passthrough copy into the build:
 eleventyConfig.addPassthroughCopy({ lib: 'lib' });
 ```
 
-The editor imports `/lib/render-blocks.mjs` by absolute path, which resolves in
-the build output where the editor actually runs. `src/admin/*.js` become ES
+The editor imports `/lib/render-blocks.mjs` by absolute path, which resolves
+both on the deployed site and under `npm run dev`. `src/admin/*.js` become ES
 modules, loaded with a single `<script type="module" src="main.js">`.
+
+This does end opening the editor as a `file://` page, because ES module imports
+are blocked over that scheme. The editor is a page on the site, served over
+http, exactly as it is in production today.
 
 No bundler and no new dependency. The renderer is already plain ESM.
 
 ### `lib/post-file.mjs` — the file format, both directions
 
-New module owning the post file as a format, so that reading and writing it
-cannot drift:
+New module owning the post file as a format, so reading and writing it cannot
+drift:
 
 ```js
 export function serializePost(post)   // post object -> file text
@@ -82,6 +119,25 @@ outside that subset is an error naming the line, not a silent partial parse.
 This is acceptable because every post file in `src/posts/` is generated by
 `serializePost` and round-tripped through it on every save.
 
+### Content types
+
+Every post file carries a `type`, and this phase writes it into all seven
+existing files:
+
+| `type` | Meaning | Built |
+|---|---|---|
+| `fff` | A Fintech Female Fridays interview | This phase |
+| `post` | A general blog post | Phase 6 |
+
+`type` drives the layout, the permalink pattern and the collection a post joins.
+`posts.11tydata.js` derives `tags` from it rather than hard-coding `'fff'`, so a
+second type needs no change to the data file. The editor's existing type
+registry in `src/admin/types.js` was built for exactly this and keeps its shape.
+
+Nothing else about the `post` type is designed here. Its fields, listing page
+and URL pattern are Phase 6's business; this phase only ensures the files do not
+have to be rewritten when it arrives.
+
 ### Field mapping
 
 The editor model and the file disagree on one key, and the spec fixes the
@@ -96,8 +152,9 @@ Everything else matches by name: `name`, `slug`, `title`, `tag`, `role`,
 the optional `excerpt`, `metaDescription`, `ogTitle`, `ogImage`. `coverPath`
 is derived as `images/fff-<slug>.jpg` and written explicitly.
 
-Two fields are added to the format by this phase:
+Three fields are added to the format by this phase:
 
+- `type` — as above.
 - `excerpt` — optional. The card text. Defaults to `makeExcerpt(intro, 240)`.
   Needed because one existing card is not derivable: Samantha Lassoff's card
   reads "Samantha Lassoff works with founders, CEOs, and senior operators…"
@@ -108,18 +165,18 @@ Two fields are added to the format by this phase:
   the precedent set by `team.json`: deriving it from position silently
   restyles every card when a post is added.
 
-Both fields are also added to the `POSTS` manifest in
+All three are also added to the `POSTS` manifest in
 `tools/import-wix-post.mjs`, next to the `role` and `company` it already
-carries for the same reason — neither exists in the Wix archive. Without that,
-rerunning the importer would strip them back out of all seven files.
+carries for the same reason — none of them exists in the Wix archive. Without
+that, rerunning the importer would strip them back out of all seven files.
 
 ### Blocks
 
 The editor's block types must be exactly the renderer's: `qa`, `heading`,
 `paragraph`, `quote`, `image`, `list`. `BLOCK_FIELDS` in `src/admin/types.js`
 already matches `BLOCK_RENDERERS` in `lib/render-blocks.mjs`; this phase keeps
-them in step by having the editor render previews through the renderer itself,
-so an unsupported block type is visible immediately rather than at build time.
+them in step by having the editor preview through the renderer itself, so an
+unsupported block type is visible immediately rather than at build time.
 
 ### Cards from the collection
 
@@ -129,8 +186,7 @@ so an unsupported block type is visible immediately rather than at build time.
 - `grid(post)` — the cards below it, using `post.gradient`
 - `home(post)` — the compact card in the homepage `#fff` section
 
-`posts.11tydata.js` already sets `tags: 'fff'`, so `collections.fff` exists.
-Both pages loop it sorted by `isoDate` descending:
+Both pages loop the FFF collection sorted by `isoDate` descending:
 
 - `fintech-female-fridays.html`: newest post as `featured`, **all** remaining
   posts as `grid`, newest first. Today that is 1 + 6, matching the page as it
@@ -143,21 +199,19 @@ This also repairs the homepage by construction. Its second card is currently a
 (`images/3b1c3b_c5700ebd78b84736bb77561e8c772375~mv2.avif`); generated cards
 are links pointing at `coverPath`.
 
-### Save
+### Open and save
 
-The editor asks once for a directory handle on the repository root and stores
-it in IndexedDB, re-requesting permission on load (a stored handle needs
-`requestPermission` again in a new session). Save then writes:
+**Open** — a file input. The author picks a `.html` post file; `parsePost`
+turns it into the model; the form and preview fill in. The same path accepts
+the editor's own Export JSON, which stays as a draft-transfer format.
 
-- `src/posts/<slug>.html` — `serializePost(model)`
-- `src/images/fff-<slug>.jpg` — the cover, if one was picked this session
-- `src/images/fff-<slug>-<n>.jpg` — body images, numbered as the importer does
+**Save** — a download of `serializePost(model)`, named `<slug>.html`, plus the
+renamed cover image as today. Getting those two files into the repository is
+someone else's job until Phase 7, and the editor says so plainly rather than
+implying the post is live.
 
-Open reads `src/posts/` through the same handle and lists what it finds, so
-reopening a post does not need a second permission prompt.
-
-Where the API is unavailable the editor falls back to downloading the post file
-and says so. It does not silently degrade.
+The editor therefore keeps working exactly where it works today: deployed at
+`/admin`, and locally under `npm run dev`.
 
 ### Preview
 
@@ -169,14 +223,25 @@ The full page, chrome included, is verified by the build, not by the editor.
 ## Error handling
 
 - **Parse failure on open** — the editor reports the failing line and refuses
-  to load, rather than opening a partially-parsed post that a later Save would
+  to load, rather than opening a partially-parsed post that a later save would
   write back lossily.
-- **Permission denied or revoked** — Save reports it and offers the download
-  fallback. A failed write is never reported as a success.
-- **Slug collision on Save** — if `src/posts/<slug>.html` exists and was not
-  the file that was opened, the editor asks before overwriting.
-- **Unsupported browser** — a message naming the reason on load, with the
-  editor in download-only mode.
+- **Slug collision** — the editor cannot see the repository, so it cannot
+  detect one. The build can: two posts with the same slug would collide on one
+  permalink, so the build fails loudly on a duplicate slug rather than letting
+  one post silently overwrite the other.
+- **Unsupported block type in a file** — reported on open, not dropped.
+
+## Security note
+
+`/admin` is deployed, unlinked and unauthenticated, with `robots.txt` as the
+only thing keeping it out of search results. That remains true in this phase and
+is tolerable for the same reason it is tolerable today: the page can only
+produce a file for whoever is looking at it. It has no access to the repository
+and no secrets.
+
+That stops being true in Phase 7. A page that can commit to the repository
+must be authenticated first — auth is the prerequisite of that phase, and this
+note is here so that ordering does not get lost.
 
 ## Testing
 
@@ -203,21 +268,21 @@ The full page, chrome included, is verified by the build, not by the editor.
   link with a migrated image.
 - `node tools/import-wix-post.mjs --all` still reproduces `src/posts/`
   byte-identically — after the emitter moves to `lib/post-file.mjs` and the
-  manifest learns `gradient` and `excerpt`. This is the check that catches the
-  emitter changing shape during the move.
-- A post is opened in the editor, edited, saved, and the rebuilt page shows the
-  edit.
+  manifest learns `type`, `gradient` and `excerpt`. This is the check that
+  catches the emitter changing shape during the move.
+- A post file is opened in the editor, edited, downloaded, and the result
+  differs from the original only in the edit.
 
 ## Out of scope
 
-- Authentication for `/admin`. It stays deployed, unlinked and unprotected,
-  with `robots.txt` the only thing keeping it out of search results. Unchanged
-  by this phase and still not private.
-- A post management UI beyond open and save — no list view, no delete, no
+- **Publishing.** Authentication, committing from the browser, and the sign-in
+  entry in the nav are Phase 7.
+- **The general post type's pages.** Phase 6.
+- **Image resizing on upload.** It belongs with publishing, where an author
+  uploads a phone photo over a commit API. Today the images come from the Wix
+  importer, which already downscales.
+- **A post management UI** beyond open and save — no list view, no delete, no
   reordering of the grid beyond `isoDate`.
-- Image resizing on save. The Wix importer downscales because it pulls 5MB
-  originals; the editor takes what it is given. Revisit if a phone photo lands
-  in the repo at full size.
 - The signup page, which is its own piece of work and needs a decision about
   where submissions go.
 
@@ -230,6 +295,7 @@ The full page, chrome included, is verified by the build, not by the editor.
 - **Card generation must match byte for byte** or the diff hides a real change
   inside reformatting. The snapshot harness compares against the build, so this
   is checkable rather than a matter of eyeballing.
-- **Losing `file://`** means the editor needs `npm run dev` running. This is a
-  real reduction in how the tool can be opened, accepted deliberately in
-  exchange for saving in place.
+- **The `type` field is a guess about Phase 6.** It is a cheap one — a single
+  key per file, written while the files are being touched anyway — and the
+  alternative is rewriting every post file later. But if the general post type
+  turns out to need a different shape entirely, this does not save that work.
