@@ -11,7 +11,7 @@
     "verify": "node tools/snapshot.mjs",
     "verify:render": "node tools/render-parity.mjs",
     "verify:self-test": "node tools/snapshot.mjs --self-test",
-    "test": "node --test tools/"
+    "test": "node --test tools/*.test.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.6",
