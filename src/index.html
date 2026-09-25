@@ -325,6 +325,8 @@
   </div>
 </section>
 
+{% import "post-card.njk" as cards %}
+
 <!-- FINTECH FEMALE FRIDAYS -->
 <section class="section" id="fff" style="background: linear-gradient(135deg, var(--soft) 0%, var(--soft-2) 100%); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
   <div class="wrap">
@@ -336,27 +338,7 @@
         <a href="fintech-female-fridays.html" class="btn btn-pink">Read the interviews →</a>
       </div>
       <div style="display: flex; flex-direction: column; gap: 16px;">
-        <a href="fff-shira-amrany.html" style="background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 24px 28px; display: flex; gap: 18px; align-items: flex-start; text-decoration: none; color: inherit; transition: box-shadow .2s;">
-          <img src="images/fff-shira-amrany.jpg" alt="Shira Amrany" width="48" height="48" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; flex-shrink: 0;">
-          <div>
-            <div style="font-size: 11px; font-weight: 700; color: var(--pink-deep); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px;">Jul 10 · 4 min read</div>
-            <div style="font-family: var(--font-display); font-weight: 600; font-size: 17px; color: var(--plum); line-height: 1.3; margin-bottom: 4px;">FinTech Female Fridays: Meet Shira Amrany</div>
-          </div>
-        </a>
-        <div style="background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 24px 28px; display: flex; gap: 18px; align-items: flex-start;">
-          <img src="images/3b1c3b_c5700ebd78b84736bb77561e8c772375~mv2.avif" alt="D'aundra Lewis" width="48" height="48" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; flex-shrink: 0;">
-          <div>
-            <div style="font-size: 11px; font-weight: 700; color: var(--pink-deep); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px;">Jul 3 · 5 min read</div>
-            <div style="font-family: var(--font-display); font-weight: 600; font-size: 17px; color: var(--plum); line-height: 1.3; margin-bottom: 4px;">FinTech Female Fridays: Meet D&apos;aundra Lewis</div>
-          </div>
-        </div>
-        <div style="background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 24px 28px; display: flex; gap: 18px; align-items: flex-start;">
-          <img src="images/3b1c3b_e477ed3bd281467788df6868381b1345~mv2.avif" alt="Adina Fischer" width="48" height="48" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; flex-shrink: 0;">
-          <div>
-            <div style="font-size: 11px; font-weight: 700; color: var(--pink-deep); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px;">May 21 · 3 min read</div>
-            <div style="font-family: var(--font-display); font-weight: 600; font-size: 17px; color: var(--plum); line-height: 1.3; margin-bottom: 4px;">FinTech Female Fridays: Meet Adina Fischer</div>
-          </div>
-        </div>
+{% for post in collections.fff.slice(0, 2) %}{{ cards.home(post.data.card) }}{% endfor %}
       </div>
     </div>
   </div>

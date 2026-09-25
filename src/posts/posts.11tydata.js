@@ -3,7 +3,7 @@
  * A post file is front matter and nothing else: the body is the `blocks` list,
  * rendered by src/_includes/post.njk through lib/render-blocks.mjs.
  */
-import { buildPostView } from '../../lib/render-blocks.mjs';
+import { buildPostView, buildCardView } from '../../lib/render-blocks.mjs';
 
 export default {
   layout: 'post.njk',
@@ -13,16 +13,19 @@ export default {
   active: 'fintech-female-fridays.html',
 
   eleventyComputed: {
-    /* A post joins the collection for its own type, so a second type needs no
-       change here. */
-    tags: (data) => data.type || 'fff',
-
     /* The view model does every derivation — title fallback, description from
        the intro, absolute OG URLs — so the template only prints.
        `date` is deliberately not an Eleventy front-matter key: Eleventy
        reserves it and would try to parse "Jul 10" as a timestamp. The display
-       string is `displayDate`; `isoDate` is the sortable one. */
+       string is `displayDate`; `isoDate` is the sortable one. Collection
+       membership and ordering for FFF posts are handled explicitly by the
+       `fff` collection in eleventy.config.js, not by `tags` or Eleventy's
+       default date sort -- see the comment there for why. */
     post: (data) => buildPostView({ ...data, date: data.displayDate }),
+
+    /* The listing page and the homepage both print this, so it is derived once
+       here rather than in two templates. */
+    card: (data) => buildCardView(data),
 
     /* src/src.11tydata.js derives every URL from page.filePathStem, which is
        the *template's* path. Left alone that puts posts at /posts/<slug>.html,

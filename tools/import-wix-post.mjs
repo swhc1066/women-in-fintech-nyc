@@ -57,35 +57,43 @@ const POSTS = [
     gradient: 'g7',
     /* The featured card says "Data · Indagari", not the role that renders in
        the byline. Card copy the archive cannot supply lives here. */
-    cardTag: 'Data · Indagari'
+    cardTag: 'Data · Indagari',
+    /* Card copy is editorial writing, not a slice of the intro -- it shares
+       an opening sentence with intro but diverges after that, so it cannot
+       be derived and is stated here, read off the live card verbatim. */
+    excerpt: "Shira Amrany's career began in development, finance, and strategy within the hospitality industry, where she was drawn to growth-stage companies and the opportunity to build analytics and processes from the ground up. During the COVID-19 pandemic, she decided to learn how to code, adding technical skills to her business background. She later joined Indagari as its fourth employee, where she now helps companies answer critical business questions using consumer transaction data."
   },
   {
     slug: 'daundra-lewis',
     file: 'fintech-female-fridays-meet-d-aundra-lewis.html',
     role: 'Compliance',
     company: 'Financial Crime',
-    gradient: 'g1'
+    gradient: 'g1',
+    excerpt: "Some careers follow a straight line. D'aundra Lewis has been built by intentionally crossing disciplines -- from national security investigations to global financial compliance, and now toward the future of fintech. Work with the DIA, DHS, and DCSA gave her deep expertise in risk assessment and financial exposure analysis."
   },
   {
     slug: 'adina-fischer',
     file: 'fintech-female-fridays-meet-adina-fischer-fractional-coo-cfo-at-182-west.html',
     role: 'Fractional COO & CFO',
     company: '182 West',
-    gradient: 'g2'
+    gradient: 'g2',
+    excerpt: "Founded by Adina Fischer, 182 West is built around a fractional model -- embedded operations leadership for funds and Web3 companies that need institutional discipline but not a full-time hire. Before founding it she spent more than a decade in equity derivatives operations at Barclays, BTG Pactual, and Wells Fargo."
   },
   {
     slug: 'alessia-russo',
     file: 'fintech-female-fridays-meet-alessia-russo-technology-investor-at-insight-partners.html',
     role: 'Investor',
     company: 'Insight Partners',
-    gradient: 'g3'
+    gradient: 'g3',
+    excerpt: 'Alessia Russo is a technology investor at Insight Partners, one of the largest global software investment firms with over $90 billion under management. She designs creative equity structures for high-growth companies at critical inflection points, after working M&A across insurance and financial services at Evercore.'
   },
   {
     slug: 'meitar-landau',
     file: 'fintech-female-fridays-meet-meitar-landau-head-of-gtm-at-cymphony.html',
     role: 'Head of GTM',
     company: 'Cymphony',
-    gradient: 'g4'
+    gradient: 'g4',
+    excerpt: 'Meitar Landau began her career as a flight simulator instructor in the Air Force, building discipline and confidence in high-stakes environments. She went on to spend three years building go-to-market functions across customer success, sales, and operations at a startup, then founded her own venture in customs brokerage.'
   },
   {
     slug: 'samantha-lassoff',
@@ -103,7 +111,8 @@ const POSTS = [
     file: 'fintech-female-fridays-meet-mor-grisariu-vp-payments-at-fijoya.html',
     role: 'VP Payments',
     company: 'Fijoya',
-    gradient: 'g6'
+    gradient: 'g6',
+    excerpt: "Mor's career reflects the evolution of fintech itself, from strategy and infrastructure to hands-on product and partnership building. She began in strategic consulting, then joined Mastercard Advisors during a pivotal moment for the industry, grounding her work in both analytical rigor and execution."
   }
 ];
 

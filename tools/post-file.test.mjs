@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
 import { serializePost, parsePost } from '../lib/post-file.mjs';
+import { buildCardView } from '../lib/render-blocks.mjs';
 
 test('serializes a minimal post', () => {
   const text = serializePost({
@@ -214,4 +215,17 @@ test('every post declares a type and a gradient', () => {
 test('slugs are unique, because two posts cannot share one permalink', () => {
   const slugs = POSTS.map((f) => parsePost(fs.readFileSync(path.join('src/posts', f), 'utf8')).slug);
   assert.equal(new Set(slugs).size, slugs.length, `duplicate slug among: ${slugs.join(', ')}`);
+});
+
+test('a card typesets the way the post page does', () => {
+  const card = buildCardView(parsePost(fs.readFileSync('src/posts/daundra-lewis.html', 'utf8')));
+  assert.equal(card.href, 'fff-daundra-lewis.html');
+  assert.match(card.titleHtml, /D&rsquo;aundra/);
+  assert.ok(!card.excerptHtml.includes(' -- '), 'dashes are typeset');
+});
+
+test('cardTag overrides the role line, because one card does not use the role', () => {
+  const shira = parsePost(fs.readFileSync('src/posts/shira-amrany.html', 'utf8'));
+  assert.equal(buildCardView(shira).tagHtml, 'Data · Indagari');
+  assert.notEqual(buildCardView(shira).tagHtml, 'Data & Analytics · Indagari');
 });

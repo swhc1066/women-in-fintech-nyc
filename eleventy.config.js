@@ -62,6 +62,21 @@ export default function (eleventyConfig) {
     globalThis.__postSlugs = new Map();
   });
 
+  /* An explicit collection, not `tags`: Eleventy reads `tags` for collection
+     membership before eleventyComputed resolves, so a computed `tags` value
+     is invisible to it -- and a static one on posts.11tydata.js would apply
+     to every post under src/posts/, sweeping future non-FFF post types (see
+     Phase 6) into this collection too. Filtering by `type` here, after all
+     data is available, keys membership on the field that actually varies per
+     post. Ordering is explicit for the same reason `tags` needed to be: no
+     post sets Eleventy's reserved `date` key (a display string like "Jul 10"
+     isn't parseable, see posts.11tydata.js), so without an explicit sort here
+     collections.fff would order by file mtime instead of publish date. */
+  eleventyConfig.addCollection('fff', (api) =>
+    api.getFilteredByGlob('src/posts/*.html')
+      .filter((post) => (post.data.type || 'fff') === 'fff')
+      .sort((a, b) => (a.data.isoDate < b.data.isoDate ? 1 : -1)));
+
   return {
     dir: {
       input: 'src',
