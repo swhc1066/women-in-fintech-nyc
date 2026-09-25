@@ -217,6 +217,26 @@ for (const field of ['metaDescription', 'ogTitle', 'title', 'name']) {
   });
 }
 
+// Regression for the round-4 fix report: the BARE keys (slug, type, tag,
+// coverPath, gradient) bypassed yamlValue entirely and wrote post[key] raw,
+// so a multi-line value in any of them still emitted the same invalid,
+// unindented YAML the metaDescription/ogTitle/title/name fix above closed.
+// Reachable from the shipped UI: Import JSON applies a parsed model with no
+// sanitising, so a multi-line tag survives to Download post file. A BARE key
+// must fall back to a JSON string when its value is not actually one line.
+for (const field of ['slug', 'type', 'tag', 'coverPath', 'gradient']) {
+  test(`a multi-line ${field} (a BARE key) does not break the build`, () => {
+    const value = 'Line one.\nLine two.';
+    const post = { slug: 's', intro: 'i', blocks: [], [field]: value };
+    const text = serializePost(post);
+    const theirs = readWithGrayMatter(text, `multi-line ${field}`);
+    const ours = parsePost(text);
+    assert.equal(ours[field], value, `${field} round trip`);
+    assert.equal(theirs[field], value, `${field} as gray-matter reads it`);
+    assert.equal(theirs[field], ours[field], `${field}: readers agree`);
+  });
+}
+
 // A list item passes indent 0 to yamlValue by construction (see yamlBlocks),
 // and was only ever single-line by UI convention, not by construction. A
 // multi-line item must fall back to a JSON string, not an unindented block.
