@@ -39,6 +39,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import { fileURLToPath } from 'node:url';
+import { serializePost } from '../lib/post-file.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ARCHIVE = flag('archive', path.join(os.homedir(), 'Desktop/Projects/wix-archive-nycfintechwomen'));
@@ -493,37 +494,6 @@ function copyImages(region, slug) {
 
 /* ---------------------------------------------------------------- yaml output */
 
-/* JSON string syntax is valid YAML, so single-line values go out as-is.
-   Anything with a newline becomes a literal block, which has no escaping to
-   get wrong -- but only if every line is indented and none trails a space. */
-function yamlValue(value, indent) {
-  const s = String(value == null ? '' : value);
-  if (!s.includes('\n')) return JSON.stringify(s);
-  const pad = ' '.repeat(indent);
-  const lines = s.split('\n').map((line) => line.replace(/\s+$/, ''));
-  return '|-\n' + lines.map((line) => (line ? pad + line : '')).join('\n');
-}
-
-function yamlBlocks(blocks) {
-  return blocks
-    .map((b) => {
-      const lines = [`  - type: ${b.type}`];
-      for (const [key, val] of Object.entries(b)) {
-        if (key === 'type') continue;
-        if (key === 'items') {
-          lines.push('    items:');
-          val.forEach((item) => lines.push(`      - ${yamlValue(item, 0)}`));
-        } else if (typeof val === 'boolean') {
-          lines.push(`    ${key}: ${val}`);
-        } else {
-          lines.push(`    ${key}: ${yamlValue(val, 6)}`);
-        }
-      }
-      return lines.join('\n');
-    })
-    .join('\n');
-}
-
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 export function importPost(entry) {
@@ -569,26 +539,22 @@ export function importPost(entry) {
   const { intro, rest } = splitIntro(elements, ogDescription);
   const blocks = toBlocks(rest, images, name);
 
-  const frontMatter = [
-    '---',
-    `name: ${yamlValue(name, 0)}`,
-    `slug: ${entry.slug}`,
-    `title: ${yamlValue(toSourceText(title), 0)}`,
-    'tag: Fintech Female Fridays',
-    `role: ${yamlValue(entry.role, 0)}`,
-    `company: ${yamlValue(entry.company, 0)}`,
-    `linkedin: ${yamlValue(linkedin, 0)}`,
-    `author: ${yamlValue(author, 0)}`,
-    `displayDate: ${yamlValue(displayDate, 0)}`,
-    `isoDate: ${yamlValue(isoDate, 0)}`,
-    `readTime: ${yamlValue(readTime, 0)}`,
-    `coverPath: images/fff-${entry.slug}.jpg`,
-    `intro: ${yamlValue(intro, 2)}`,
-    'blocks:',
-    yamlBlocks(blocks),
-    '---',
-    ''
-  ].join('\n');
+  const frontMatter = serializePost({
+    name,
+    slug: entry.slug,
+    title: toSourceText(title),
+    tag: 'Fintech Female Fridays',
+    role: entry.role,
+    company: entry.company,
+    linkedin,
+    author,
+    displayDate,
+    isoDate,
+    readTime,
+    coverPath: `images/fff-${entry.slug}.jpg`,
+    intro,
+    blocks
+  });
 
   const dest = path.join(ROOT, 'src/posts', `${entry.slug}.html`);
   console.log(
