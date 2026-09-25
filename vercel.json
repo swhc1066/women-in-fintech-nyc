@@ -8,5 +8,11 @@
       "destination": "/admin/",
       "permanent": false
     }
+  ],
+  "headers": [
+    {
+      "source": "/lib/(.*).mjs",
+      "headers": [{ "key": "Content-Type", "value": "text/javascript; charset=utf-8" }]
+    }
   ]
 }
