@@ -202,3 +202,16 @@ test('a value that starts with a blank line round trips unchanged', () => {
   assert.deepEqual(parsePost(text), post);
   assert.deepEqual(readWithGrayMatter(text, 'leading-blank-line value').intro, post.intro);
 });
+
+test('every post declares a type and a gradient', () => {
+  for (const file of POSTS) {
+    const post = parsePost(fs.readFileSync(path.join('src/posts', file), 'utf8'));
+    assert.equal(post.type, 'fff', `${file} type`);
+    assert.match(post.gradient, /^g[1-7]$/, `${file} gradient`);
+  }
+});
+
+test('slugs are unique, because two posts cannot share one permalink', () => {
+  const slugs = POSTS.map((f) => parsePost(fs.readFileSync(path.join('src/posts', f), 'utf8')).slug);
+  assert.equal(new Set(slugs).size, slugs.length, `duplicate slug among: ${slugs.join(', ')}`);
+});

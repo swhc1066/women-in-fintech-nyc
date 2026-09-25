@@ -53,43 +53,57 @@ const POSTS = [
     slug: 'shira-amrany',
     file: 'fintech-female-fridays-meet-shira-amrany.html',
     role: 'Data & Analytics',
-    company: 'Indagari'
+    company: 'Indagari',
+    gradient: 'g7',
+    /* The featured card says "Data · Indagari", not the role that renders in
+       the byline. Card copy the archive cannot supply lives here. */
+    cardTag: 'Data · Indagari'
   },
   {
     slug: 'daundra-lewis',
     file: 'fintech-female-fridays-meet-d-aundra-lewis.html',
     role: 'Compliance',
-    company: 'Financial Crime'
+    company: 'Financial Crime',
+    gradient: 'g1'
   },
   {
     slug: 'adina-fischer',
     file: 'fintech-female-fridays-meet-adina-fischer-fractional-coo-cfo-at-182-west.html',
     role: 'Fractional COO & CFO',
-    company: '182 West'
+    company: '182 West',
+    gradient: 'g2'
   },
   {
     slug: 'alessia-russo',
     file: 'fintech-female-fridays-meet-alessia-russo-technology-investor-at-insight-partners.html',
     role: 'Investor',
-    company: 'Insight Partners'
+    company: 'Insight Partners',
+    gradient: 'g3'
   },
   {
     slug: 'meitar-landau',
     file: 'fintech-female-fridays-meet-meitar-landau-head-of-gtm-at-cymphony.html',
     role: 'Head of GTM',
-    company: 'Cymphony'
+    company: 'Cymphony',
+    gradient: 'g4'
   },
   {
     slug: 'samantha-lassoff',
     file: 'fintech-female-fridays-meet-samantha-lassoff-executive-coach-leadership-advisor.html',
     role: 'Executive Coach',
-    company: 'Leadership'
+    company: 'Leadership',
+    gradient: 'g5',
+    /* Her card opens "Samantha Lassoff works with founders…" while her intro
+       opens "…is an executive coach and leadership advisor who works with…".
+       Not derivable, so it is stated. */
+    excerpt: 'Samantha Lassoff works with founders, CEOs, and senior operators navigating complex decisions, growth, and the demands of scale. Her career spans financial services, fintech, and high-growth companies, and her work focuses on helping leaders operate with greater clarity, stronger judgment, and more intentional impact.'
   },
   {
     slug: 'mor-grisariu',
     file: 'fintech-female-fridays-meet-mor-grisariu-vp-payments-at-fijoya.html',
     role: 'VP Payments',
-    company: 'Fijoya'
+    company: 'Fijoya',
+    gradient: 'g6'
   }
 ];
 
@@ -542,6 +556,7 @@ export function importPost(entry) {
   const frontMatter = serializePost({
     name,
     slug: entry.slug,
+    type: 'fff',
     title: toSourceText(title),
     tag: 'Fintech Female Fridays',
     role: entry.role,
@@ -551,6 +566,9 @@ export function importPost(entry) {
     displayDate,
     isoDate,
     readTime,
+    gradient: entry.gradient,
+    cardTag: entry.cardTag,
+    excerpt: entry.excerpt,
     coverPath: `images/fff-${entry.slug}.jpg`,
     intro,
     blocks

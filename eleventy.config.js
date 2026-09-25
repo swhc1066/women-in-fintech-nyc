@@ -49,6 +49,16 @@ export default function (eleventyConfig) {
 
   eleventyConfig.setServerOptions({ domDiff: false });
 
+  /* src/posts/posts.11tydata.js keeps a slug registry on globalThis to fail
+     the build on a duplicate permalink. `npm run dev` reuses one process
+     across rebuilds, so without a reset a post that got renamed or deleted
+     would leave a stale entry and wrongly fail the next rebuild against a
+     slug that no longer exists. Clearing it here, once per build, keeps the
+     guard scoped to what actually collides within a single build. */
+  eleventyConfig.on('eleventy.before', () => {
+    globalThis.__postSlugs = new Map();
+  });
+
   return {
     dir: {
       input: 'src',
