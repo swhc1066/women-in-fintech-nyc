@@ -36,6 +36,8 @@ Then visit [http://localhost:8080](http://localhost:8080).
 ### Verifying a change didn't break anything
 
 ```bash
+npm test                   # post-file round trip, the seven committed posts,
+                            # and the renderer's escaping and links
 npm run verify             # compare the build against the pre-eleventy baseline
 npm run verify:self-test   # confirm the check can still detect a change
 ```

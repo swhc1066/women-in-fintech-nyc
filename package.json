@@ -9,7 +9,6 @@
     "build": "eleventy",
     "dev": "eleventy --serve",
     "verify": "node tools/snapshot.mjs",
-    "verify:render": "node tools/render-parity.mjs",
     "verify:self-test": "node tools/snapshot.mjs --self-test",
     "test": "node --test tools/*.test.mjs"
   },
