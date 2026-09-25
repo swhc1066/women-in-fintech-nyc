@@ -3,10 +3,6 @@
   lib/render-blocks.mjs — for the attribute or the element it is printed into —
   so each one needs `| safe`. Without it Nunjucks escapes a second time and
   "Data &amp; Analytics" ships as "Data &amp;amp; Analytics".
-
-  The <style> block below is still a copy of POST_PAGE_CSS in
-  src/admin/templates.js. It goes when Phase 5 rewrites the editor; moving it
-  to site.css now would change every post's output for no gain.
 -#}
 <!doctype html>
 <html lang="en">
@@ -28,57 +24,7 @@
 <meta name="twitter:image" content="{{ post.ogImageAttr | safe }}" />
 <link rel="stylesheet" href="site.css" />
 <style>
-  /* article hero */
-  .article-hero { padding-bottom: 34px; }
-  .article-hero .inner { max-width: 820px; }
-  .article-hero h1 { margin-bottom: 0; }
-  .article-tag { display: inline-block; font-size: 11px; font-weight: 700; color: var(--pink-deep); letter-spacing: 0.12em; text-transform: uppercase; background: #fff; border: 1px solid var(--line); padding: 6px 13px; border-radius: 999px; margin-bottom: 18px; }
-  /* byline */
-  .article-byline { display: flex; align-items: center; gap: 14px; margin-top: 26px; flex-wrap: wrap; }
-  .article-byline img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 2px solid #fff; box-shadow: 0 4px 14px rgba(59,13,58,0.12); }
-  .article-who { font-size: 14.5px; font-weight: 600; color: var(--plum); line-height: 1.35; }
-  .article-who small { display: block; font-weight: 400; color: var(--muted); font-size: 13.5px; }
-  .article-who a { color: var(--pink-deep); font-weight: 600; text-decoration: none; }
-  .article-who a:hover { text-decoration: underline; }
-  .article-meta { margin-left: auto; font-size: 12.5px; color: var(--muted); letter-spacing: 0.02em; }
-  /* cover */
-  .article-cover { max-width: 940px; margin: 0 auto 46px; border-radius: 26px; overflow: hidden; border: 1px solid var(--line); background: var(--soft); }
-  .article-cover img { width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; object-position: center top; display: block; }
-  /* body */
-  .article-body { max-width: 720px; margin: 0 auto; }
-  .article-lede { font-size: 20px; line-height: 1.6; color: var(--plum); font-weight: 500; margin: 0 0 34px; padding-bottom: 30px; border-bottom: 1px solid var(--line); text-wrap: pretty; }
-  .article-body p { font-size: 17.5px; line-height: 1.75; color: var(--fg); margin: 0 0 22px; }
-  .article-body a { color: var(--pink-deep); }
-  .article-body h2 { font-family: var(--font-display); font-weight: 500; font-size: clamp(24px, 3vw, 30px); line-height: 1.18; letter-spacing: -0.02em; color: var(--plum); margin: 44px 0 18px; text-wrap: balance; }
-  .article-list { margin: 0 0 24px; padding-left: 22px; }
-  .article-list li { font-size: 17.5px; line-height: 1.7; color: var(--fg); margin-bottom: 10px; }
-  .article-list li::marker { color: var(--pink); }
-  /* Q&A */
-  .qa { margin: 0 0 32px; padding-left: 20px; border-left: 3px solid var(--pink); }
-  .qa-q { font-family: var(--font-display); font-weight: 600; font-size: 19.5px; line-height: 1.35; color: var(--plum); margin: 0 0 12px; text-wrap: pretty; }
-  .qa-a p { margin: 0 0 16px; }
-  .qa-a p:last-child { margin-bottom: 0; }
-  /* pull quote */
-  .pullquote { margin: 40px 0; padding: 4px 0 4px 26px; border-left: 4px solid var(--accent); }
-  .pullquote p { font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: clamp(21px, 2.6vw, 25px); line-height: 1.4; color: var(--pink-deep); margin: 0; text-wrap: balance; }
-  .pullquote cite { display: block; margin-top: 14px; font-family: var(--font-sans); font-style: normal; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-  /* inline figure */
-  .article-figure { margin: 36px 0; }
-  .article-figure img { width: 100%; height: auto; display: block; border-radius: 18px; border: 1px solid var(--line); }
-  .article-figure figcaption { margin-top: 12px; font-size: 13.5px; color: var(--muted); line-height: 1.5; }
-  /* foot */
-  .article-foot { max-width: 720px; margin: 52px auto 0; padding-top: 34px; border-top: 1px solid var(--line); display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
-  .back-link { color: var(--pink-deep); font-weight: 600; font-size: 15px; text-decoration: none; }
-  .back-link:hover { text-decoration: underline; }
-  @media (max-width: 720px) {
-    .article-meta { margin-left: 0; width: 100%; }
-    .article-cover { border-radius: 18px; margin-bottom: 32px; }
-    .article-lede { font-size: 18px; }
-    .article-body p, .article-list li { font-size: 16.5px; }
-    .qa { padding-left: 16px; }
-    .pullquote { margin: 30px 0; padding-left: 18px; }
-    .article-foot { flex-direction: column-reverse; align-items: stretch; }
-  }
+{% include "post-article.css" %}
 </style>
 <script type="application/ld+json">{{ post.jsonLd | safe }}</script>
 </head>

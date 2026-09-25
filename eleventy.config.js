@@ -20,6 +20,9 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ 'src/nav-mobile.js': 'nav-mobile.js' });
   eleventyConfig.addPassthroughCopy({ 'src/luma-events.js': 'luma-events.js' });
   eleventyConfig.addPassthroughCopy({ 'src/robots.txt': 'robots.txt' });
+  /* The post body's CSS, served as a file so the editor preview can load the
+     same bytes the page inlines. */
+  eleventyConfig.addPassthroughCopy({ 'src/_includes/post-article.css': 'post-article.css' });
 
   /* A page is "current" if the link is its own, and a dropdown parent is
      current if any of its children is. Kept as a filter because Nunjucks
