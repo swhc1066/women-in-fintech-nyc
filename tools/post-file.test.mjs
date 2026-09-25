@@ -229,3 +229,13 @@ test('cardTag overrides the role line, because one card does not use the role', 
   assert.equal(buildCardView(shira).tagHtml, 'Data · Indagari');
   assert.notEqual(buildCardView(shira).tagHtml, 'Data & Analytics · Indagari');
 });
+
+test('homeTitle round trips and overrides the home card title, falling back to title otherwise', () => {
+  const post = { slug: 's', title: 'Full Title', homeTitle: 'Short Title', blocks: [] };
+  const text = serializePost(post);
+  assert.equal(parsePost(text).homeTitle, 'Short Title');
+  assert.equal(buildCardView(post).homeTitleHtml, 'Short Title');
+
+  const noOverride = { slug: 's', title: 'Full Title', blocks: [] };
+  assert.equal(buildCardView(noOverride).homeTitleHtml, 'Full Title');
+});

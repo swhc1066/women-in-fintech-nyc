@@ -77,7 +77,11 @@ const POSTS = [
     role: 'Fractional COO & CFO',
     company: '182 West',
     gradient: 'g2',
-    excerpt: "Founded by Adina Fischer, 182 West is built around a fractional model -- embedded operations leadership for funds and Web3 companies that need institutional discipline but not a full-time hire. Before founding it she spent more than a decade in equity derivatives operations at Barclays, BTG Pactual, and Wells Fargo."
+    excerpt: "Founded by Adina Fischer, 182 West is built around a fractional model -- embedded operations leadership for funds and Web3 companies that need institutional discipline but not a full-time hire. Before founding it she spent more than a decade in equity derivatives operations at Barclays, BTG Pactual, and Wells Fargo.",
+    /* The homepage widget shortened her title; the grid card and the post
+       page itself both use the full title unshortened. Not derivable, so
+       it is stated here like cardTag and excerpt. */
+    homeTitle: 'FinTech Female Fridays: Meet Adina Fischer'
   },
   {
     slug: 'alessia-russo',
@@ -577,6 +581,7 @@ export function importPost(entry) {
     readTime,
     gradient: entry.gradient,
     cardTag: entry.cardTag,
+    homeTitle: entry.homeTitle,
     excerpt: entry.excerpt,
     coverPath: `images/fff-${entry.slug}.jpg`,
     intro,

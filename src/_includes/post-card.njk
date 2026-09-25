@@ -24,7 +24,7 @@
           <img src="{{ card.coverAttr | safe }}" alt="{{ card.nameAttr | safe }}" width="48" height="48" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; flex-shrink: 0;">
           <div>
             <div style="font-size: 11px; font-weight: 700; color: var(--pink-deep); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px;">{{ card.dateHtml | safe }} · {{ card.readTimeHtml | safe }} read</div>
-            <div style="font-family: var(--font-display); font-weight: 600; font-size: 17px; color: var(--plum); line-height: 1.3; margin-bottom: 4px;">{{ card.titleHtml | safe }}</div>
+            <div style="font-family: var(--font-display); font-weight: 600; font-size: 17px; color: var(--plum); line-height: 1.3; margin-bottom: 4px;">{{ card.homeTitleHtml | safe }}</div>
           </div>
         </a>
 {% endmacro %}
