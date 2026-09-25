@@ -26,6 +26,19 @@ test('markers still render around a link', () => {
   );
 });
 
+test('markers inside a link label render too', () => {
+  assert.equal(
+    renderInline('[**bold label**](https://e.com/p)'),
+    '<a href="https://e.com/p" target="_blank" rel="noopener"><strong>bold label</strong></a>'
+  );
+});
+
+test('a link label gets typography, and the href stays untouched', () => {
+  const rendered = renderInline("[Shira's post](https://e.com)");
+  assert.match(rendered, /&rsquo;/);
+  assert.equal(rendered.match(/href="([^"]*)"/)[1], 'https://e.com');
+});
+
 test('a dangerous scheme collapses', () => {
   assert.equal(safeUrl('javascript:alert(1)'), '#');
   assert.equal(safeUrl('data:text/html,x'), '#');
