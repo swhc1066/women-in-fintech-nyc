@@ -66,6 +66,24 @@ deleted.
 | Images | Unchanged in this phase; resizing belongs with publishing |
 | `/admin` auth | Still none — and a hard prerequisite for the publishing phase |
 
+## Operating assumption
+
+**After handoff there is no developer.** The site is run by the people who
+write for it. An author publishes and is done — no review step, no approval,
+nobody to commit a file on their behalf, and nobody to fix a broken build.
+
+Three things follow, and they outrank convenience everywhere they conflict:
+
+- **Phase 7 is not optional.** Until it lands, publishing requires someone with
+  a checkout, which is a person who will not exist. The download hand-off in
+  this phase is a temporary state with a known end date, not a workflow.
+- **The build must not break on bad input.** A malformed post cannot take the
+  site down, because nobody will be there to debug it. Validation belongs
+  where the author can see it — in the editor, before the file is written.
+- **Errors must be readable by the person reading them.** "Unsupported block
+  type at line 42" is for a developer. The audience is an author with no
+  terminal and no repository.
+
 ## Roadmap this phase sits in
 
 1. **Phase 5 (this spec)** — the post-file format, one renderer, generated
@@ -74,8 +92,9 @@ deleted.
    nav entry. The format is ready for it here; the pages are not built here.
 3. **Phase 7** — authenticated publishing. Sign-in from the site nav, and a
    signed-in author publishing a post or an FFF interview from the deployed
-   editor, which commits to the repository. Auth is a prerequisite of that
-   phase, not an enhancement to it.
+   editor, which commits to the repository and goes live. No review step and no
+   approval queue: the author publishes and is done. Auth is a prerequisite of
+   that phase, not an enhancement to it.
 
 ## Architecture
 
@@ -230,6 +249,10 @@ The full page, chrome included, is verified by the build, not by the editor.
   permalink, so the build fails loudly on a duplicate slug rather than letting
   one post silently overwrite the other.
 - **Unsupported block type in a file** — reported on open, not dropped.
+- **A malformed post must not break the build.** Nobody will be on hand to
+  debug one. The editor validates before it writes, and the build fails on a
+  duplicate slug rather than silently dropping a post; both report in terms an
+  author can act on.
 
 ## Security note
 
